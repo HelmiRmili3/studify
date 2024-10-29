@@ -10,11 +10,14 @@ ThemeData lightTheme = ThemeData(
     splashColor: AppColors.lightPrimary,
   ),
   textTheme: const TextTheme(
-    bodySmall: TextStyle(
-      color: AppColors.lightTextColor,
-    ),
-  ),
+      bodySmall: TextStyle(
+        color: AppColors.lightTextColor,
+      ),
+      bodyMedium: TextStyle(
+        color: AppColors.darkBleu,
+      )),
   splashColor: Colors.white,
+  canvasColor: const Color(0XFFE8F1FF),
 
   //OLD COLORS
   cardColor: const Color(0xff000000),
@@ -23,7 +26,7 @@ ThemeData lightTheme = ThemeData(
   dialogBackgroundColor: const Color(0xffD9D9D9),
   indicatorColor: Colors.black,
   dividerColor: Colors.white,
-  hintColor: Colors.white,
+  hintColor: Colors.black,
 
   dropdownMenuTheme: const DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
@@ -44,15 +47,17 @@ ThemeData darkTheme = ThemeData(
     splashColor: AppColors.darkPrimary,
   ),
   textTheme: const TextTheme(
-    bodySmall: TextStyle(
-      color: AppColors.darkTextColor,
-    ),
-  ),
+      bodySmall: TextStyle(
+        color: AppColors.darkTextColor,
+      ),
+      bodyMedium: TextStyle(
+        color: AppColors.white,
+      )),
   splashColor: Colors.transparent,
   //OLD COLORS
   cardColor: const Color(0xffF2F2F2),
   shadowColor: Colors.white,
-  canvasColor: Colors.white,
+  canvasColor: Colors.black,
   dropdownMenuTheme: const DropdownMenuThemeData(
     inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.black,

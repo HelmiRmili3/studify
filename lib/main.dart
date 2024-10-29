@@ -4,12 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:studify/core/routes/app_routes.dart';
-import 'package:studify/core/theme/bloc/theme_bloc.dart';
-import 'package:studify/core/theme/bloc/theme_state.dart';
+import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
+import 'package:studify/core/common/blocs/theme/theme_state.dart';
+import 'package:studify/core/services/shared_preferences_repo.dart';
 
-import 'src/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
+import 'core/common/blocs/theme/theme_event.dart';
+import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPreferencesRepo =
+      SharedPreferencesRepository(userKey: 'user_data');
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -19,8 +25,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        Provider<ThemeBloc>(create: (_) => ThemeBloc()..add(LoadThemeEvent())),
         Provider<OnboardingBloc>(create: (_) => OnboardingBloc(3)),
-        Provider<ThemeBloc>(create: (_) => ThemeBloc()),
+
         // Add other providers if necessary
       ],
       child: const MyApp(),
