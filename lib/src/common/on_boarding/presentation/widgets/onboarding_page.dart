@@ -15,16 +15,36 @@ class OnboardingPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
         );
-    return Center(
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontFamily: 'Jost',
-              fontSize: 24.sp,
-              fontWeight: FontWeight.normal,
-            ),
-        textAlign: TextAlign.center,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          height: 400.h,
+          width: 300.w,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.r),
+            color: Colors.grey[300],
+          ),
+          child: Icon(
+            Icons.image,
+            size: 50.sp,
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: 'Jost',
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }

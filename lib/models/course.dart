@@ -2,12 +2,14 @@ class Course {
   final String courseId; // Unique ID for the course
   final String courseName; // Name of the course (e.g., Algorithms)
   final String courseCode; // Code of the course (e.g., CS101)
+  final double totalHours; // Total hours for the course
   final String description; // Short description of the course
 
   Course({
     required this.courseId,
     required this.courseName,
     required this.courseCode,
+    required this.totalHours,
     required this.description,
   });
 
@@ -17,6 +19,7 @@ class Course {
       'courseId': courseId,
       'courseName': courseName,
       'courseCode': courseCode,
+      'totalHours': totalHours,
       'description': description,
     };
   }
@@ -27,6 +30,7 @@ class Course {
       courseId: map['courseId'],
       courseName: map['courseName'],
       courseCode: map['courseCode'],
+      totalHours: map['totalHours'],
       description: map['description'],
     );
   }

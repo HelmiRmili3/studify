@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:studify/core/theme/colors.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/routes/route_names.dart';
@@ -72,7 +71,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               right: 20.w,
               child: TextButton(
                 onPressed: () {
-                  context.go(RoutesNames.signup);
+                  context.go(RoutesNames.signin);
                 },
                 child: Text(
                   "Skip",

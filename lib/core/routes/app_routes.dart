@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studify/core/routes/route_names.dart';
-import 'package:studify/src/common/auth/presentation/views/create_new_password_screen.dart';
-import 'package:studify/src/common/auth/presentation/views/fill_your_profile_screen.dart';
-import 'package:studify/src/common/auth/presentation/views/forget_password_screen.dart';
-import 'package:studify/src/common/auth/presentation/views/signin_screen.dart';
-import 'package:studify/src/common/mode/presentation/views/user_theme_mode.dart';
-import 'package:studify/src/etudiant/notification/presentation/views/notification_screen.dart';
+import 'package:studify/core/utils/enums.dart';
+import 'package:studify/src/app.dart';
+
+import '../../src/common/auth/presentation/views/create_new_password_screen.dart';
+import '../../src/common/auth/presentation/views/fill_your_profile_screen.dart';
+import '../../src/common/auth/presentation/views/forget_password_screen.dart';
+import '../../src/common/auth/presentation/views/signin_screen.dart';
 import '../../src/common/auth/presentation/views/signup_screen.dart';
+import '../../src/common/mode/presentation/views/user_theme_mode.dart';
 import '../../src/common/on_boarding/presentation/views/on_boarding_screen.dart';
+import '../../src/etudiant/courses/presentation/views/student_course_details.dart';
 import '../../src/etudiant/etudiant_screen.dart';
+import '../../src/etudiant/notification/presentation/views/notification_screen.dart';
 import '../../src/etudiant/notification/presentation/views/student_notifications.dart';
 import '../../src/etudiant/profile/presentation/views/student_edit_profile.dart';
 import '../../src/professeur/professeur_screen.dart';
+import '../common/screens/error_role_ot_found.dart';
+import 'route_names.dart';
 
 class AppRouter {
   static GoRouter router = _buildRouter();
@@ -41,7 +46,7 @@ class AppRouter {
           pageBuilder: (context, state) => _slideTransition(
             state,
             const SigninScreen(),
-            Offset(1, 0), // Slide in from the right
+            const Offset(1, 0),
           ),
         ),
         GoRoute(
@@ -61,7 +66,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.forgotPassword,
-          pageBuilder: (context, state) => _rotationTransition(
+          pageBuilder: (context, state) => slideTransition(
             state,
             const ForgetPasswordScreen(),
           ),
@@ -72,6 +77,24 @@ class AppRouter {
             state,
             const CreateNewPasswordScreen(),
           ),
+        ),
+        GoRoute(
+          path: RoutesNames.app,
+          name: 'app',
+          pageBuilder: (context, state) {
+            final role = state.extra as UserRole?;
+            if (role == null) {
+              return MaterialPage(
+                child: RoleNotFoundErrorScreen(),
+              );
+            }
+            return slideTransition(
+              state,
+              App(
+                role: role,
+              ),
+            );
+          },
         ),
         GoRoute(
           path: RoutesNames.etudiant,
@@ -113,6 +136,16 @@ class AppRouter {
           pageBuilder: (context, state) => slideTransition(
             state,
             const UserThemeMode(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.etudiantCourseDetails,
+          name: 'courseDetails',
+          pageBuilder: (context, state) => slideTransition(
+            state,
+            StudentCourseDetails(
+              arguments: state.extra as Map<String, dynamic>,
+            ),
           ),
         ),
       ],

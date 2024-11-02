@@ -184,11 +184,12 @@ class _StudentCoursesState extends State<StudentCourses> {
                                               ),
                                             ],
                                           ),
-                                          VerticalDivider(
-                                            thickness: 1,
-                                            width: 20.w,
-                                            color: Colors.grey,
-                                          ),
+                                          // Container(
+                                          //   width: 2,
+                                          //   height: 20.h,
+                                          //   color: Colors.grey,
+                                          // ),
+                                          SizedBox(width: 10.w),
                                           Container(
                                             width: 80.w,
                                             height: 12.h,
@@ -265,11 +266,13 @@ class _StudentCoursesState extends State<StudentCourses> {
                                             ),
                                           ],
                                         ),
-                                        VerticalDivider(
-                                          thickness: 1,
-                                          width: 20.w,
+                                        SizedBox(width: 5.w),
+                                        Container(
+                                          width: 2,
+                                          height: 16.h,
                                           color: Colors.grey,
                                         ),
+                                        SizedBox(width: 5.w),
                                         Text(
                                           '${course['students']} Students',
                                           style: Theme.of(context)

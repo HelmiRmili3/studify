@@ -5,6 +5,7 @@ import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/routes/route_names.dart';
 
 import '../../../../../core/theme/colors.dart';
+import '../../../../../core/utils/enums.dart';
 import '../widgets/custom_app_logo.dart';
 import '../widgets/custom_text_filed.dart';
 
@@ -19,6 +20,7 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
+  UserRole role = UserRole.student;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +123,7 @@ class _SigninScreenState extends State<SigninScreen> {
               const SizedBox(height: 20),
               CustomElevatedButton(
                 onPressed: () {
-                  context.push(RoutesNames.etudiant);
+                  context.push(RoutesNames.app, extra: role);
                 },
                 text: "Sign In",
                 backgroundColor: currentTheme.primaryColor,

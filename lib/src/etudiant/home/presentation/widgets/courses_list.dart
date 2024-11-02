@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:studify/core/routes/route_names.dart';
 
 class CoursesList extends StatefulWidget {
   final List<Map<String, dynamic>> courses;
@@ -15,12 +17,12 @@ class CoursesList extends StatefulWidget {
 
 class _CoursesListState extends State<CoursesList> {
   bool isLoading = true;
-  late Timer _timer;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 2), () {
+    timer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           isLoading = false;
@@ -40,7 +42,12 @@ class _CoursesListState extends State<CoursesList> {
           final course = widget.courses[index];
 
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.push(
+                RoutesNames.etudiantCourseDetails,
+                extra: course,
+              );
+            },
             child: Container(
               width: 280.w,
               height: 240.h,
@@ -112,22 +119,24 @@ class _CoursesListState extends State<CoursesList> {
                               SizedBox(height: 10.h),
                               Row(
                                 children: [
-                                  Text(
-                                    "\$${course['price'].toString()}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Mulish',
-                                          fontSize: 15.sp,
-                                        ),
-                                  ),
-                                  VerticalDivider(
-                                    thickness: 1,
-                                    width: 20.w,
-                                    color: Colors.black,
-                                  ),
+                                  // Text(
+                                  //   "\$${course['price'].toString()}",
+                                  //   style: Theme.of(context)
+                                  //       .textTheme
+                                  //       .bodyLarge
+                                  //       ?.copyWith(
+                                  //         fontWeight: FontWeight.bold,
+                                  //         fontFamily: 'Mulish',
+                                  //         fontSize: 15.sp,
+                                  //       ),
+                                  // ),
+                                  // SizedBox(width: 5.w),
+                                  // Container(
+                                  //   width: 2,
+                                  //   height: 16.h,
+                                  //   color: Colors.grey,
+                                  // ),
+                                  // SizedBox(width: 5.w),
                                   Row(
                                     children: [
                                       Icon(Icons.star,
@@ -144,11 +153,13 @@ class _CoursesListState extends State<CoursesList> {
                                       ),
                                     ],
                                   ),
-                                  VerticalDivider(
-                                    thickness: 1,
-                                    width: 20.w,
+                                  SizedBox(width: 5.w),
+                                  Container(
+                                    width: 2,
+                                    height: 16.h,
                                     color: Colors.grey,
                                   ),
+                                  SizedBox(width: 5.w),
                                   Text(
                                     '${course['students'].toString()} Students',
                                     style: Theme.of(context)

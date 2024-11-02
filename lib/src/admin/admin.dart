@@ -15,6 +15,5 @@ class _AdminState extends State<Admin> {
       body: null,
       bottomNavigationBar: null,
     );
-    ;
   }
 }
