@@ -9,12 +9,12 @@ class ResetOptionCard extends StatelessWidget {
   final VoidCallback onPressed;
 
   const ResetOptionCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.description,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

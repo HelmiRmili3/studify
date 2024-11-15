@@ -84,7 +84,7 @@ class AppRouter {
           pageBuilder: (context, state) {
             final role = state.extra as UserRole?;
             if (role == null) {
-              return MaterialPage(
+              return const MaterialPage(
                 child: RoleNotFoundErrorScreen(),
               );
             }
@@ -184,22 +184,6 @@ class AppRouter {
 
         return SlideTransition(
           position: offsetAnimation,
-          child: child,
-        );
-      },
-    );
-  }
-
-  static CustomTransitionPage _rotationTransition(
-    GoRouterState state,
-    Widget child,
-  ) {
-    return CustomTransitionPage(
-      key: state.pageKey,
-      child: child,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return RotationTransition(
-          turns: animation,
           child: child,
         );
       },

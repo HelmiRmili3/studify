@@ -16,7 +16,7 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController nickNameController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
@@ -55,12 +55,12 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
                 controller: dateOfBirthController,
               ),
               const SizedBox(height: 20.0),
-              CustomTextField(
-                prefixIcon: Icons.email_outlined,
-                hintText: 'Email',
-                controller: emailController,
-              ),
-              const SizedBox(height: 20.0),
+              // CustomTextField(
+              //   prefixIcon: Icons.email_outlined,
+              //   hintText: 'Email',
+              //   controller: emailController,
+              // ),
+              // const SizedBox(height: 20.0),
               CustomTextField(
                 prefixIcon: Icons.phone_android_outlined,
                 hintText: 'Phone Number',

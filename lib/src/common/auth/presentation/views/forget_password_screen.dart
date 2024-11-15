@@ -53,7 +53,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 description: 'helmi.rmili@isimg.tn',
                 onPressed: () {
                   // Handle email option press
-                  print('Email option selected');
+                  // print('Email option selected');
                 },
               ),
               const SizedBox(height: 10),
@@ -63,7 +63,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 description: '+1-234-567-890',
                 onPressed: () {
                   // Handle phone option press
-                  print('Phone option selected');
+                  // print('Phone option selected');
                 },
               ),
               const SizedBox(height: 20),

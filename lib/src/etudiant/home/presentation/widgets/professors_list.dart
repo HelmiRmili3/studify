@@ -21,12 +21,12 @@ class ProfessorList extends StatefulWidget {
 class _ProfessorListState extends State<ProfessorList> {
   bool isLoading = true;
 
-  late Timer _timer;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 2), () {
+    timer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           isLoading = false;

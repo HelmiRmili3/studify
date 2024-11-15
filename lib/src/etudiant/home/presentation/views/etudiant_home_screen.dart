@@ -100,7 +100,7 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
                 instructor: 'Mounira Jabnoune',
                 location: 'LabLangues',
                 onTap: () {
-                  print('Card 1 tapped');
+                  // print('Card 1 tapped');
                 },
               ),
               CardData(
@@ -109,7 +109,7 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
                 instructor: 'Ali Ben Salem',
                 location: 'Room 203',
                 onTap: () {
-                  print('Card 2 tapped');
+                  debugPrint('Card 2 tapped');
                 },
               ),
               CardData(
@@ -118,7 +118,7 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
                 instructor: 'Sami Trabelsi',
                 location: 'Computer Lab',
                 onTap: () {
-                  print('Card 3 tapped');
+                  debugPrint('Card 3 tapped');
                 },
               ),
             ],
@@ -137,7 +137,7 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    print('${categories[index]} Cliked');
+                    debugPrint('${categories[index]} Cliked');
                   },
                   child: Container(
                     height: 30.h,
@@ -182,7 +182,7 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
           ProfessorList(
             professors: professors,
             onItemTap: (index) {
-              print('Tapped on ${professors[index]}');
+              debugPrint('Tapped on ${professors[index]}');
             },
           ),
           SizedBox(height: 90.h),

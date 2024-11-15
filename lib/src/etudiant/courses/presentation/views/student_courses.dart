@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:studify/src/etudiant/home/presentation/widgets/categories_list.dart';
+
+import '../../../../../core/routes/route_names.dart';
 
 class StudentCourses extends StatefulWidget {
   const StudentCourses({super.key});
@@ -31,7 +34,7 @@ class _StudentCoursesState extends State<StudentCourses> {
 
   @override
   void dispose() {
-    _timer.cancel(); // Cancel the timer to avoid calling setState after dispose
+    _timer.cancel();
     super.dispose();
   }
 
@@ -93,7 +96,23 @@ class _StudentCoursesState extends State<StudentCourses> {
             itemBuilder: (context, index) {
               final course = courses[index];
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  // Navigator.pushNamed(
+                  //   context,
+                  //   '/student_course_details',
+                  //   arguments: {
+                  //     'teacher': course['teacher'],
+                  //     'course': course['course'],
+                  //     'price': course['price'],
+                  //     'rating': course['rating'],
+                  //     'students': course['students'],
+                  //   },
+                  // );
+                  context.push(
+                    RoutesNames.etudiantCourseDetails,
+                    extra: course,
+                  );
+                },
                 child: Container(
                   width: double.infinity,
                   height: 130.h,
@@ -184,11 +203,6 @@ class _StudentCoursesState extends State<StudentCourses> {
                                               ),
                                             ],
                                           ),
-                                          // Container(
-                                          //   width: 2,
-                                          //   height: 20.h,
-                                          //   color: Colors.grey,
-                                          // ),
                                           SizedBox(width: 10.w),
                                           Container(
                                             width: 80.w,

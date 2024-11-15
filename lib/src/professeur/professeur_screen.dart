@@ -8,7 +8,7 @@ import 'package:studify/src/professeur/profile/presentation/views/professor_prof
 
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
-import '../etudiant/home/presentation/widgets/custom_student_app_bar.dart';
+import '../../core/common/widgets/custom_student_app_bar.dart';
 
 class ProfessorScreen extends StatefulWidget {
   const ProfessorScreen({super.key});
@@ -21,7 +21,12 @@ class _ProfesseurState extends State<ProfessorScreen> {
   int _selectedIndex = 0;
 
   final List<PreferredSizeWidget?> _appBar = [
-    const CustomStudentAppBar(),
+    CustomStudentAppBar(
+      greeting: 'Hi',
+      userName: 'Mariem',
+      message: "What do you want to do today?",
+      onNotificationPress: () {},
+    ),
     const CustomAppBar(
       title: 'Courses',
       showBackButton: false,

@@ -57,4 +57,10 @@ class Student extends User {
       groupe: map['groupe'],
     );
   }
+
+  // Convert Student to JSON
+  Map<String, dynamic> toJson() => toMap();
+
+  // Convert JSON to Student
+  factory Student.fromJson(Map<String, dynamic> json) => Student.fromMap(json);
 }

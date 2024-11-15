@@ -24,6 +24,15 @@ class RoutesNames {
 
   // professeur routes
   static const String professor = '/professor';
+  static const String professorEditProfile = '/professor-edit-profile';
+  static const String professorNotifications = '/professor-notifications';
+  static const String professorProfile = '/professor-profile';
+  static const String professorCourses = '/professor-courses';
 
   // admin routes
+  static const String admin = '/admin';
+  static const String addnewuser = '/add-new-user';
+  static const String addnewfiliere = '/add-new-filier';
+  static const String filieredetails = '/filiere-details';
+  static const String filiereupdate = '/filiere-update';
 }

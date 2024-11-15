@@ -1,3 +1,4 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 
 class NotificationIconWithCircle extends StatelessWidget {
@@ -30,7 +31,7 @@ class NotificationIconWithCircle extends StatelessWidget {
             ),
           ),
           const Icon(
-            Icons.notifications_outlined,
+            EneftyIcons.notification_bold,
             size: 24,
             color: Colors.green,
           ),

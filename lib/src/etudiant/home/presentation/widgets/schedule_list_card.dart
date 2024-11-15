@@ -24,14 +24,14 @@ class ScheduleListCard extends StatefulWidget {
 class _PhotoBackgroundCardState extends State<ScheduleListCard> {
   late final PageController _pageController;
   bool isLoading = true;
-  late Timer _timer;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
 
-    _timer = Timer(const Duration(seconds: 2), () {
+    timer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           isLoading = false;
@@ -65,8 +65,7 @@ class _PhotoBackgroundCardState extends State<ScheduleListCard> {
                 ),
               ),
             ),
-            // Show shimmer when loading, else show PageView content
-            isLoading ? ShimmerLoading() : buildPageView(),
+            isLoading ? const ShimmerLoading() : buildPageView(),
             Positioned(
               bottom: 10.h,
               left: 0.w,
@@ -98,7 +97,7 @@ class _PhotoBackgroundCardState extends State<ScheduleListCard> {
         final card = widget.cards![index];
         return GestureDetector(
           onTap: () {
-            print("Tapped on card: ${card.course}");
+            // print("Tapped on card: ${card.course}");
           },
           child: Padding(
             padding: EdgeInsets.all(16.0.h),

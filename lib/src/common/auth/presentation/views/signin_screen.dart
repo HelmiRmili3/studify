@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/routes/route_names.dart';
-
 import '../../../../../core/theme/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../widgets/custom_app_logo.dart';
@@ -20,7 +19,26 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
-  UserRole role = UserRole.student;
+
+  UserRole? parseUserRole(String roleString) {
+    switch (roleString) {
+      case 'student':
+        return UserRole.student;
+      case 'professor':
+        return UserRole.professor;
+      case 'admin':
+        return UserRole.admin;
+      default:
+        return UserRole.admin;
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,27 +100,23 @@ class _SigninScreenState extends State<SigninScreen> {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        activeColor: currentTheme.primaryColor,
-                        checkColor: currentTheme.scaffoldBackgroundColor,
-                        value: rememberMe,
-                        onChanged: (value) {
-                          setState(() {
-                            rememberMe = value!;
-                          });
-                        },
-                      ),
-                      Text(
-                        "Remember Me",
-                        style: currentTheme.textTheme.bodyMedium?.copyWith(
-                          fontFamily: 'Mulish',
-                          fontSize: 13,
-                          color: AppColors.lightBlack,
-                        ),
-                      ),
-                    ],
+                  Checkbox(
+                    activeColor: currentTheme.primaryColor,
+                    checkColor: currentTheme.scaffoldBackgroundColor,
+                    value: rememberMe,
+                    onChanged: (value) {
+                      setState(() {
+                        rememberMe = value ?? false;
+                      });
+                    },
+                  ),
+                  Text(
+                    "Remember Me",
+                    style: currentTheme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Mulish',
+                      fontSize: 13,
+                      color: AppColors.lightBlack,
+                    ),
                   ),
                   const Spacer(),
                   GestureDetector(
@@ -123,7 +137,9 @@ class _SigninScreenState extends State<SigninScreen> {
               const SizedBox(height: 20),
               CustomElevatedButton(
                 onPressed: () {
-                  context.push(RoutesNames.app, extra: role);
+                  UserRole? role = parseUserRole(emailController.text);
+                  context.push(RoutesNames.app,
+                      extra: role ?? UserRole.student);
                 },
                 text: "Sign In",
                 backgroundColor: currentTheme.primaryColor,

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/routes/route_names.dart';
 
-import '../widgets/costom_row.dart';
+import '../../../../../core/common/widgets/costom_row.dart';
 
 class StudentProfile extends StatefulWidget {
   const StudentProfile({super.key});
@@ -108,7 +108,7 @@ class _StudentProfileState extends State<StudentProfile> {
                       icon: EneftyIcons.profile_outline,
                       title: 'Edit Profile',
                       onTap: () {
-                        context.push(RoutesNames.etudiantEditProfile);
+                        // context.push(RoutesNames.etudiantEditProfile);
                       },
                     ),
                     SizedBox(height: 20.h),
@@ -116,7 +116,7 @@ class _StudentProfileState extends State<StudentProfile> {
                       icon: EneftyIcons.empty_wallet_outline,
                       title: 'Schedule',
                       onTap: () {
-                        print('schedule');
+                        debugPrint('schedule');
                       },
                     ),
                     SizedBox(height: 20.h),

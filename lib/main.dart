@@ -6,15 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:studify/core/routes/app_routes.dart';
 import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
 import 'package:studify/core/common/blocs/theme/theme_state.dart';
-import 'package:studify/core/services/shared_preferences_repo.dart';
 
 import 'core/common/blocs/theme/theme_event.dart';
 import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final sharedPreferencesRepo =
-      SharedPreferencesRepository(userKey: 'user_data');
+  // final sharedPreferencesRepo =
+  //     SharedPreferencesRepository(userKey: 'user_data');
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

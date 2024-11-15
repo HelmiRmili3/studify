@@ -15,7 +15,7 @@ class CategoriesList extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              print('${categories[index]} Cliked');
+              debugPrint('${categories[index]} Cliked');
             },
             child: Container(
               height: 30.h,

@@ -46,7 +46,7 @@ class _CustomCourseProfileState extends State<CustomCourseProfile> {
                   } else {
                     Navigator.of(context).pop();
                   }
-                  print('Back button tapped');
+                  // print('Back button tapped');
                 },
                 child: const Icon(
                   Icons.arrow_back,

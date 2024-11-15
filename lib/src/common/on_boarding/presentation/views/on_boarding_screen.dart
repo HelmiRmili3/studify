@@ -20,11 +20,25 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final List<String> pages = [
-    "Welcome to the app!",
-    "Discover new features.",
-    "Get started now!"
-  ];
+  final Map<int, dynamic> pages = {
+    0: {
+      "image": "assets/images/onboarding1.png",
+      "title": "Welcome to the app!",
+    },
+    1: {
+      "image": "assets/images/onboarding2.png",
+      "title": "Discover new features.",
+    },
+    2: {
+      "image": "assets/images/onboarding2.png",
+      "title": "Get started now!",
+    }
+  };
+  // final List<String> pages = [
+  //   "Welcome to the app!",
+  //   "Discover new features.",
+  //   "Get started now!"
+  // ];
 
   late final PageController _pageController;
 
@@ -60,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   itemCount: pages.length,
                   itemBuilder: (context, index) {
                     return OnboardingPage(
-                      text: pages[index],
+                      page: pages[index],
                     );
                   },
                 );

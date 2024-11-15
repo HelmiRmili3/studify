@@ -6,10 +6,10 @@ class CustomRowTitle extends StatelessWidget {
   final VoidCallback onViewAll;
 
   const CustomRowTitle({
-    Key? key,
+    super.key,
     required this.title,
     required this.onViewAll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'user.dart';
 
-class Professeur extends User {
+class Professor extends User {
   final String department; // E.g., Mathematics
   final List<String> uploadedCourses; // List of course IDs
 
-  Professeur({
+  Professor({
     required super.uid,
     required super.firstName,
     required super.lastName,
@@ -29,8 +29,8 @@ class Professeur extends User {
     return map;
   }
 
-  factory Professeur.fromMap(Map<String, dynamic> map) {
-    return Professeur(
+  factory Professor.fromMap(Map<String, dynamic> map) {
+    return Professor(
       uid: map['uid'],
       firstName: map['firstName'],
       lastName: map['lastName'],
@@ -45,4 +45,11 @@ class Professeur extends User {
       uploadedCourses: List<String>.from(map['uploadedCourses']),
     );
   }
+
+  // Convert Professor to JSON
+  Map<String, dynamic> toJson() => toMap();
+
+  // Convert JSON to Professor
+  factory Professor.fromJson(Map<String, dynamic> json) =>
+      Professor.fromMap(json);
 }

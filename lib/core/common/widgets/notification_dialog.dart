@@ -6,11 +6,11 @@ class NotificationDialog extends StatelessWidget {
   final VoidCallback onClose;
 
   const NotificationDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     required this.onClose,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +40,12 @@ class NotificationDialog extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: onClose,
-              child: const Text('Close'),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+              child: const Text('Close'),
             ),
           ],
         ),

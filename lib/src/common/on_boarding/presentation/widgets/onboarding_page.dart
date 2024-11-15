@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studify/core/theme/colors.dart';
 
 class OnboardingPage extends StatelessWidget {
-  final String text;
+  final dynamic page;
 
-  const OnboardingPage({super.key, required this.text});
+  const OnboardingPage({super.key, required this.page});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +25,21 @@ class OnboardingPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
             color: Colors.grey[300],
           ),
-          child: Icon(
-            Icons.image,
-            size: 50.sp,
-            color: Colors.grey,
+          child: Image.asset(
+            "${page["image"]}",
+            width: 300.w,
+            height: 400.h,
           ),
+          // child: Icon(
+          //   Icons.image,
+          //   size: 50.sp,
+          //   color: Colors.grey,
+          // ),
         ),
         SizedBox(height: 10.h),
         Center(
           child: Text(
-            text,
+            page["title"],
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: 'Jost',
                   fontSize: 24.sp,

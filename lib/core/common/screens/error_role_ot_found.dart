@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class RoleNotFoundErrorScreen extends StatelessWidget {
+  const RoleNotFoundErrorScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Error'),
+        title: const Text('Error'),
         backgroundColor: Colors.red,
       ),
       body: Center(
@@ -14,34 +16,33 @@ class RoleNotFoundErrorScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
+              const Icon(
                 Icons.error,
                 color: Colors.red,
                 size: 80.0,
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Role Not Found',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10.0),
-              Text(
+              const SizedBox(height: 10.0),
+              const Text(
                 'The role you are trying to access does not exist or is unavailable.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Optionally navigate back to the previous screen
                   Navigator.of(context).pop();
                 },
-                child: Text('Go Back'),
+                child: const Text('Go Back'),
               ),
             ],
           ),
