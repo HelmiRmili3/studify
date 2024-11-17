@@ -61,7 +61,8 @@ class AppRouter {
           path: RoutesNames.fillYourProfile,
           pageBuilder: (context, state) => slideTransition(
             state,
-            const FillYourProfileScreen(),
+            FillYourProfileScreen(
+                arguments: state.extra as Map<String, dynamic>),
           ),
         ),
         GoRoute(

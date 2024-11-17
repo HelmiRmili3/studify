@@ -34,7 +34,6 @@ class _EmailTextFieldState extends State<EmailTextField> {
         if (value == null || value.isEmpty) {
           return 'Please enter your firstname and lastname';
         }
-
         // Validate format: firstname.lastname
         if (!RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+$').hasMatch(value)) {
           return 'Invalid format, use firstname.lastname';
@@ -66,7 +65,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
                   fontFamily: 'Mulish',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.lightBlack,
+                  color: AppColors.black,
                 ),
               ),
             ],

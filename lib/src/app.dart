@@ -27,6 +27,12 @@ class _AppState extends State<App> {
         return const ProfessorScreen();
       case UserRole.admin:
         return const Admin();
+      case UserRole.unknown:
+        return const Scaffold(
+          body: Center(
+            child: Text('Unknown user role'),
+          ),
+        );
     }
   }
 }

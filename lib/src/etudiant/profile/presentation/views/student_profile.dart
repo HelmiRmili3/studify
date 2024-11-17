@@ -108,7 +108,7 @@ class _StudentProfileState extends State<StudentProfile> {
                       icon: EneftyIcons.profile_outline,
                       title: 'Edit Profile',
                       onTap: () {
-                        // context.push(RoutesNames.etudiantEditProfile);
+                        context.push(RoutesNames.etudiantEditProfile);
                       },
                     ),
                     SizedBox(height: 20.h),

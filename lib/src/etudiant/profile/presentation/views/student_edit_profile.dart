@@ -35,7 +35,9 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UserProfileAvatar(),
+                  UserProfileAvatar(
+                    imagepath: 'assets/images/default_avatar.png',
+                  ),
                 ],
               ),
               const SizedBox(height: 20.0),

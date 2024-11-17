@@ -12,7 +12,7 @@ class CreateNewPasswordScreen extends StatefulWidget {
 }
 
 class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
-  TextEditingController nexPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
               prefixIcon: Icons.lock_outline,
               suffixIcon: Icons.visibility_off_outlined,
               hintText: 'New Password',
-              controller: nexPasswordController,
+              controller: newPasswordController,
               isPassword: true,
             ),
             const SizedBox(height: 20),
