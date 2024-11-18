@@ -1,10 +1,12 @@
 // Auth States
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
 class Authenticated extends AuthState {
-  final String user;
+  final User user;
   Authenticated(this.user);
 }
 

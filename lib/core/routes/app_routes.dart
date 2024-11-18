@@ -10,6 +10,7 @@ import '../../src/common/auth/presentation/views/signin_screen.dart';
 import '../../src/common/auth/presentation/views/signup_screen.dart';
 import '../../src/common/mode/presentation/views/user_theme_mode.dart';
 import '../../src/common/on_boarding/presentation/views/on_boarding_screen.dart';
+import '../../src/common/splash/presentation/views/splash_screen.dart';
 import '../../src/etudiant/courses/presentation/views/student_course_details.dart';
 import '../../src/etudiant/etudiant_screen.dart';
 import '../../src/etudiant/notification/presentation/views/notification_screen.dart';
@@ -24,7 +25,7 @@ class AppRouter {
 
   static GoRouter _buildRouter() {
     return GoRouter(
-      initialLocation: RoutesNames.onboarding,
+      initialLocation: RoutesNames.splash,
       errorPageBuilder: (context, state) => MaterialPage(
         child: Scaffold(
           body: Center(
@@ -33,6 +34,24 @@ class AppRouter {
         ),
       ),
       routes: [
+        GoRoute(
+          name: RoutesNames.splash,
+          path: RoutesNames.splash,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const SplashScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.authenticationHandler,
+          pageBuilder: (context, state) => _slideTransition(
+            state,
+            AuthenticationHandler(
+              isFirstTime: state.extra as bool,
+            ),
+            const Offset(1, 0),
+          ),
+        ),
         GoRoute(
           name: RoutesNames.onboarding,
           path: RoutesNames.onboarding,
@@ -48,6 +67,24 @@ class AppRouter {
             const SigninScreen(),
             const Offset(1, 0),
           ),
+        ),
+        GoRoute(
+          path: RoutesNames.app,
+          name: 'app',
+          pageBuilder: (context, state) {
+            final role = state.extra as UserRole?;
+            if (role == null) {
+              return const MaterialPage(
+                child: RoleNotFoundErrorScreen(),
+              );
+            }
+            return slideTransition(
+              state,
+              App(
+                role: role,
+              ),
+            );
+          },
         ),
         GoRoute(
           path: RoutesNames.signup,
@@ -78,24 +115,6 @@ class AppRouter {
             state,
             const CreateNewPasswordScreen(),
           ),
-        ),
-        GoRoute(
-          path: RoutesNames.app,
-          name: 'app',
-          pageBuilder: (context, state) {
-            final role = state.extra as UserRole?;
-            if (role == null) {
-              return const MaterialPage(
-                child: RoleNotFoundErrorScreen(),
-              );
-            }
-            return slideTransition(
-              state,
-              App(
-                role: role,
-              ),
-            );
-          },
         ),
         GoRoute(
           path: RoutesNames.etudiant,

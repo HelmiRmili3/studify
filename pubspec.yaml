@@ -33,6 +33,7 @@ dependencies:
   uuid: ^4.5.1
   file_picker: ^6.1.1
   path_provider: ^2.1.5
+  flutter_svg: ^2.0.14
 
 dev_dependencies:
   launcher_name: ^1.0.2
@@ -62,6 +63,7 @@ flutter:
   assets:
     - assets/images/default_avatar.png
     - assets/images/default_avatar.jpg
+    - assets/images/studify.svg
     - assets/images/all_logo.png
     - assets/images/homebg.png
     - assets/images/onboarding1.png

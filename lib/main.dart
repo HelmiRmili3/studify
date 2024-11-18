@@ -8,11 +8,11 @@ import 'package:studify/core/routes/app_routes.dart';
 import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
 import 'package:studify/core/common/blocs/theme/theme_state.dart';
 import 'package:studify/firebase_options.dart';
-import 'package:studify/src/common/auth/data/repositories/auth_repository.dart';
 import 'package:studify/src/common/auth/presentation/blocs/register/register_bloc.dart';
 
 import 'core/common/blocs/theme/theme_event.dart';
 import 'src/common/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'src/common/auth/presentation/blocs/auth/auth_events.dart';
 import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
 
 void main() async {
@@ -37,9 +37,8 @@ void main() async {
       providers: [
         Provider<ThemeBloc>(create: (_) => ThemeBloc()..add(LoadThemeEvent())),
         Provider<OnboardingBloc>(create: (_) => OnboardingBloc(3)),
-        Provider<AuthBloc>(create: (_) => AuthBloc()),
-        Provider<RegisterBloc>(
-            create: (_) => RegisterBloc(AuthBloc(), AuthRepository())),
+        Provider<AuthBloc>(create: (_) => AuthBloc()..add(AuthStarted())),
+        Provider<RegisterBloc>(create: (_) => RegisterBloc()),
 
         // Add other providers if necessary
       ],

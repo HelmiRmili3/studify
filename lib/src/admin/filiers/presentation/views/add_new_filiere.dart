@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/common/widgets/custom_app_bar.dart';
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../common/auth/presentation/widgets/custom_text_filed.dart';
-import '../widgets/email_text_filed.dart';
+import '../../../../../core/common/widgets/email_text_filed.dart';
 
 class AddNewFiliere extends StatefulWidget {
   const AddNewFiliere({super.key});

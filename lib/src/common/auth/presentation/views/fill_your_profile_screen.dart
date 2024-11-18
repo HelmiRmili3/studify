@@ -37,6 +37,36 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+  static void parseEmail(
+      String email,
+      TextEditingController firstNameController,
+      TextEditingController lastNameController) {
+    if (email.contains('@') && email.contains('.')) {
+      String username = email.split('@')[0];
+
+      List<String> names = username.split('.');
+      if (names.length >= 2) {
+        firstNameController.text = names[0];
+        lastNameController.text = names[1];
+      } else {
+        firstNameController.text = names[0];
+        lastNameController.text = '';
+      }
+    } else {
+      firstNameController.text = '';
+      lastNameController.text = '';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    parseEmail(
+      widget.arguments['email'],
+      firstNameController,
+      lastNameController,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +160,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                                 ),
                               ),
                             );
+                        Navigator.pop(context);
                         // }
                       },
                       text: "Continue",

@@ -34,12 +34,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "title": "Get started now!",
     }
   };
-  // final List<String> pages = [
-  //   "Welcome to the app!",
-  //   "Discover new features.",
-  //   "Get started now!"
-  // ];
-
   late final PageController _pageController;
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studify/core/common/widgets/custom_app_bar.dart';
 
 import '../widgets/email_list.dart';
-import '../widgets/email_text_filed.dart';
+import '../../../../../core/common/widgets/email_text_filed.dart';
 
 class FiliereDetails extends StatefulWidget {
   final String code;

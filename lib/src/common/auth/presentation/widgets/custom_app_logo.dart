@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key});
@@ -10,8 +11,7 @@ class AppLogo extends StatelessWidget {
       children: [
         Image.asset(
           'assets/images/all_logo.png',
-          width: 350.0,
-          // height: 100.0,
+          width: 300.0.w,
         ),
       ],
     );

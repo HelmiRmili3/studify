@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/theme/colors.dart';
+import '../../theme/colors.dart';
 
 class EmailTextField extends StatefulWidget {
   final TextEditingController controller;

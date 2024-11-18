@@ -5,6 +5,7 @@ import 'package:studify/src/common/auth/presentation/blocs/register/register_blo
 import 'package:studify/src/common/auth/presentation/blocs/register/register_states.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
+import '../../../../../core/common/widgets/email_text_filed.dart';
 import '../../../../../core/routes/route_names.dart';
 
 import '../widgets/custom_app_logo.dart';
@@ -78,9 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Form(
                     child: Column(
                       children: [
-                        CustomTextField(
-                          prefixIcon: Icons.email_outlined,
-                          hintText: 'Email',
+                        EmailTextField(
                           controller: emailController,
                         ),
                         const SizedBox(height: 20),
@@ -129,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   CustomElevatedButton(
                     onPressed: () {
                       context.push(RoutesNames.fillYourProfile, extra: {
-                        "email": emailController.text,
+                        "email": '${emailController.text}@isimg.tn',
                         "password": passwordController.text,
                       });
                     },

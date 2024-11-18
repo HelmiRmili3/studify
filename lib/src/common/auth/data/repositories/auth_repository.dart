@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studify/core/utils/enums.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../models/file_item.dart';
-import '../../domain/entities/user_email_entity.dart';
 import '../../domain/entities/user_login_entity.dart';
 import '../../domain/entities/user_profile_entity.dart';
 import '../models/user_profile_model.dart';
@@ -33,18 +33,49 @@ class AuthRepository {
     }
   }
 
+  Future<void> logout() async {
+    try {
+      final result = await _firebaseAuth.signOut();
+      return result;
+    } catch (e) {
+      debugPrint("Login Error: $e");
+    }
+  }
+  // Future<UserCredential?> loginWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //     if (googleUser != null) {
+  //       final GoogleSignInAuthentication googleAuth =
+  //           await googleUser.authentication;
+  //       final credential = GoogleAuthProvider.credential(
+  //         accessToken: googleAuth.accessToken,
+  //         idToken: googleAuth.idToken,
+  //       );
+  //       final result = await _firebaseAuth.signInWithCredential(credential);
+  //       return result;
+  //     }
+  //   } catch (e) {
+  //     print("Login Error: $e");
+  //     return null;
+  //   }
+  //   return null;
+  // }
+
   Future<UserCredential?> register(UserRegisterModel user) async {
     try {
+      final bool emailExised = await checkUserAuthorization(user.email);
+      if (!emailExised) {
+        debugPrint(" ===================>  Email not Authorized");
+        return null;
+      }
       final result = await _firebaseAuth
           .createUserWithEmailAndPassword(
         email: user.email,
         password: user.password,
       )
           .then((_) async {
-        // Check if user has an image, else load the default image from assets
         File imageFile;
         if (user.image == null) {
-          // Load the default image from assets
           final byteData =
               await rootBundle.load('assets/images/default_avatar.jpg');
           final file = File(
@@ -52,14 +83,11 @@ class AuthRepository {
           await file.writeAsBytes(byteData.buffer.asUint8List());
           imageFile = file;
         } else {
-          // Use the provided image if not null
           imageFile = user.image!;
         }
 
-        // Upload image to Firebase Storage
         return uploadImageToFirebaseStorage(imageFile);
       }).then((filedata) async {
-        // Add file data to Firestore
         return addFileToFirestore(
           FileItem(
             fileId: const Uuid().v1(),
@@ -69,7 +97,6 @@ class AuthRepository {
           ),
         );
       }).then((file) async {
-        // Create the user profile with the uploaded image URL
         UserProfileModel userProfile = UserProfileModel(
           uid: user.uid,
           firstName: user.firstName,
@@ -84,8 +111,6 @@ class AuthRepository {
           sexe: user.sexe,
           imageUrl: file.fileUrl,
         );
-
-        // Add user to Firestore
         await addUserToFirestore(userProfile);
       });
 
@@ -109,17 +134,20 @@ class AuthRepository {
     }
   }
 
-  Future<UserEmailEntity?> checkUserAuthorization(String email) async {
+  Future<bool> checkUserAuthorization(String email) async {
     try {
-      final doc =
-          await _firebaseFirestore.collection('emails').doc(email).get();
-      if (doc.exists) {
-        return doc.data()! as UserEmailEntity;
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('emails')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
       }
-      return null;
+      return false;
     } catch (e) {
       print("Authorization Check Error: $e");
-      return null;
+      return false;
     }
   }
 
