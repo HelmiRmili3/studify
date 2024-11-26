@@ -9,7 +9,7 @@ import 'package:studify/src/common/auth/presentation/blocs/auth/auth_events.dart
 import 'package:studify/src/common/auth/presentation/blocs/auth/auth_states.dart';
 
 import '../../../../../core/common/widgets/costom_row.dart';
-import '../../../../../core/common/widgets/custom_elevated_button.dart';
+import '../../../../../core/common/widgets/logout_button.dart';
 
 class StudentProfile extends StatefulWidget {
   const StudentProfile({super.key});
@@ -172,18 +172,24 @@ class _StudentProfileState extends State<StudentProfile> {
                         onTap: () {},
                       ),
                       SizedBox(height: 20.h),
-                      CustomElevatedButton(
-                        text: 'Log Out',
-                        onPressed: () {
+                      LogoutButton(
+                        title: 'Disconnect',
+                        onTap: () {
                           context.read<AuthBloc>().add(AuthLoggedOut());
                         },
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.0.w,
-                          vertical: 8.0.h,
-                        ),
-                      )
+                      ),
+                      // CustomElevatedButton(
+                      //   text: 'Log Out',
+                      //   onPressed: () {
+                      //     context.read<AuthBloc>().add(AuthLoggedOut());
+                      //   },
+                      //   backgroundColor: Theme.of(context).primaryColor,
+                      //   foregroundColor: Colors.white,
+                      //   padding: EdgeInsets.symmetric(
+                      //     horizontal: 16.0.w,
+                      //     vertical: 8.0.h,
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

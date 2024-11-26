@@ -1,13 +1,20 @@
 // Auth States
-import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../data/models/user_profile_model.dart';
 
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
+class AuthLoading extends AuthState {}
+
 class Authenticated extends AuthState {
-  final User user;
-  Authenticated(this.user);
+  UserProfileModel? user;
+  String succes;
+  Authenticated(
+    this.succes,
+    this.user,
+  );
 }
 
 class Unauthenticated extends AuthState {}

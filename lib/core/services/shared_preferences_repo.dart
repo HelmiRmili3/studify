@@ -1,41 +1,35 @@
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:convert';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:studify/src/common/auth/data/models/user_profile_model.dart';
 
-import '../../models/user.dart';
+// class SharedPreferencesRepository {
+//   SharedPreferencesRepository();
 
-class SharedPreferencesRepository {
-  final String userKey;
-  SharedPreferencesRepository({
-    required this.userKey,
-  });
+//   // Initialize SharedPreferences
+//   // Future<void> init() async {
+//   //   final prefs = await SharedPreferences.getInstance();
+//   //   // Initialize SharedPreferences here if needed
+//   // }
+//   Future<void> saveUserProfile(UserProfileModel userProfile) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final userProfileJson = json.encode(userProfile.toJson());
+//     prefs.setString('userProfile', userProfileJson);
+//   }
 
-  // Initialize SharedPreferences
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+// // Get UserProfileEntity from SharedPreferences
+//   Future<UserProfileModel?> getUserProfile() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final userProfileJson = prefs.getString('userProfile');
 
-  Future<void> saveUser(User user) async {
-    final prefs = await _prefs;
-    String userJson = jsonEncode(user.toMap());
-    await prefs.setString(userKey, userJson);
-  }
+//     if (userProfileJson != null) {
+//       final Map<String, dynamic> userMap = json.decode(userProfileJson);
+//       return UserProfileModel.fromJson(userMap);
+//     }
+//     return null;
+//   }
 
-  Future<User?> getUser() async {
-    final prefs = await _prefs;
-    String? userJson = prefs.getString(userKey);
-
-    if (userJson != null) {
-      Map<String, dynamic> userMap = jsonDecode(userJson);
-      return User.fromMap(userMap);
-    }
-    return null;
-  }
-
-  Future<void> deleteUser() async {
-    final prefs = await _prefs;
-    await prefs.remove(userKey);
-  }
-
-  Future<bool> isUserStored() async {
-    final prefs = await _prefs;
-    return prefs.containsKey(userKey);
-  }
-}
+//   Future<void> deleteUser() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     prefs.remove('userProfile');
+//   }
+// }

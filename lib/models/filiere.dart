@@ -1,22 +1,12 @@
-import 'matiere.dart';
-import 'professor.dart';
-import 'student.dart';
-
 class Filiere {
-  String filiere;
-  String code;
-  String niveaux;
-  List<Matiere> matieres;
-  List<Student> students;
-  List<Professor> professors;
+  final String filiere;
+  final String code;
+  final int nbYears;
 
   Filiere({
     required this.filiere,
     required this.code,
-    required this.niveaux,
-    this.matieres = const [],
-    this.students = const [],
-    this.professors = const [],
+    required this.nbYears,
   });
 
   // Convert Filiere to JSON
@@ -24,10 +14,7 @@ class Filiere {
     return {
       'filiere': filiere,
       'code': code,
-      'niveaux': niveaux,
-      'matieres': matieres.map((matiere) => matiere.toJson()).toList(),
-      'students': students.map((student) => student.toJson()).toList(),
-      'professors': professors.map((professor) => professor.toJson()).toList(),
+      'nbYears': nbYears,
     };
   }
 
@@ -36,16 +23,87 @@ class Filiere {
     return Filiere(
       filiere: json['filiere'],
       code: json['code'],
-      niveaux: json['niveaux'],
-      matieres: (json['matieres'] as List<dynamic>)
-          .map((matiere) => Matiere.fromJson(matiere))
-          .toList(),
-      students: (json['students'] as List<dynamic>)
-          .map((student) => Student.fromJson(student))
-          .toList(),
-      professors: (json['professors'] as List<dynamic>)
-          .map((professor) => Professor.fromJson(professor))
-          .toList(),
+      nbYears: json['nbYears'],
+    );
+  }
+}
+
+class Niveau extends Filiere {
+  final List<String> studentIds;
+  final int niveau;
+
+  Niveau({
+    required super.filiere,
+    required super.code,
+    required super.nbYears,
+    required this.niveau,
+    required this.studentIds,
+  });
+
+  // Convert Niveau to JSON
+  @override
+  Map<String, dynamic> toJson() {
+    final filiereJson = super.toJson();
+    return {
+      ...filiereJson,
+      'studentIds': studentIds,
+      'niveaux': niveau,
+    };
+  }
+
+  // Convert JSON to Niveau
+  factory Niveau.fromJson(Map<String, dynamic> json) {
+    return Niveau(
+      filiere: json['filiere'],
+      code: json['code'],
+      niveau: json['niveau'],
+      nbYears: json['nbYears'],
+      studentIds: List<String>.from(json['studentIds'] ?? []),
+    );
+  }
+}
+
+class Part extends Niveau {
+  final List<String> professorsIds;
+  final List<String> matieresIds;
+
+  Part({
+    required String filiere,
+    required String code,
+    required int niveau,
+    required int nbYears,
+    required List<String> studentIds,
+    required this.professorsIds,
+    required this.matieresIds,
+  }) : super(
+          filiere: filiere,
+          code: code,
+          niveau: niveau,
+          nbYears: nbYears,
+          studentIds: studentIds,
+        );
+
+  // Convert Part to JSON
+  @override
+  Map<String, dynamic> toJson() {
+    final niveauJson = super.toJson();
+    return {
+      ...niveauJson,
+      'professorsIds': professorsIds,
+      'matieresIds': matieresIds,
+    };
+  }
+
+  // Convert JSON to Part
+  factory Part.fromJson(Map<String, dynamic> json) {
+    return Part(
+      filiere: json['filiere'],
+      code: json['code'],
+      niveau: json['niveau'],
+      nbYears: json['nbYears'],
+      studentIds: List<String>.from(json['studentIds'] ?? []),
+      professorsIds: List<String>.from(json['professorsIds'] ?? []),
+      matieresIds: List<String>.from(json['matieresIds'] ?? []),
     );
   }
 }

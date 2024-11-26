@@ -44,6 +44,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.authenticationHandler,
+          name: RoutesNames.authenticationHandler,
           pageBuilder: (context, state) => _slideTransition(
             state,
             AuthenticationHandler(
@@ -62,6 +63,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.signin,
+          name: RoutesNames.signin,
           pageBuilder: (context, state) => _slideTransition(
             state,
             const SigninScreen(),
@@ -70,7 +72,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.app,
-          name: 'app',
+          name: RoutesNames.app,
           pageBuilder: (context, state) {
             final role = state.extra as UserRole?;
             if (role == null) {
@@ -88,6 +90,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.signup,
+          name: RoutesNames.signup,
           pageBuilder: (context, state) => _slideTransition(
             state,
             const SignupScreen(),
@@ -96,6 +99,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.fillYourProfile,
+          name: RoutesNames.fillYourProfile,
           pageBuilder: (context, state) => slideTransition(
             state,
             FillYourProfileScreen(
@@ -104,6 +108,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.forgotPassword,
+          name: RoutesNames.forgotPassword,
           pageBuilder: (context, state) => slideTransition(
             state,
             const ForgetPasswordScreen(),
@@ -111,6 +116,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.resetPassword,
+          name: RoutesNames.resetPassword,
           pageBuilder: (context, state) => slideTransition(
             state,
             const CreateNewPasswordScreen(),
@@ -118,6 +124,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.etudiant,
+          name: RoutesNames.etudiant,
           pageBuilder: (context, state) => slideTransition(
             state,
             const EtudiantScreen(),
@@ -125,6 +132,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.etudiantNotifications,
+          name: RoutesNames.etudiantNotifications,
           pageBuilder: (context, state) => slideTransition(
             state,
             const StudentNotifications(),
@@ -132,6 +140,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.professor,
+          name: RoutesNames.professor,
           pageBuilder: (context, state) => slideTransition(
             state,
             const ProfessorScreen(),
@@ -139,6 +148,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.etudiantEditProfile,
+          name: RoutesNames.etudiantEditProfile,
           pageBuilder: (context, state) => slideTransition(
             state,
             const StudentEditProfile(),
@@ -146,6 +156,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.notification,
+          name: RoutesNames.notification,
           pageBuilder: (context, state) => slideTransition(
             state,
             const NotificationScreen(),
@@ -153,6 +164,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.userThemeMode,
+          name: RoutesNames.userThemeMode,
           pageBuilder: (context, state) => slideTransition(
             state,
             const UserThemeMode(),
@@ -160,7 +172,7 @@ class AppRouter {
         ),
         GoRoute(
           path: RoutesNames.etudiantCourseDetails,
-          name: 'courseDetails',
+          name: RoutesNames.etudiantCourseDetails,
           pageBuilder: (context, state) => slideTransition(
             state,
             StudentCourseDetails(

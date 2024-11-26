@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../../../core/utils/enums.dart';
 import '../../domain/entities/user_profile_entity.dart';
 
@@ -7,7 +9,6 @@ class UserProfileModel extends UserProfileEntity {
     required super.firstName,
     required super.lastName,
     required super.email,
-    required super.password,
     required super.createdAt,
     required super.updatedAt,
     required super.birthDay,
@@ -24,21 +25,38 @@ class UserProfileModel extends UserProfileEntity {
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      birthDay: DateTime.parse(json['birthDay'] as String),
+      createdAt: _convertTimestamp(json['createdAt']),
+      updatedAt: _convertTimestamp(json['updatedAt']),
+      birthDay: _convertTimestamp(json['birthDay']),
       phoneNumber: json['phoneNumber'] as String,
-      sexe: UserGender.values.firstWhere(
-        (gender) => gender.name == (json['sexe'] as String),
-        orElse: () => UserGender.unknown,
-      ),
+      sexe: _convertToEnumGender(json['sexe']),
       imageUrl: json['imageUrl'] as String,
-      role: UserRole.values.firstWhere(
-        (role) => role.name == (json['role'] as String),
-        orElse: () => UserRole.unknown,
-      ),
+      role: _convertToEnumRole(json['role']),
     );
+  }
+
+  static UserGender _convertToEnumGender(int? genderIndex) {
+    switch (genderIndex) {
+      case 0:
+        return UserGender.male;
+      case 1:
+        return UserGender.female;
+      default:
+        return UserGender.unknown;
+    }
+  }
+
+  static UserRole _convertToEnumRole(int? roleIndex) {
+    switch (roleIndex) {
+      case 0:
+        return UserRole.admin;
+      case 1:
+        return UserRole.professor;
+      case 2:
+        return UserRole.student;
+      default:
+        return UserRole.unknown;
+    }
   }
 
   // Convert UserProfileModel to JSON
@@ -48,7 +66,6 @@ class UserProfileModel extends UserProfileEntity {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'password': password,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'birthDay': birthDay.toIso8601String(),
@@ -65,7 +82,6 @@ class UserProfileModel extends UserProfileEntity {
     String? firstName,
     String? lastName,
     String? email,
-    String? password,
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? birthDay,
@@ -79,7 +95,6 @@ class UserProfileModel extends UserProfileEntity {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
-      password: password ?? this.password,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       birthDay: birthDay ?? this.birthDay,
@@ -88,5 +103,14 @@ class UserProfileModel extends UserProfileEntity {
       sexe: sexe ?? this.sexe,
       imageUrl: imageUrl ?? this.imageUrl,
     );
+  }
+
+  static DateTime _convertTimestamp(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      return timestamp.toDate(); // Convert Timestamp to DateTime
+    } else {
+      return DateTime
+          .now(); // Default to current time if it's null or unexpected type
+    }
   }
 }

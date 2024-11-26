@@ -2,9 +2,11 @@ import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
+import '../../core/routes/route_names.dart';
 import 'courses/presentation/views/student_courses.dart';
 import 'home/presentation/views/etudiant_home_screen.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
@@ -19,14 +21,15 @@ class EtudiantScreen extends StatefulWidget {
 
 class _EtudiantState extends State<EtudiantScreen> {
   int _selectedIndex = 0;
-
   final List<PreferredSizeWidget?> _appBar = [
     CustomStudentAppBar(
       greeting: 'Hi',
       userName: 'Helmi',
       message: "What do you want to learn today?",
       notificationCount: 7,
-      onNotificationPress: () {},
+      onNotificationPress: (context) {
+        GoRouter.of(context).pushNamed(RoutesNames.etudiantNotifications);
+      },
     ),
     const CustomAppBar(
       title: 'Courses',
@@ -45,7 +48,6 @@ class _EtudiantState extends State<EtudiantScreen> {
       showBackButton: false,
     ),
   ];
-
   final List<Widget> _pages = [
     const StudentHomeScreen(),
     const StudentCourses(),

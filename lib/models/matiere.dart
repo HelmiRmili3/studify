@@ -1,4 +1,7 @@
 // File.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:studify/core/utils/enums.dart';
+
 class File {
   String filename;
   String filepath;
@@ -65,18 +68,20 @@ class Doc {
 class Matiere {
   String id;
   String name;
+  String filiere;
   String description;
-  String professor;
-  List<String> docIds; // List of document IDs
-  List<Doc> docs; // List of Doc objects
+  int part;
+  String coefficient;
+  MatiereType type;
 
   Matiere({
     required this.id,
     required this.name,
+    required this.filiere,
     required this.description,
-    required this.professor,
-    this.docIds = const [],
-    this.docs = const [],
+    required this.part,
+    required this.coefficient,
+    required this.type,
   });
 
   // Convert Matiere to JSON
@@ -84,10 +89,11 @@ class Matiere {
     return {
       'id': id,
       'name': name,
+      'filiere': filiere,
       'description': description,
-      'professor': professor,
-      'docIds': docIds,
-      'docs': docs.map((doc) => doc.toJson()).toList(),
+      'part': part,
+      'coefficient': coefficient,
+      'type': type.toString().split('.').last, // Save enum as string
     };
   }
 
@@ -96,12 +102,41 @@ class Matiere {
     return Matiere(
       id: json['id'],
       name: json['name'],
+      filiere: json['filiere'],
       description: json['description'],
-      professor: json['professor'],
-      docIds: List<String>.from(json['docIds']),
-      docs: (json['docs'] as List<dynamic>)
-          .map((doc) => Doc.fromJson(doc))
-          .toList(),
+      part: json['part'],
+      coefficient: json['coefficient'],
+      type: MatiereType.values.firstWhere(
+        (e) => e.toString().split('.').last == json['type'],
+        orElse: () => MatiereType.Cours, // Default value
+      ),
+    );
+  }
+
+  // Create Matiere from Firestore DocumentSnapshot
+  factory Matiere.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return Matiere.fromJson({...data, 'id': doc.id});
+  }
+
+  // CopyWith method for creating modified copies
+  Matiere copyWith({
+    String? id,
+    String? name,
+    String? filiere,
+    String? description,
+    int? part,
+    String? coefficient,
+    MatiereType? type,
+  }) {
+    return Matiere(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      filiere: filiere ?? this.filiere,
+      description: description ?? this.description,
+      part: part ?? this.part,
+      coefficient: coefficient ?? this.coefficient,
+      type: type ?? this.type,
     );
   }
 }

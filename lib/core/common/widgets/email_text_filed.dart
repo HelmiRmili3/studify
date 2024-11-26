@@ -65,7 +65,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
                   fontFamily: 'Mulish',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.black,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
             ],

@@ -8,23 +8,17 @@ import 'package:studify/core/routes/app_routes.dart';
 import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
 import 'package:studify/core/common/blocs/theme/theme_state.dart';
 import 'package:studify/firebase_options.dart';
-import 'package:studify/src/common/auth/presentation/blocs/register/register_bloc.dart';
 
-import 'core/common/blocs/theme/theme_event.dart';
-import 'src/common/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'src/common/auth/presentation/blocs/auth/auth_events.dart';
-import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
+import 'providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final sharedPreferencesRepo =
-  //     SharedPreferencesRepository(userKey: 'user_data');
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e) {
-    print('Failed to initialize Firebase: $e');
+    debugPrint('Failed to initialize Firebase: $e');
   }
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -34,14 +28,7 @@ void main() async {
   );
   runApp(
     MultiProvider(
-      providers: [
-        Provider<ThemeBloc>(create: (_) => ThemeBloc()..add(LoadThemeEvent())),
-        Provider<OnboardingBloc>(create: (_) => OnboardingBloc(3)),
-        Provider<AuthBloc>(create: (_) => AuthBloc()..add(AuthStarted())),
-        Provider<RegisterBloc>(create: (_) => RegisterBloc()),
-
-        // Add other providers if necessary
-      ],
+      providers: porviders,
       child: const MyApp(),
     ),
   );
@@ -49,7 +36,6 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }

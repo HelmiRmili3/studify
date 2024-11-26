@@ -34,6 +34,8 @@ dependencies:
   file_picker: ^6.1.1
   path_provider: ^2.1.5
   flutter_svg: ^2.0.14
+  get: ^4.6.6
+  rxdart: ^0.28.0
 
 dev_dependencies:
   launcher_name: ^1.0.2

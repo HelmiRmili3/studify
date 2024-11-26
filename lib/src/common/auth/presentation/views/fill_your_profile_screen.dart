@@ -123,6 +123,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                     const SizedBox(height: 20.0),
                     CustomTextField(
                       prefixIcon: Icons.phone_android_outlined,
+                      keyboardType: TextInputType.phone,
                       hintText: 'Phone Number',
                       controller: phoneNumberController,
                     ),

@@ -9,7 +9,7 @@ class CustomStudentAppBar extends StatelessWidget
   final String? greeting;
   final String? message;
   final int notificationCount;
-  final VoidCallback onNotificationPress;
+  final Function onNotificationPress;
 
   const CustomStudentAppBar({
     super.key,
@@ -78,7 +78,7 @@ class CustomStudentAppBar extends StatelessWidget
               ],
             ),
             NotificationIconWithCircle(
-              onPress: onNotificationPress,
+              onPress: () => onNotificationPress(context),
               notificationCount: notificationCount,
             ),
           ],

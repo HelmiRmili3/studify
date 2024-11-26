@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/routes/route_names.dart';
-import '../../../../../core/utils/enums.dart';
+
 import '../../../auth/presentation/blocs/auth/auth_bloc.dart';
 import '../../../auth/presentation/blocs/auth/auth_states.dart';
 
@@ -70,7 +70,7 @@ class _AuthenticationHandlerState extends State<AuthenticationHandler> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          GoRouter.of(context).go(RoutesNames.app, extra: UserRole.student);
+          GoRouter.of(context).go(RoutesNames.app, extra: state.user!.role);
         } else if (state is Unauthenticated) {
           if (widget.isFirstTime) {
             GoRouter.of(context).go(RoutesNames.onboarding);

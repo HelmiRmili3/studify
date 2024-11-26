@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:studify/src/common/auth/domain/entities/user_login_entity.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../auth/auth_bloc.dart';
-import '../auth/auth_events.dart';
 import 'register_events.dart';
 import 'register_states.dart';
 

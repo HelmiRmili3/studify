@@ -9,9 +9,9 @@ class UserEmailModel extends UserEmailEntity {
   });
   factory UserEmailModel.fromDocument(Map<String, dynamic> doc) {
     return UserEmailModel(
-      id: doc['id'] ?? '',
-      email: doc['email'] ?? '',
-      role: UserRole.admin,
+      id: doc['id'],
+      email: doc['email'],
+      role: getRoleFromInt(doc['role']),
     );
   }
 
@@ -25,5 +25,25 @@ class UserEmailModel extends UserEmailEntity {
       email: email ?? this.email,
       role: role ?? this.role,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'role': role.index,
+    };
+  }
+}
+
+UserRole getRoleFromInt(int roleInt) {
+  switch (roleInt) {
+    case 1:
+      return UserRole.professor;
+    case 2:
+      return UserRole.student;
+
+    default:
+      throw ArgumentError('Invalid role value: $roleInt');
   }
 }

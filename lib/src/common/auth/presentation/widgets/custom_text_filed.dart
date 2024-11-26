@@ -9,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final IconData? suffixIcon;
   final VoidCallback? onSuffixIconPress;
   final TextEditingController controller;
+  final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
   final bool isPassword;
 
@@ -19,6 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.onSuffixIconPress,
     required this.controller,
+    this.keyboardType,
     this.validator,
     this.isPassword = false,
   });
@@ -41,6 +43,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
     return TextFormField(
       controller: widget.controller,
+      keyboardType: widget.keyboardType,
       obscureText: widget.isPassword ? _obscureText : false,
       validator: widget.validator,
       decoration: InputDecoration(

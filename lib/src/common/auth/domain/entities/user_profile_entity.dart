@@ -5,7 +5,6 @@ class UserProfileEntity {
   final String firstName;
   final String lastName;
   final String email;
-  final String password;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime birthDay;
@@ -19,7 +18,6 @@ class UserProfileEntity {
     required this.firstName,
     required this.lastName,
     required this.email,
-    required this.password,
     required this.createdAt,
     required this.updatedAt,
     required this.birthDay,
@@ -28,4 +26,19 @@ class UserProfileEntity {
     required this.sexe,
     required this.imageUrl,
   });
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+      'birthDay': birthDay.toIso8601String(),
+      'phoneNumber': phoneNumber,
+      'sexe': sexe.name,
+      'imageUrl': imageUrl,
+      'role': role.name,
+    };
+  }
 }

@@ -9,11 +9,12 @@ import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/common/widgets/email_text_filed.dart';
 import '../../../../../core/routes/route_names.dart';
 import '../../../../../core/theme/colors.dart';
-import '../../../../../core/utils/enums.dart';
 import '../../domain/entities/user_login_entity.dart';
 import '../blocs/auth/auth_events.dart';
 import '../widgets/custom_app_logo.dart';
 import '../widgets/custom_text_filed.dart';
+import '../../../../../core/common/widgets/loading_overlay.dart';
+import '../../../../../core/common/widgets/top_snack_bar.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -26,19 +27,6 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
-
-  UserRole? parseUserRole(String roleString) {
-    switch (roleString) {
-      case 'student':
-        return UserRole.student;
-      case 'professor':
-        return UserRole.professor;
-      case 'admin':
-        return UserRole.admin;
-      default:
-        return UserRole.admin;
-    }
-  }
 
   @override
   void dispose() {
@@ -58,8 +46,15 @@ class _SigninScreenState extends State<SigninScreen> {
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is AuthLoading) {
+            showLoadingOverlay(context);
+          }
           if (state is Authenticated) {
-            GoRouter.of(context).go(RoutesNames.app, extra: UserRole.student);
+            GoRouter.of(context).go(RoutesNames.app, extra: state.user!.role);
+            showTopSnackBar(context, state.succes, Colors.green);
+          }
+          if (state is AuthenticationFailure) {
+            showTopSnackBar(context, state.error, Colors.red);
           }
         },
         child: SingleChildScrollView(
@@ -150,8 +145,8 @@ class _SigninScreenState extends State<SigninScreen> {
                   onPressed: () {
                     context.read<AuthBloc>().add(AuthLoggedIn(
                           UserLoginEntity(
-                            email: '${emailController.text.trim()}@isimg.tn',
-                            password: passwordController.text.trim(),
+                            email: '${emailController.text}@isimg.tn',
+                            password: passwordController.text,
                           ),
                         ));
                   },
