@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackButton;
-
+  final List<Widget>? action;
   const CustomAppBar({
     super.key,
     required this.title,
+    this.action,
     this.showBackButton = true,
   });
 
@@ -16,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
       automaticallyImplyLeading: showBackButton,
+      actions: action,
       centerTitle: true,
       title: Text(
         title,

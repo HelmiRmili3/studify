@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/core/utils/enums.dart';
 
-class User {
+import '../core/utils/helpers.dart';
+
+class UserModel {
   final String uid;
   final String firstName;
   final String lastName;
@@ -12,7 +15,7 @@ class User {
   final UserGender sexe;
   final String imageUrl;
 
-  User({
+  UserModel({
     required this.uid,
     required this.firstName,
     required this.lastName,
@@ -42,17 +45,17 @@ class User {
   }
 
   // Factory to create User from Firebase data
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       uid: map['uid'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt']),
-      birthDay: DateTime.parse(map['birthDay']),
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
+      updatedAt: (map['updatedAt'] as Timestamp).toDate(),
+      birthDay: (map['birthDay'] as Timestamp).toDate(),
       phoneNumber: map['phoneNumber'],
-      sexe: map['sexe'],
+      sexe: convertToEnumGender(map['sexe']),
       imageUrl: map['imageUrl'],
     );
   }

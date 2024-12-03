@@ -6,11 +6,13 @@ import '../../theme/colors.dart';
 class EmailTextField extends StatefulWidget {
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
 
   const EmailTextField({
     super.key,
     required this.controller,
     this.validator,
+    this.focusNode,
   });
 
   @override
@@ -29,6 +31,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
     );
 
     return TextFormField(
+      focusNode: widget.focusNode,
       controller: widget.controller,
       validator: (value) {
         if (value == null || value.isEmpty) {

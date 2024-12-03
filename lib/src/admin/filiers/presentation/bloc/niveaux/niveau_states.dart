@@ -1,4 +1,4 @@
-import 'package:studify/src/common/auth/data/models/user_email_model.dart';
+import '../../../../../common/auth/data/models/user_data_model.dart';
 
 abstract class NiveauState {}
 
@@ -9,7 +9,7 @@ class NiveauLoading extends NiveauState {}
 class EmailAdded extends NiveauState {}
 
 class NiveauLoaded extends NiveauState {
-  final List<UserEmailModel> niveau;
+  final List<UserDataModel> niveau;
   NiveauLoaded(this.niveau);
 }
 

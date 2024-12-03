@@ -1,4 +1,5 @@
 import '../../../../../core/utils/enums.dart'; // Import your UserRole enum
+import '../../../../../core/utils/helpers.dart';
 import '../../domain/entities/user_email_entity.dart';
 
 class UserEmailModel extends UserEmailEntity {
@@ -11,7 +12,7 @@ class UserEmailModel extends UserEmailEntity {
     return UserEmailModel(
       id: doc['id'],
       email: doc['email'],
-      role: getRoleFromInt(doc['role']),
+      role: convertToEnumRole(doc['role'] as int),
     );
   }
 
@@ -33,17 +34,5 @@ class UserEmailModel extends UserEmailEntity {
       'email': email,
       'role': role.index,
     };
-  }
-}
-
-UserRole getRoleFromInt(int roleInt) {
-  switch (roleInt) {
-    case 1:
-      return UserRole.professor;
-    case 2:
-      return UserRole.student;
-
-    default:
-      throw ArgumentError('Invalid role value: $roleInt');
   }
 }

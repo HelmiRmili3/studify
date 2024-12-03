@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../common/auth/data/models/user_data_model.dart';
+
 class EmailList extends StatefulWidget {
-  final List<String> emails;
-  final Function onTap;
+  final List<UserDataModel> emails;
 
   const EmailList({
     super.key,
     required this.emails,
-    required this.onTap,
   });
 
   @override
@@ -22,7 +22,6 @@ class _EmailListState extends State<EmailList> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // Display "No emails found" message when the email list is empty
         if (widget.emails.isEmpty)
           Padding(
             padding: EdgeInsets.all(16.0.w),
@@ -37,29 +36,33 @@ class _EmailListState extends State<EmailList> {
               ),
             ),
           ),
-        // Display the emails when the list is not empty
         ...widget.emails.map((email) {
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+            // padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2),
             margin: EdgeInsets.only(bottom: 5.h),
             decoration: BoxDecoration(
-              color: Colors.blueAccent.withOpacity(.5),
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Text(
-              email,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontFamily: 'Jost',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(email.imageUrl!),
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  email.email,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontFamily: 'Jost',
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.normal,
+                      ),
+                ),
+              ],
             ),
           );
         }),
-        ElevatedButton(
-          onPressed: () => widget.onTap(),
-          child: const Icon(Icons.add),
-        ),
       ],
     );
   }

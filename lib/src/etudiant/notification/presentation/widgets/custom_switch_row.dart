@@ -29,7 +29,6 @@ class CustomSwitchRow extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          // Switch Toggle (Blue)
           Switch(
             value: switchValue,
             onChanged: onSwitchChanged,

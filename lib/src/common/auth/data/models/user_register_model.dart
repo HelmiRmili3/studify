@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:studify/models/matiere.dart';
+
 import '../../../../../core/utils/enums.dart';
 import '../../domain/entities/user_register_entity.dart';
 
@@ -33,7 +34,7 @@ class UserRegisterModel extends UserRegisterEntity {
         (gender) => gender.name == (json['sexe'] as String),
         orElse: () => UserGender.unknown,
       ),
-      image: json['image'] != null ? File(json['image'] as String) : null,
+      image: json['image'],
     );
   }
 
@@ -50,7 +51,7 @@ class UserRegisterModel extends UserRegisterEntity {
       'birthDay': birthDay.toIso8601String(),
       'phoneNumber': phoneNumber,
       'sexe': sexe.name,
-      'image': image?.path, // Store file path for image
+      'image': image?.filepath, // Store file path for image
     };
   }
 
@@ -66,7 +67,7 @@ class UserRegisterModel extends UserRegisterEntity {
     DateTime? birthDay,
     String? phoneNumber,
     UserGender? sexe,
-    File? image,
+    FileEntity? image,
   }) {
     return UserRegisterModel(
       uid: uid ?? this.uid,

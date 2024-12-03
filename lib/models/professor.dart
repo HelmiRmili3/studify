@@ -1,6 +1,6 @@
 import 'user.dart';
 
-class Professor extends User {
+class Professor extends UserModel {
   final String department; // E.g., Mathematics
   final List<String> uploadedCourses; // List of course IDs
 

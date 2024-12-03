@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studify/core/utils/enums.dart';
+import 'package:studify/core/utils/firestore.dart';
 import 'package:studify/src/common/auth/domain/entities/user_email_entity.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../models/file_item.dart';
 import '../../domain/entities/user_login_entity.dart';
-import '../../domain/entities/user_profile_entity.dart';
 import '../models/user_profile_model.dart';
 import '../models/user_register_model.dart';
 
@@ -61,30 +61,13 @@ class AuthRepository {
       debugPrint("Login Error: $e");
     }
   }
-  // Future<UserCredential?> loginWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //     if (googleUser != null) {
-  //       final GoogleSignInAuthentication googleAuth =
-  //           await googleUser.authentication;
-  //       final credential = GoogleAuthProvider.credential(
-  //         accessToken: googleAuth.accessToken,
-  //         idToken: googleAuth.idToken,
-  //       );
-  //       final result = await _firebaseAuth.signInWithCredential(credential);
-  //       return result;
-  //     }
-  //   } catch (e) {
-  //     print("Login Error: $e");
-  //     return null;
-  //   }
-  //   return null;
-  // }
 
   Future<UserCredential?> register(UserRegisterModel user) async {
     try {
       final UserEmailEntity? userExised =
           await checkUserAuthorization(user.email);
+      debugPrint(" ===================>  User Existed : $userExised");
+
       if (userExised == null) {
         debugPrint(" ===================>  Email not Authorized");
         return null;
@@ -96,19 +79,34 @@ class AuthRepository {
         password: user.password,
       )
           .then((userCredential) async {
+        // Assign user credential
         userdata = userCredential;
+
+        // Define a variable to hold the image file
         File imageFile;
+
+        // Check if the user has an image
         if (user.image == null) {
+          // Load the default avatar image from assets
           final byteData =
               await rootBundle.load('assets/images/default_avatar.jpg');
-          final file = File(
-              '${(await getTemporaryDirectory()).path}/default_avatar.jpg');
+
+          // Create a temporary file path for the default avatar
+          final tempDir = await getTemporaryDirectory();
+          final defaultAvatarPath = '${tempDir.path}/default_avatar.jpg';
+
+          // Write the default avatar data to the temporary file
+          final file = File(defaultAvatarPath);
           await file.writeAsBytes(byteData.buffer.asUint8List());
+
+          // Assign the default avatar to imageFile
           imageFile = file;
         } else {
-          imageFile = user.image!;
+          // Use the user's provided image
+          imageFile = File(user.image!.filepath);
         }
 
+        // Upload the image file to Firebase Storage and return the result
         return uploadImageToFirebaseStorage(imageFile);
       }).then((filedata) async {
         return addFileToFirestore(
@@ -134,27 +132,57 @@ class AuthRepository {
           imageUrl: file.fileUrl,
         );
         await addUserToFirestore(userProfile);
+        // await _firebaseFirestore
+        //     .collection(Firestore.emails)
+        //     .doc(userExised.id)
+        //     .delete();
       });
 
       return result;
-    } catch (e) {
-      print("Registration Error: $e");
+    } catch (e, stackTrace) {
+      debugPrint("Error deleting user: $e");
+      debugPrint("Stack Trace: $stackTrace");
       return null;
     }
   }
 
-  Future<UserProfileEntity?> updateUser(UserProfileModel user) async {
-    try {
-      await _firebaseFirestore
-          .collection('users')
-          .doc(user.uid)
-          .update(user.toJson());
-      return user; // Return updated user
-    } catch (e) {
-      print("Update Error: $e");
-      return null;
-    }
-  }
+  // Future<void> updateUserEmail(UserEmailEntity email) async {
+  //   try {
+  //     final querySnapshot = await FirebaseFirestore.instance
+  //         .collection('emails')
+  //         .where('email', isEqualTo: email.email)
+  //         .get();
+
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       final doc = querySnapshot.docs.first;
+  //       final String id = doc['id'] as String;
+  //       await FirebaseFirestore.instance.collection('emails').doc(id).delete();
+  //       debugPrint("email deleted with id : $id");
+  //       await _firebaseFirestore.collection('emails').doc(email.id).set({
+  //         'id': email.id,
+  //         'email': email.email,
+  //         'role': email.role,
+  //       });
+
+  //       debugPrint("email deleted with id : ${email.id}");
+  //     }
+  //   } catch (e) {
+  //     debugPrint("error : $e");
+  //   }
+  // }
+
+  // Future<UserProfileEntity?> updateUser(UserProfileModel user) async {
+  //   try {
+  //     await _firebaseFirestore
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .update(user.toJson());
+  //     return user; // Return updated user
+  //   } catch (e) {
+  //     debugPrint("Update Error: $e");
+  //     return null;
+  //   }
+  // }
 
   Future<UserEmailEntity?> checkUserAuthorization(String email) async {
     try {
@@ -190,7 +218,7 @@ class AuthRepository {
         );
       }
     } catch (e) {
-      print("Authorization Check Error: $e");
+      debugPrint("Authorization Check Error: $e");
     }
 
     return null;
@@ -240,18 +268,28 @@ class AuthRepository {
       'role': user.role.index,
     };
     try {
-      await _firebaseFirestore.collection('users').doc(user.uid).set(userData);
+      await _firebaseFirestore
+          .collection(Firestore.users)
+          .doc(user.uid)
+          .set(userData);
+      try {} catch (e) {
+        debugPrint("Error adding user to Firestore: $e");
+      }
+      await _firebaseFirestore
+          .collection(Firestore.years)
+          .doc('2024')
+          .collection(Firestore.authenticated)
+          .doc(user.uid)
+          .set({
+        'uid': user.uid,
+        'firstName': user.firstName,
+        'lastName': user.lastName,
+        'email': user.email,
+        'role': user.role.index,
+        'imageUrl': user.imageUrl,
+      });
     } catch (e) {
-      print("Error adding user to Firestore: $e");
+      debugPrint("Error adding user to Firestore: $e");
     }
   }
-
-  // Future<UserProfileModel?> getUserProfile() async {
-  //   try {
-  //     return _sharedPreferencesRepository.getUserProfile();
-  //   } catch (e) {
-  //     debugPrint("Error deleting user: $e");
-  //     return null;
-  //   }
-  // }
 }

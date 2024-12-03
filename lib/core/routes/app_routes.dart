@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/utils/enums.dart';
+import 'package:studify/src/admin/profile/presentation/views/add_new_users.dart';
 import 'package:studify/src/app.dart';
 
 import '../../src/common/auth/presentation/views/create_new_password_screen.dart';
@@ -178,6 +179,14 @@ class AppRouter {
             StudentCourseDetails(
               arguments: state.extra as Map<String, dynamic>,
             ),
+          ),
+        ),
+        GoRoute(
+          name: RoutesNames.addnewuser,
+          path: RoutesNames.addnewuser,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const AddNewUsers(),
           ),
         ),
       ],

@@ -11,3 +11,8 @@ class AddMatiere extends MatiersEvent {
   final Matiere matiere;
   AddMatiere(this.matiere);
 }
+
+class UpdateMatiere extends MatiersEvent {
+  final Matiere matiere;
+  UpdateMatiere(this.matiere);
+}

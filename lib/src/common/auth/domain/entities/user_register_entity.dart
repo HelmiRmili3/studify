@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import '../../../../../core/utils/enums.dart';
+import '../../../../../models/matiere.dart';
 
 class UserRegisterEntity {
   final String uid;
@@ -13,7 +12,7 @@ class UserRegisterEntity {
   final DateTime birthDay;
   final String phoneNumber;
   final UserGender sexe;
-  final File? image;
+  final FileEntity? image;
 
   UserRegisterEntity({
     required this.uid,

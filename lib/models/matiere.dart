@@ -2,12 +2,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/core/utils/enums.dart';
 
-class File {
+import '../core/utils/helpers.dart';
+
+class FileEntity {
   String filename;
   String filepath;
 
-  File({required this.filename, required this.filepath});
-
+  FileEntity({
+    required this.filename,
+    required this.filepath,
+  });
   // Convert File to JSON
   Map<String, dynamic> toJson() {
     return {
@@ -17,8 +21,8 @@ class File {
   }
 
   // Convert JSON to File
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
+  factory FileEntity.fromJson(Map<String, dynamic> json) {
+    return FileEntity(
       filename: json['filename'],
       filepath: json['filepath'],
     );
@@ -31,7 +35,7 @@ class Doc {
   String id;
   String title;
   String message;
-  List<File> files;
+  List<FileEntity> files;
 
   Doc({
     required this.id,
@@ -57,7 +61,7 @@ class Doc {
       title: json['title'],
       message: json['message'],
       files: (json['files'] as List<dynamic>)
-          .map((file) => File.fromJson(file))
+          .map((file) => FileEntity.fromJson(file))
           .toList(),
     );
   }
@@ -68,20 +72,28 @@ class Doc {
 class Matiere {
   String id;
   String name;
+  String professor;
+  List<double> raitings;
+  List<int> favorites;
   String filiere;
   String description;
-  int part;
+  MatierePart part;
   String coefficient;
   MatiereType type;
+  FileEntity? coverPhoto;
 
   Matiere({
     required this.id,
     required this.name,
+    required this.professor,
+    this.raitings = const [],
+    this.favorites = const [],
     required this.filiere,
     required this.description,
     required this.part,
     required this.coefficient,
     required this.type,
+    required this.coverPhoto,
   });
 
   // Convert Matiere to JSON
@@ -89,11 +101,15 @@ class Matiere {
     return {
       'id': id,
       'name': name,
+      'professor': professor,
+      'raitings': raitings,
+      'favorites': favorites,
       'filiere': filiere,
       'description': description,
-      'part': part,
+      'part': part.index,
       'coefficient': coefficient,
-      'type': type.toString().split('.').last, // Save enum as string
+      'type': type.index,
+      'coverPhoto': coverPhoto?.toJson(),
     };
   }
 
@@ -102,14 +118,15 @@ class Matiere {
     return Matiere(
       id: json['id'],
       name: json['name'],
+      professor: json['professor'],
+      raitings: List<double>.from(json['raitings'] ?? []),
+      favorites: List<int>.from(json['favorites'] ?? []),
       filiere: json['filiere'],
       description: json['description'],
-      part: json['part'],
+      part: convertToEnumPart(json['part']),
       coefficient: json['coefficient'],
-      type: MatiereType.values.firstWhere(
-        (e) => e.toString().split('.').last == json['type'],
-        orElse: () => MatiereType.Cours, // Default value
-      ),
+      type: convertToEnumType(json['type']),
+      coverPhoto: FileEntity.fromJson(json['coverPhoto']),
     );
   }
 
@@ -123,20 +140,28 @@ class Matiere {
   Matiere copyWith({
     String? id,
     String? name,
+    String? professor,
+    List<double>? raitings,
+    List<int>? favorites,
     String? filiere,
     String? description,
-    int? part,
+    MatierePart? part,
     String? coefficient,
     MatiereType? type,
+    FileEntity? coverPhoto,
   }) {
     return Matiere(
       id: id ?? this.id,
       name: name ?? this.name,
+      professor: professor ?? this.professor,
+      raitings: raitings ?? this.raitings,
+      favorites: favorites ?? this.favorites,
       filiere: filiere ?? this.filiere,
       description: description ?? this.description,
       part: part ?? this.part,
       coefficient: coefficient ?? this.coefficient,
       type: type ?? this.type,
+      coverPhoto: coverPhoto ?? this.coverPhoto,
     );
   }
 }

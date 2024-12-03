@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../../core/utils/enums.dart';
+import '../../../../../core/utils/helpers.dart';
 import '../../domain/entities/user_profile_entity.dart';
 
 class UserProfileModel extends UserProfileEntity {
@@ -31,7 +32,7 @@ class UserProfileModel extends UserProfileEntity {
       phoneNumber: json['phoneNumber'] as String,
       sexe: _convertToEnumGender(json['sexe']),
       imageUrl: json['imageUrl'] as String,
-      role: _convertToEnumRole(json['role']),
+      role: convertToEnumRole(json['role']),
     );
   }
 
@@ -43,19 +44,6 @@ class UserProfileModel extends UserProfileEntity {
         return UserGender.female;
       default:
         return UserGender.unknown;
-    }
-  }
-
-  static UserRole _convertToEnumRole(int? roleIndex) {
-    switch (roleIndex) {
-      case 0:
-        return UserRole.admin;
-      case 1:
-        return UserRole.professor;
-      case 2:
-        return UserRole.student;
-      default:
-        return UserRole.unknown;
     }
   }
 

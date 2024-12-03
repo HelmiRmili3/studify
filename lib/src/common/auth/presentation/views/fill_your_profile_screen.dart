@@ -1,15 +1,16 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studify/core/common/widgets/custom_app_bar.dart';
 import 'package:studify/core/utils/enums.dart';
+import 'package:studify/core/utils/file_picker_helper.dart';
+import 'package:studify/models/matiere.dart';
 import 'package:studify/src/common/auth/data/models/user_register_model.dart';
 import 'package:studify/src/common/auth/presentation/widgets/custom_text_filed.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
+import '../../../../../core/routes/route_names.dart';
 import '../blocs/register/register_bloc.dart';
 import '../blocs/register/register_events.dart';
 import '../blocs/register/register_states.dart';
@@ -30,7 +31,7 @@ class FillYourProfileScreen extends StatefulWidget {
 
 class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   final formKey = GlobalKey<FormState>();
-  File? _selectedImage;
+  FileEntity? _selectedImage;
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
@@ -84,6 +85,9 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
               child: Text("Registration failed : ${state.error}"),
             );
           }
+          if (state is RegisterSuccess) {
+            context.pushReplacementNamed(RoutesNames.signin);
+          }
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -99,12 +103,12 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            _selectedImage = await pickImage();
+                            _selectedImage = await FilePickerHelper.pickImage();
                             setState(() {});
                           },
                           child: UserProfileAvatar(
                             imagepath: _selectedImage != null
-                                ? _selectedImage!.path
+                                ? _selectedImage!.filepath
                                 : '',
                           ),
                         ),
@@ -161,7 +165,6 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                                 ),
                               ),
                             );
-                        Navigator.pop(context);
                         // }
                       },
                       text: "Continue",
@@ -180,20 +183,6 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
       ),
     );
   }
-}
-
-Future<File?> pickImage() async {
-  File? image;
-  final picker = await FilePicker.platform.pickFiles(
-    type: FileType.image,
-    allowCompression: true,
-  );
-
-  if (picker != null && picker.files.isNotEmpty) {
-    image = File(picker.files.first.path!);
-  }
-
-  return image;
 }
 
 UserGender stringToEnum(String value) {

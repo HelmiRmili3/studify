@@ -11,8 +11,8 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
     required this.onPressed,
-    this.text, // Optional text
-    this.icon = Icons.arrow_forward_sharp, // Default icon
+    this.text,
+    this.icon = Icons.arrow_forward_sharp,
     required this.backgroundColor,
     required this.foregroundColor,
     this.padding,
@@ -34,10 +34,10 @@ class CustomElevatedButton extends StatelessWidget {
             ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Center the content
-        mainAxisSize: MainAxisSize.min, // Minimize Row's width to content
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (text != null) // Render text only if provided
+          if (text != null)
             Text(
               text!,
               style: TextStyle(
@@ -47,8 +47,7 @@ class CustomElevatedButton extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          if (text != null)
-            const SizedBox(width: 8.0), // Add space between text and icon
+          if (text != null) const SizedBox(width: 8.0),
           Container(
             decoration: BoxDecoration(
               color: foregroundColor,

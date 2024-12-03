@@ -28,7 +28,6 @@ class SplashScreenState extends State<SplashScreen> {
   void _startSplashTimer() async {
     final prefs = await SharedPreferences.getInstance();
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
-
     _timer = Timer(const Duration(seconds: 3), () {
       if (mounted) {
         GoRouter.of(context)
@@ -57,9 +56,7 @@ class SplashScreenState extends State<SplashScreen> {
 
 class AuthenticationHandler extends StatefulWidget {
   final bool isFirstTime;
-
   const AuthenticationHandler({super.key, required this.isFirstTime});
-
   @override
   State<AuthenticationHandler> createState() => _AuthenticationHandlerState();
 }

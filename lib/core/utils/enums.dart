@@ -8,8 +8,6 @@ enum UserGender { male, female, unknown }
 
 enum AppDbMode { local, remote }
 
-enum MatiereType {
-  Cours, // Lecture
-  TD, // Travaux Dirigés (Tutorial)
-  TP, // Travaux Pratiques (Practical Work)
-}
+enum MatiereType { co, td, tp }
+
+enum MatierePart { p1, p2 }

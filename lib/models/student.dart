@@ -1,6 +1,6 @@
 import 'user.dart';
 
-class Student extends User {
+class Student extends UserModel {
   final String major; // E.g., Computer Science
   final String majorId; // E.g., CS101
   final String studentId; // E.g., 123456789

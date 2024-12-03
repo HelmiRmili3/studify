@@ -10,4 +10,10 @@ class FileItem {
     required this.fileUrl,
     required this.uploadDate,
   });
+  Map<String, dynamic> toJson() => {
+        'fileId': fileId,
+        'fileName': fileName,
+        'fileUrl': fileUrl,
+        'uploadDate': uploadDate.toIso8601String(),
+      };
 }

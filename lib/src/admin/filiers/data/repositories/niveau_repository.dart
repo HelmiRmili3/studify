@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:studify/src/common/auth/data/models/user_data_model.dart';
 
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/firestore.dart';
+import '../../../../../core/utils/helpers.dart';
 import '../../../../common/auth/data/models/user_email_model.dart';
 
 class NiveauRepository {
-  Stream<List<UserEmailModel>> streamNiveau(String code) async* {
+  Stream<List<UserDataModel>> streamNiveau(String code) async* {
     try {
       // Fetch the niveaux document to get the list of student IDs
       DocumentSnapshot<Map<String, dynamic>> docSnapshot =
@@ -24,24 +26,26 @@ class NiveauRepository {
             docSnapshot.data()!['emails'] as List<dynamic>;
 
         // List to hold futures of email models
-        List<Future<UserEmailModel?>> emailFutures = studentIds.map((id) async {
-          DocumentSnapshot<Map<String, dynamic>> emailSnapshot =
+        List<Future<UserDataModel?>> emailFutures = studentIds.map((id) async {
+          DocumentSnapshot<Map<String, dynamic>> userSnapshot =
               await FirebaseFirestore.instance
-                  .collection(Firestore.emails)
+                  .collection(Firestore.years)
+                  .doc('2024')
+                  .collection(Firestore.authenticated)
                   .doc(id)
                   .get();
-          if (emailSnapshot.exists && emailSnapshot.data() != null) {
-            // Parse the role correctly when creating the UserEmailModel
-            return UserEmailModel.fromDocument(emailSnapshot.data()!);
+          UserDataModel userData = UserDataModel.fromJson(userSnapshot.data()!);
+          if (userSnapshot.exists && userSnapshot.data() != null) {
+            return userData;
           } else {
-            return null; // Handle documents that might not exist
+            return null;
           }
         }).toList();
 
         // Resolve futures and filter out null values
-        List<UserEmailModel?> emailModels = await Future.wait(emailFutures);
-        List<UserEmailModel> validEmailModels =
-            emailModels.whereType<UserEmailModel>().toList();
+        List<UserDataModel?> emailModels = await Future.wait(emailFutures);
+        List<UserDataModel> validEmailModels =
+            emailModels.whereType<UserDataModel>().toList();
 
         yield validEmailModels;
       } else {
@@ -57,28 +61,32 @@ class NiveauRepository {
     try {
       // Query the "emails" collection to check if an email with the same address already exists
       var emailQuerySnapshot = await FirebaseFirestore.instance
-          .collection(Firestore.emails)
+          .collection(Firestore.years)
+          .doc('2024')
+          .collection(Firestore.authenticated)
           .where('email', isEqualTo: email.email)
           .get();
 
       if (emailQuerySnapshot.docs.isNotEmpty) {
         // If the email already exists, retrieve the id of the email document
-        String existingEmailId = emailQuerySnapshot.docs.first.id;
-        int existingEmailRole = emailQuerySnapshot.docs.first.data()['role'];
-        debugPrint("Email already exists with ID: $existingEmailId");
-        UserRole role = getRoleFromInt(existingEmailRole);
+        UserEmailModel userEmailModel = UserEmailModel(
+          id: emailQuerySnapshot.docs.first.id,
+          email: emailQuerySnapshot.docs.first.data()['email'],
+          role: convertToEnumRole(emailQuerySnapshot.docs.first.data()['role']),
+        );
+        debugPrint("Email already exists with ID: $userEmailModel.id");
+        UserRole role = convertToEnumRole(userEmailModel.role.index);
         if (email.role == role) {
-          List<String> filieres = await getFilieresByUserId(existingEmailId);
-
+          List<String> filieres = await getFilieresByUserId(userEmailModel.id);
           if (role == UserRole.student) {
             if (filieres.isEmpty) {
-              await addFiliereToUser(existingEmailId, niveauCode);
+              await addFiliereToUser(userEmailModel.id, niveauCode);
             } else {
               debugPrint("Student already has a filiere");
               return;
             }
           } else {
-            await addFiliereToUser(existingEmailId, niveauCode);
+            await addFiliereToUser(userEmailModel.id, niveauCode);
           }
 
           // Reference to the "niveaux" document with explicit type
@@ -106,9 +114,9 @@ class NiveauRepository {
             Map<String, dynamic> data = snapshot.data() ?? {};
             List<dynamic> emails = data["emails"] ?? [];
 
-            if (!emails.contains(existingEmailId)) {
+            if (!emails.contains(userEmailModel.id)) {
               // Add the new email ID to the emails list
-              emails.add(existingEmailId);
+              emails.add(userEmailModel.id);
 
               // Update the "emails" field in the document
               transaction.update(niveauRef, {"emails": emails});
@@ -119,59 +127,7 @@ class NiveauRepository {
           });
         }
       } else {
-        // If the email does not exist, add it to the "emails" collection
-        await FirebaseFirestore.instance
-            .collection(Firestore.emails)
-            .doc(email.id) // Using the generated email ID as the document ID
-            .set(email.toJson());
-
-        // Reference to the "niveaux" document with explicit type
-        DocumentReference<Map<String, dynamic>> niveauRef = FirebaseFirestore
-            .instance
-            .collection(Firestore.years)
-            .doc('2024')
-            .collection(Firestore.niveaux)
-            .doc(niveauCode)
-            .withConverter<Map<String, dynamic>>(
-              fromFirestore: (snapshot, _) => snapshot.data()!,
-              toFirestore: (data, _) => data,
-            );
-
-        // Use a transaction to ensure atomicity
-        await FirebaseFirestore.instance.runTransaction((transaction) async {
-          DocumentSnapshot<Map<String, dynamic>> snapshot =
-              await transaction.get(niveauRef);
-
-          if (!snapshot.exists) {
-            throw Exception("Niveau does not exist!");
-          }
-
-          // Safely cast snapshot data to a Map
-          Map<String, dynamic> data = snapshot.data() ?? {};
-          List<dynamic> emails = data["emails"] ?? [];
-
-          if (!emails.contains(email.id)) {
-            // Add the new email ID to the emails list
-            emails.add(email.id);
-
-            // Update the "emails" field in the document
-            transaction.update(niveauRef, {"emails": emails});
-            List<String> filieres = await getFilieresByUserId(email.id);
-            if (email.role == UserRole.student) {
-              if (filieres.isEmpty) {
-                await addFiliereToUser(email.id, niveauCode);
-              } else {
-                debugPrint("Student already has a filiere");
-                return;
-              }
-            } else {
-              await addFiliereToUser(email.id, niveauCode);
-            }
-            debugPrint("Email added successfully!");
-          } else {
-            debugPrint("Email ID is already in the list, skipping addition.");
-          }
-        });
+        debugPrint("=============> User does not exist yiet");
       }
     } catch (e) {
       debugPrint("Error adding email: $e");

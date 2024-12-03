@@ -1,9 +1,13 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studify/core/utils/helpers.dart';
 
+import '../../core/common/blocs/user/user_event.dart';
+import '../../core/common/blocs/user/user_state.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/routes/route_names.dart';
@@ -11,6 +15,7 @@ import 'courses/presentation/views/student_courses.dart';
 import 'home/presentation/views/etudiant_home_screen.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
 import 'profile/presentation/views/student_profile.dart';
+import '../../core/common/blocs/user/user_bloc.dart'; // Import your UserBloc
 
 class EtudiantScreen extends StatefulWidget {
   const EtudiantScreen({super.key});
@@ -20,23 +25,52 @@ class EtudiantScreen extends StatefulWidget {
 }
 
 class _EtudiantState extends State<EtudiantScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserBloc>().add(FetchUser());
+  }
+
   int _selectedIndex = 0;
+
+  PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
+    if (index == 0) {
+      return PreferredSize(
+        preferredSize: Size.fromHeight(100.h),
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state is UserLoaded) {
+              final user = state.user;
+              return CustomStudentAppBar(
+                greeting: 'Hi',
+                userName: user.firstName.capitalizeFirst(),
+                message: "What do you want to learn today?",
+                notificationCount: 7,
+                onNotificationPress: (context) {
+                  GoRouter.of(context)
+                      .pushNamed(RoutesNames.etudiantNotifications);
+                },
+              );
+            }
+            return const CustomAppBar(
+              title: 'Loading...',
+              showBackButton: false,
+            );
+          },
+        ),
+      );
+    }
+    return _appBar[index]!;
+  }
+
   final List<PreferredSizeWidget?> _appBar = [
-    CustomStudentAppBar(
-      greeting: 'Hi',
-      userName: 'Helmi',
-      message: "What do you want to learn today?",
-      notificationCount: 7,
-      onNotificationPress: (context) {
-        GoRouter.of(context).pushNamed(RoutesNames.etudiantNotifications);
-      },
-    ),
+    null,
     const CustomAppBar(
       title: 'Courses',
       showBackButton: false,
     ),
     const CustomAppBar(
-      title: 'Indox',
+      title: 'Inbox',
       showBackButton: false,
     ),
     const CustomAppBar(
@@ -48,6 +82,7 @@ class _EtudiantState extends State<EtudiantScreen> {
       showBackButton: false,
     ),
   ];
+
   final List<Widget> _pages = [
     const StudentHomeScreen(),
     const StudentCourses(),
@@ -85,7 +120,7 @@ class _EtudiantState extends State<EtudiantScreen> {
 
     return Scaffold(
       extendBody: true,
-      appBar: _appBar[_selectedIndex],
+      appBar: _buildAppBar(context, _selectedIndex),
       body: Padding(
         padding: EdgeInsets.only(
           top: 20.h,

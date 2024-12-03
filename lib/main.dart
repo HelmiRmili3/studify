@@ -8,18 +8,19 @@ import 'package:studify/core/routes/app_routes.dart';
 import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
 import 'package:studify/core/common/blocs/theme/theme_state.dart';
 import 'package:studify/firebase_options.dart';
-
 import 'providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    debugPrint('Failed to initialize Firebase: $e');
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // await FirebaseAppCheck.instance.activate(
+  //   androidProvider: AndroidProvider.debug,
+  //   // appleProvider: AppleProvider.debug,
+  // );
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

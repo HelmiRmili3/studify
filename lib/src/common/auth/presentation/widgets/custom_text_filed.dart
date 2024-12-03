@@ -11,6 +11,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
   final bool isPassword;
 
   const CustomTextField({
@@ -20,6 +21,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.onSuffixIconPress,
     required this.controller,
+    this.focusNode,
     this.keyboardType,
     this.validator,
     this.isPassword = false,

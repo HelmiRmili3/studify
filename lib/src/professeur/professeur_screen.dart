@@ -1,14 +1,21 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studify/core/utils/helpers.dart';
 import 'package:studify/src/professeur/courses/presentation/views/professor_courses.dart';
 import 'package:studify/src/professeur/home/presentation/views/professor_home.dart';
 import 'package:studify/src/professeur/profile/presentation/views/professor_profile.dart';
 
+import '../../core/common/blocs/user/user_bloc.dart';
+import '../../core/common/blocs/user/user_event.dart';
+import '../../core/common/blocs/user/user_state.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
+import '../../core/routes/route_names.dart';
 
 class ProfessorScreen extends StatefulWidget {
   const ProfessorScreen({super.key});
@@ -18,15 +25,46 @@ class ProfessorScreen extends StatefulWidget {
 }
 
 class _ProfesseurState extends State<ProfessorScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserBloc>().add(FetchUser());
+  }
+
   int _selectedIndex = 0;
 
+  PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
+    if (index == 0) {
+      return PreferredSize(
+        preferredSize: Size.fromHeight(100.h),
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state is UserLoaded) {
+              final user = state.user;
+              return CustomStudentAppBar(
+                greeting: 'Hi',
+                userName: user.firstName.capitalizeFirst(),
+                message: "What do you want to do today?",
+                notificationCount: 7,
+                onNotificationPress: (context) {
+                  GoRouter.of(context)
+                      .pushNamed(RoutesNames.professorNotifications);
+                },
+              );
+            }
+            return const CustomAppBar(
+              title: 'Loading...',
+              showBackButton: false,
+            );
+          },
+        ),
+      );
+    }
+    return _appBar[index]!;
+  }
+
   final List<PreferredSizeWidget?> _appBar = [
-    CustomStudentAppBar(
-      greeting: 'Hi',
-      userName: 'Mariem',
-      message: "What do you want to do today?",
-      onNotificationPress: () {},
-    ),
+    null,
     const CustomAppBar(
       title: 'Courses',
       showBackButton: false,
@@ -64,7 +102,7 @@ class _ProfesseurState extends State<ProfessorScreen> {
 
     return Scaffold(
       extendBody: true,
-      appBar: _appBar[_selectedIndex],
+      appBar: _buildAppBar(context, _selectedIndex),
       body: Padding(
         padding: EdgeInsets.only(
           top: 20.h,

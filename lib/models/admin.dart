@@ -1,6 +1,6 @@
 import 'user.dart';
 
-class Admin extends User {
+class Admin extends UserModel {
   final bool isSuperAdmin;
 
   Admin({
