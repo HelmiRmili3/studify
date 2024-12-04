@@ -36,7 +36,7 @@ class _EtudiantState extends State<EtudiantScreen> {
   PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
     if (index == 0) {
       return PreferredSize(
-        preferredSize: Size.fromHeight(100.h),
+        preferredSize: Size.fromHeight(110.h),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             if (state is UserLoaded) {

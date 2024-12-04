@@ -10,7 +10,6 @@ import 'src/admin/filiers/presentation/bloc/niveaux/niveau_bloc.dart';
 import 'src/admin/profile/presentation/bloc/users/users_events.dart';
 import 'src/common/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'src/common/auth/presentation/blocs/auth/auth_events.dart';
-import 'src/common/auth/presentation/blocs/register/register_bloc.dart';
 import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
 
 List<Provider> porviders = [
@@ -18,7 +17,7 @@ List<Provider> porviders = [
   Provider<OnboardingBloc>(create: (_) => OnboardingBloc(3)),
   Provider<AuthBloc>(create: (_) => AuthBloc()..add(AuthStarted())),
   Provider<UserBloc>(create: (_) => UserBloc()),
-  Provider<RegisterBloc>(create: (_) => RegisterBloc()),
+  // Provider<RegisterBloc>(create: (_) => RegisterBloc()),
   Provider<FiliereBloc>(create: (context) => FiliereBloc()),
   Provider<NiveauBloc>(create: (context) => NiveauBloc()),
   Provider<MatiersBloc>(create: (context) => MatiersBloc()),

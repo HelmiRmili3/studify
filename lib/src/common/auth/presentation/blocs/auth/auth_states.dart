@@ -23,3 +23,12 @@ class AuthenticationFailure extends AuthState {
   final String error;
   AuthenticationFailure(this.error);
 }
+
+class RegisterSuccess extends AuthState {
+  RegisterSuccess();
+}
+
+class RegisterFailure extends AuthState {
+  final String error;
+  RegisterFailure(this.error);
+}

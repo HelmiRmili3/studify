@@ -27,9 +27,6 @@ class AuthRepository {
         email: userdata.email.trim(),
         password: userdata.password.trim(),
       );
-
-      UserProfileModel? userProfile = await getUser(result.user!.uid);
-      debugPrint("User Profile: $userProfile");
       return result;
     } catch (e) {
       debugPrint("Login Error: $e");
@@ -138,7 +135,7 @@ class AuthRepository {
         //     .delete();
       });
 
-      return result;
+      return userdata;
     } catch (e, stackTrace) {
       debugPrint("Error deleting user: $e");
       debugPrint("Stack Trace: $stackTrace");

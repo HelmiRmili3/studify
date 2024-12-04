@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../data/models/user_profile_model.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../domain/entities/user_login_entity.dart';
 import 'auth_events.dart';
 import 'auth_states.dart';
 
@@ -13,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(AuthInitial()) {
     on<AuthStarted>(_onAuthStarted);
+    on<RegisterRequested>(_onRegisterRequested);
     on<AuthLoggedIn>(_onAuthLoggedIn);
     on<AuthLoggedOut>(_onAuthLoggedOut);
   }
@@ -29,21 +31,46 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  Future<void> _onRegisterRequested(
+      RegisterRequested event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await authRepository.register(event.user).then((userCredential) async {
+        return await authRepository.getUser(userCredential!.user!.uid);
+      }).then((_) {
+        UserLoginEntity user = UserLoginEntity(
+          email: event.user.email,
+          password: event.user.password,
+        );
+        add(AuthLoggedIn(user));
+      });
+    } catch (e) {
+      debugPrint("Error in _onRegisterRequested: $e");
+      emit(RegisterFailure("Error registering user"));
+    }
+  }
+
   Future<void> _onAuthLoggedIn(
       AuthLoggedIn event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+    debugPrint("AuthLoggedIn: Attempting login...");
     try {
       UserCredential? userCredential = await authRepository.login(event.user);
-      debugPrint("User Credential: $userCredential");
+      debugPrint("AuthLoggedIn: UserCredential = $userCredential");
+
       if (userCredential != null) {
         UserProfileModel? userProfile =
             await authRepository.getUser(userCredential.user!.uid);
-        debugPrint("User Profile: ${userProfile!.toJson()}");
-        emit(Authenticated("User logged in", userProfile));
+        debugPrint("AuthLoggedIn: UserProfile = $userProfile");
+
+        if (userProfile != null) {
+          emit(Authenticated("User logged in", userProfile));
+          return;
+        }
       }
     } catch (e) {
-      debugPrint("Error login user in AuthloggedIn event $e");
-      emit(Unauthenticated());
+      debugPrint("AuthLoggedIn: Error = $e");
+      emit(AuthenticationFailure(e.toString()));
     }
   }
 
@@ -53,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await authRepository.logout();
       emit(Unauthenticated());
     } catch (e) {
-      debugPrint("Error logout user in AuthloggedOut event $e");
+      debugPrint("Error logging out user in AuthLoggedOut event: $e");
     }
   }
 }

@@ -79,7 +79,7 @@ class _AddNewUsersState extends State<AddNewUsers> {
                           showConfirmationDialog(context, 'add', () {
                             String id = const Uuid().v1();
                             String email =
-                                'example.${id[0]}${id[3]}am${id[5]}le@gmail.com';
+                                'example.${id[0]}${id[3]}am${id[5]}le@isimg.tn';
                             context.read<UsersBloc>().add(
                                   AddUser(
                                     UserEmailModel(
