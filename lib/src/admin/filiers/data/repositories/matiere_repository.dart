@@ -29,17 +29,10 @@ class MatiereRepository {
     });
   }
 
-  Future<UserModel> getUserById(String id) async {
+  Future<UserModel> getUserById(String uid) async {
     try {
-      final doc = await _firestore
-          .collection(Firestore.years)
-          .doc('2024')
-          .collection(Firestore.users)
-          .doc(id)
-          .get();
-      if (!doc.exists) {
-        throw Exception('User not found');
-      }
+      final doc = await _firestore.collection(Firestore.users).doc(uid).get();
+
       return UserModel.fromMap(doc.data()!);
     } catch (e) {
       throw Exception('Failed to fetch user: $e');
@@ -82,6 +75,16 @@ class MatiereRepository {
     final file = File(defaultAvatarPath);
     await file.writeAsBytes(byteData.buffer.asUint8List());
     return file;
+  }
+
+  Future<FileEntity?> uploadImageToFirebaseStorage(File imageFile) async {
+    String name = imageFile.path.split('/').last;
+    final Reference storageReference =
+        _firebaseStorage.ref().child('images/$name');
+    final UploadTask uploadTask = storageReference.putFile(imageFile);
+    await uploadTask.whenComplete(() => null);
+    final String imageUrl = await storageReference.getDownloadURL();
+    return FileEntity(filename: name, filepath: imageUrl);
   }
 
   /// Upload the image to Firebase Storage and save the file details
@@ -175,20 +178,12 @@ class MatiereRepository {
           .doc(matiere.id)
           .get();
       debugPrint("Matiere updated in Firestore with ID: ${matiere.id}");
+      debugPrint("Matiere updated : ${doc.data()}");
+
       return Matiere.fromDocument(doc);
     } catch (e) {
       throw Exception('Error updating matiere: $e');
     }
-  }
-
-  Future<FileEntity?> uploadImageToFirebaseStorage(File imageFile) async {
-    String name = imageFile.path.split('/').last;
-    final Reference storageReference =
-        _firebaseStorage.ref().child('images/$name');
-    final UploadTask uploadTask = storageReference.putFile(imageFile);
-    await uploadTask.whenComplete(() => null);
-    final String imageUrl = await storageReference.getDownloadURL();
-    return FileEntity(filename: name, filepath: imageUrl);
   }
 
   Future<FileItem> addFileToFirestore(FileItem file) async {

@@ -11,15 +11,20 @@ import 'src/admin/profile/presentation/bloc/users/users_events.dart';
 import 'src/common/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'src/common/auth/presentation/blocs/auth/auth_events.dart';
 import 'src/common/on_boarding/presentation/blocs/onboarding/onboarding_bloc.dart';
+import 'src/professeur/home/presentation/blocs/filieres/professor_filieres_bloc.dart';
+import 'src/professeur/home/presentation/blocs/home/home_bloc.dart';
 
 List<Provider> porviders = [
   Provider<ThemeBloc>(create: (_) => ThemeBloc()..add(LoadThemeEvent())),
   Provider<OnboardingBloc>(create: (_) => OnboardingBloc(3)),
   Provider<AuthBloc>(create: (_) => AuthBloc()..add(AuthStarted())),
   Provider<UserBloc>(create: (_) => UserBloc()),
-  // Provider<RegisterBloc>(create: (_) => RegisterBloc()),
   Provider<FiliereBloc>(create: (context) => FiliereBloc()),
   Provider<NiveauBloc>(create: (context) => NiveauBloc()),
   Provider<MatiersBloc>(create: (context) => MatiersBloc()),
   Provider<UsersBloc>(create: (context) => UsersBloc()..add(FetchUsers())),
+  Provider<HomeBloc>(create: (context) => HomeBloc()),
+  Provider<ProfessorFilieresBloc>(
+    create: (context) => ProfessorFilieresBloc(),
+  ),
 ];

@@ -9,9 +9,15 @@ class AppLogo extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Image.asset(
-          'assets/images/all_logo.png',
-          width: 300.0.w,
+        SizedBox(
+          height: 250.0.h,
+          width: 200.0.w,
+          child: Image.asset(
+            'assets/images/all_logo_bleu_black.png',
+            width: 200.0.w,
+            height: 200.0.h,
+            opacity: const AlwaysStoppedAnimation(0.8),
+          ),
         ),
       ],
     );

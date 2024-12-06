@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:studify/models/filiere.dart';
 
 class FilieresList extends StatefulWidget {
-  final List<String> filieres;
+  final List<Filiere> filieres;
   final Function(int) onItemTap;
 
   const FilieresList({
@@ -19,22 +17,6 @@ class FilieresList extends StatefulWidget {
 }
 
 class _ProfessorListState extends State<FilieresList> {
-  bool isLoading = true;
-
-  late Timer timer;
-
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -59,39 +41,23 @@ class _ProfessorListState extends State<FilieresList> {
                     width: 70.w,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.r),
-                      child: Image.asset(
-                        "assets/images/lisi.png",
-                        fit: BoxFit.fill,
-                      ),
+                      child: Image.asset("assets/images/lisi.png",
+                          fit: BoxFit.fill),
                     ),
                   ),
                   SizedBox(height: 5.h),
-                  isLoading
-                      ? Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.white,
-                          child: Container(
-                            width: 60.w,
-                            height: 14.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: Colors.grey.withOpacity(0.3),
-                            ),
+                  Flexible(
+                    child: Text(
+                      widget.filieres[index].code.toUpperCase(),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 12.sp,
+                            fontFamily: 'Mulish',
+                            fontWeight: FontWeight.w500,
                           ),
-                        )
-                      : Flexible(
-                          child: Text(
-                            widget.filieres[index],
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontSize: 12.sp,
-                                      fontFamily: 'Mulish',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),

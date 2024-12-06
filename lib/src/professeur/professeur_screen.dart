@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studify/core/utils/helpers.dart';
 import 'package:studify/src/professeur/courses/presentation/views/professor_courses.dart';
 import 'package:studify/src/professeur/home/presentation/views/professor_home.dart';
 import 'package:studify/src/professeur/profile/presentation/views/professor_profile.dart';
@@ -43,7 +42,7 @@ class _ProfesseurState extends State<ProfessorScreen> {
               final user = state.user;
               return CustomStudentAppBar(
                 greeting: 'Hi',
-                userName: user.firstName.capitalizeFirst(),
+                user: user,
                 message: "What do you want to do today?",
                 notificationCount: 7,
                 onNotificationPress: (context) {
@@ -65,14 +64,8 @@ class _ProfesseurState extends State<ProfessorScreen> {
 
   final List<PreferredSizeWidget?> _appBar = [
     null,
-    const CustomAppBar(
-      title: 'Courses',
-      showBackButton: false,
-    ),
-    const CustomAppBar(
-      title: 'Profile',
-      showBackButton: false,
-    ),
+    const CustomAppBar(title: 'Courses', showBackButton: false),
+    const CustomAppBar(title: 'Profile', showBackButton: false),
   ];
 
   final List<Widget> _pages = [

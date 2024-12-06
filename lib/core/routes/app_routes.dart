@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studify/core/utils/enums.dart';
 import 'package:studify/src/admin/profile/presentation/views/add_new_users.dart';
 import 'package:studify/src/app.dart';
+import 'package:studify/src/professeur/courses/presentation/views/professor_matiere_details.dart';
 
 import '../../src/common/auth/presentation/views/create_new_password_screen.dart';
 import '../../src/common/auth/presentation/views/fill_your_profile_screen.dart';
@@ -145,6 +146,15 @@ class AppRouter {
           pageBuilder: (context, state) => slideTransition(
             state,
             const ProfessorScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.professorMatiereDetailes,
+          name: RoutesNames.professorMatiereDetailes,
+          pageBuilder: (context, state) => slideTransition(
+            state,
+            ProfessorMatiereDetails(
+                arguments: state.extra as Map<String, dynamic>),
           ),
         ),
         GoRoute(

@@ -41,12 +41,19 @@ dependencies:
 
 dev_dependencies:
   launcher_name: ^1.0.2
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
 launcher_name:
   default: "Studify"
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
 flutter:
+  generate: true
   uses-material-design: true
 
   fonts:
@@ -65,11 +72,12 @@ flutter:
         - asset: assets/fonts/Mulish-Italic.ttf
           style: italic
   assets:
-    - assets/images/default_avatar.png
-    - assets/images/default_avatar.jpg
-    - assets/images/all_logo.png
-    - assets/images/homebg.png
-    - assets/images/onboarding1.png
-    - assets/images/onboarding2.png
-    - assets/images/placeholder.png
-    - assets/images/lisi.png
+    - assets/images/
+    # - assets/images/default_avatar.jpg
+    # - assets/images/all_logo.png
+    # - assets/images/homebg.png
+    # - assets/images/onboarding1.png
+    # - assets/images/onboarding2.png
+    # - assets/images/placeholder.png
+    # - assets/images/lisi.png
+    - assets/icon/

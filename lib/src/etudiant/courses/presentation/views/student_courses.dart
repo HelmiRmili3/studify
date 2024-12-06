@@ -97,17 +97,6 @@ class _StudentCoursesState extends State<StudentCourses> {
               final course = courses[index];
               return GestureDetector(
                 onTap: () {
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   '/student_course_details',
-                  //   arguments: {
-                  //     'teacher': course['teacher'],
-                  //     'course': course['course'],
-                  //     'price': course['price'],
-                  //     'rating': course['rating'],
-                  //     'students': course['students'],
-                  //   },
-                  // );
                   context.push(
                     RoutesNames.etudiantCourseDetails,
                     extra: course,

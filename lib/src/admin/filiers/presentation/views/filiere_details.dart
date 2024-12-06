@@ -114,7 +114,14 @@ class _FiliereDetailsState extends State<FiliereDetails> {
 
                     professorsEmails = emails
                         .where((email) => email.role == UserRole.professor)
-                        .toList();
+                        .toList()
+                      ..add(UserDataModel(
+                        id: "null",
+                        email: "",
+                        role: UserRole.professor,
+                        firstName: '',
+                        lastName: '',
+                      ));
                     final List<UserDataModel> professors = emails
                         .where((email) => email.role == UserRole.professor)
                         .toList();
@@ -183,7 +190,7 @@ class _FiliereDetailsState extends State<FiliereDetails> {
                               },
                               child: Container(
                                 width: double.infinity,
-                                height: 150.h,
+                                height: 160.h,
                                 margin: EdgeInsets.only(bottom: 10.h),
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).splashColor,
@@ -257,12 +264,13 @@ class _FiliereDetailsState extends State<FiliereDetails> {
                                             SizedBox(height: 5.h),
                                             Text(
                                               matiere.name,
+                                              maxLines: 3,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium
                                                   ?.copyWith(
                                                     fontFamily: 'Jost',
-                                                    fontSize: 16.sp,
+                                                    fontSize: 14.sp,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                             ),

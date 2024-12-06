@@ -28,10 +28,15 @@ class CurriculumTabContent extends StatelessWidget {
           const SizedBox(height: 20),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.zero,
-              children: curriculum,
-            ),
+                children: curriculum.map((item) {
+              return CurriculumItem(
+                title: item.title,
+                time: item.time,
+                index: item.index,
+              );
+            }).toList()),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

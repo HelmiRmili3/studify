@@ -17,13 +17,25 @@ class TabSection extends StatefulWidget {
 class TabSectionState extends State<TabSection> {
   final List<CurriculumItem> curriculum = [
     const CurriculumItem(
-        title: "Introduction to Flutter", time: "20 Mins", index: "01"),
+      title: "Introduction to Flutter",
+      time: "20 Mins",
+      index: "01",
+    ),
     const CurriculumItem(
-        title: "Understanding Dart Basics", time: "25 Mins", index: "02"),
+      title: "Understanding Dart Basics",
+      time: "25 Mins",
+      index: "02",
+    ),
     const CurriculumItem(
-        title: "Building Layouts in Flutter", time: "15 Mins", index: "03"),
+      title: "Mini Project: developpement mobile multiplateforme",
+      time: "15 Mins",
+      index: "03",
+    ),
     const CurriculumItem(
-        title: "State Management", time: "30 Mins", index: "04"),
+      title: "State Management",
+      time: "30 Mins",
+      index: "04",
+    ),
   ];
 
   @override

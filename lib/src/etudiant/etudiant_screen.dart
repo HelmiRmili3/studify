@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studify/core/utils/helpers.dart';
 
 import '../../core/common/blocs/user/user_event.dart';
 import '../../core/common/blocs/user/user_state.dart';
@@ -43,7 +42,7 @@ class _EtudiantState extends State<EtudiantScreen> {
               final user = state.user;
               return CustomStudentAppBar(
                 greeting: 'Hi',
-                userName: user.firstName.capitalizeFirst(),
+                user: user,
                 message: "What do you want to learn today?",
                 notificationCount: 7,
                 onNotificationPress: (context) {

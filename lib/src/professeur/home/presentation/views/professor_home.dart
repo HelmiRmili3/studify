@@ -1,13 +1,22 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/src/professeur/home/presentation/blocs/filieres/professor_filieres_bloc.dart';
 
 import '../../../../../core/common/widgets/custom_search_filed.dart';
 import '../../../../../models/card_data.dart';
-import '../../../../etudiant/home/presentation/widgets/courses_list.dart';
 import '../../../../etudiant/home/presentation/widgets/custom_row_title.dart';
 
+import '../blocs/filieres/professor_filieres_events.dart';
+import '../blocs/filieres/professor_filieres_states.dart';
+import '../blocs/home/home_bloc.dart';
+import '../blocs/home/home_events.dart';
+import '../blocs/home/home_states.dart';
+import '../widgets/filieres_loading_effect.dart';
+import '../widgets/matieres_loading_effect.dart';
+import '../widgets/professor_matieres_list.dart';
 import '../widgets/schedule_list_card_professor.dart';
 import '../widgets/filieres_list.dart';
 
@@ -20,6 +29,12 @@ class ProfessorHome extends StatefulWidget {
 
 class _ProfessorHomeState extends State<ProfessorHome> {
   TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(LoadMatieres());
+    context.read<ProfessorFilieresBloc>().add(LoadFilieres());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,50 +50,6 @@ class _ProfessorHomeState extends State<ProfessorHome> {
       'Courses',
       'Traveaux dirigé',
       'Traveaux pratiques',
-    ];
-    List<Map<String, dynamic>> courses = [
-      {
-        "teacher": "John Doe",
-        "course": "Flutter Development",
-        "price": 100.0,
-        "rating": 4.5,
-        "students": 150,
-      },
-      {
-        "teacher": "Alice Smith",
-        "course": "React Native Bootcamp",
-        "price": 120.0,
-        "rating": 4.7,
-        "students": 200,
-      },
-      {
-        "teacher": "Robert Johnson",
-        "course": "Python for Data Science",
-        "price": 90.0,
-        "rating": 4.8,
-        "students": 300,
-      },
-      {
-        "teacher": "Emma Wilson",
-        "course": "Web Development with JavaScript",
-        "price": 80.0,
-        "rating": 4.3,
-        "students": 250,
-      },
-      {
-        "teacher": "Chris Brown",
-        "course": "Machine Learning Basics",
-        "price": 150.0,
-        "rating": 4.9,
-        "students": 180,
-      },
-    ];
-    final List<String> filieres = [
-      'LISI1',
-      'MPSEIOT2',
-      'MPSEIOT3',
-      'LISI2',
-      'LISI3',
     ];
 
     return SingleChildScrollView(
@@ -173,19 +144,45 @@ class _ProfessorHomeState extends State<ProfessorHome> {
             onViewAll: () {},
           ),
           SizedBox(height: 20.h),
-          CoursesList(courses: courses),
+          BlocBuilder<HomeBloc, HomeStates>(
+            builder: (context, state) {
+              if (state is MatieresLoading) {
+                return const MatieresLoadingEffect();
+              }
+              if (state is MatieresError) {
+                return Center(child: Text(state.message));
+              }
+              if (state is MatieresLoaded) {
+                return CoursesList(matieres: state.matieres);
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
           SizedBox(height: 20.h),
           CustomRowTitle(
-            title: "Filiers",
+            title: "Filieres",
             onViewAll: () {},
           ),
           SizedBox(height: 20.h),
-          FilieresList(
-            filieres: filieres,
-            onItemTap: (index) {
-              debugPrint('Tapped on ${filieres[index]}');
-            },
-          ),
+          BlocBuilder<ProfessorFilieresBloc, ProfessorFilieresStates>(
+              builder: (context, state) {
+            if (state is FilieresLoading) {
+              return const FilieresLoadingEffect();
+            }
+            if (state is FilieresError) {
+              return Center(child: Text(state.message));
+            }
+            if (state is FilieresLoaded) {
+              return FilieresList(
+                filieres: state.filieres,
+                onItemTap: (index) {
+                  debugPrint('Tapped on ${state.filieres[index].filiere}');
+                },
+              );
+            }
+            return const SizedBox.shrink();
+          }),
           SizedBox(height: 90.h),
         ],
       ),

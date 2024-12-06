@@ -29,6 +29,7 @@ class RoutesNames {
   static const String professorNotifications = '/professor-notifications';
   static const String professorProfile = '/professor-profile';
   static const String professorCourses = '/professor-courses';
+  static const String professorMatiereDetailes = '/professor-matiere_details';
 
   // admin routes
   static const String admin = '/admin';

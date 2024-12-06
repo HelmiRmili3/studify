@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/core/utils/helpers.dart';
+import 'package:studify/models/user.dart';
 
 import '../../../src/etudiant/home/presentation/widgets/notification_icon.dart';
 
 class CustomStudentAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final String userName;
+  final UserModel user;
   final String? greeting;
   final String? message;
   final int notificationCount;
@@ -13,7 +15,7 @@ class CustomStudentAppBar extends StatelessWidget
 
   const CustomStudentAppBar({
     super.key,
-    required this.userName,
+    required this.user,
     this.greeting,
     this.message,
     this.notificationCount = 0,
@@ -27,59 +29,95 @@ class CustomStudentAppBar extends StatelessWidget
         padding: EdgeInsets.all(16.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 30),
-                Row(
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(
+                      width: 60,
+                      height: 60,
+                      user.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    greeting != null
+                    const SizedBox(height: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        greeting != null
+                            ? Text(
+                                "$greeting,",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(
+                                      fontFamily: 'Jost',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24.sp,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                              )
+                            : const SizedBox(),
+                        Text(
+                          " ${user.firstName}".capitalizeFirst(),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontFamily: 'Jost',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.sp,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    message != null
                         ? Text(
-                            "$greeting,",
+                            "$message",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
                                 ?.copyWith(
-                                  fontFamily: 'Jost',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24.sp,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 13.sp,
                                   color: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
                                       ?.color,
                                 ),
                           )
-                        : const SizedBox(),
-                    Text(
-                      " $userName",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontFamily: 'Jost',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.sp,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                    ),
+                        : SizedBox(height: 20.h),
                   ],
                 ),
-                SizedBox(height: 8.h),
-                message != null
-                    ? Text(
-                        "$message",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontFamily: 'Mulish',
-                              fontSize: 13.sp,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color,
-                            ),
-                      )
-                    : SizedBox(height: 20.h),
               ],
             ),
-            NotificationIconWithCircle(
-              onPress: () => onNotificationPress(context),
-              notificationCount: notificationCount,
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: NotificationIconWithCircle(
+                onPress: () => onNotificationPress(context),
+                notificationCount: notificationCount,
+              ),
             ),
           ],
         ),

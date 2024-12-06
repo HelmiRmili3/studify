@@ -31,7 +31,6 @@ class _StudentCourseDetailsState extends State<StudentCourseDetails>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Set the status bar color
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark

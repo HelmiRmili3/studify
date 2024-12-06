@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studify/core/utils/helpers.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../../../models/matiere.dart';
 import '../../../../common/auth/data/models/user_data_model.dart';
 import '../widgets/email_dropdown.dart';
@@ -21,17 +22,20 @@ class MatiereDetails extends StatefulWidget {
 class _MatiereDetailsState extends State<MatiereDetails> {
   @override
   void initState() {
-    print('professor: ${widget.professorsEmails.length}');
-    print('matiere: ${widget.matiere.professor}');
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     UserDataModel? selectedProfessor = widget.professorsEmails
-        .where((professor) => professor.id == widget.matiere.professor)
-        .first;
+        .firstWhere((professor) => professor.id == widget.matiere.professor,
+            orElse: () => UserDataModel(
+                  id: "null",
+                  email: "",
+                  role: UserRole.professor,
+                  firstName: '',
+                  lastName: '',
+                ));
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -50,14 +54,27 @@ class _MatiereDetailsState extends State<MatiereDetails> {
           children: [
             ClipRRect(
               child: Container(
-                width: double.infinity,
-                height: 200.h,
-                color: Colors.grey[300],
-                child: Image.network(
-                  widget.matiere.coverPhoto!.filepath,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  width: double.infinity,
+                  height: 200.h,
+                  color: Colors.grey[300],
+                  child: Image.network(
+                    widget.matiere.coverPhoto!.filepath,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error);
+                    },
+                  )),
             ),
             Expanded(
               child: Padding(
@@ -66,7 +83,7 @@ class _MatiereDetailsState extends State<MatiereDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.matiere.name,
+                      widget.matiere.name.capitalizeFirst(),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontFamily: 'Jost',
                             fontSize: 16.sp,

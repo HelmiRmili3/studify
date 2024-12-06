@@ -1,8 +1,13 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studify/core/routes/route_names.dart';
 
+import '../../core/common/blocs/user/user_bloc.dart';
+import '../../core/common/blocs/user/user_state.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
@@ -18,12 +23,38 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> {
   int _selectedIndex = 0;
+  PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
+    if (index == 0) {
+      return PreferredSize(
+        preferredSize: Size.fromHeight(100.h),
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state is UserLoaded) {
+              final user = state.user;
+              return CustomStudentAppBar(
+                greeting: 'Hi',
+                user: user,
+                message: "What do you want to do today?",
+                notificationCount: 7,
+                onNotificationPress: (context) {
+                  GoRouter.of(context)
+                      .pushNamed(RoutesNames.professorNotifications);
+                },
+              );
+            }
+            return const CustomAppBar(
+              title: 'Loading...',
+              showBackButton: false,
+            );
+          },
+        ),
+      );
+    }
+    return _appBar[index]!;
+  }
 
   final List<PreferredSizeWidget?> _appBar = [
-    CustomStudentAppBar(
-      userName: 'Admin',
-      onNotificationPress: () {},
-    ),
+    null,
     const CustomAppBar(title: 'Profile', showBackButton: false),
   ];
 
@@ -52,7 +83,7 @@ class _AdminState extends State<Admin> {
 
     return Scaffold(
       extendBody: true,
-      appBar: _appBar[_selectedIndex],
+      appBar: _buildAppBar(context, _selectedIndex),
       body: Padding(
         padding: EdgeInsets.only(
           top: 20.h,

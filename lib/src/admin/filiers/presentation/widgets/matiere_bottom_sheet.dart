@@ -151,7 +151,7 @@ class MatiereBottomSheetState extends State<MatiereBottomSheet> {
                             final newMatiere = Matiere(
                               id: id,
                               name: name,
-                              professor: '',
+                              professor: 'null',
                               raitings: [],
                               favorites: [],
                               filiere: widget.code,
