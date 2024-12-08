@@ -96,10 +96,7 @@ class _ProfessorHomeState extends State<ProfessorHome> {
             ],
           ),
           SizedBox(height: 20.h),
-          CustomRowTitle(
-            title: "Categories",
-            onViewAll: () {},
-          ),
+          CustomRowTitle(title: "Categories", onViewAll: () {}),
           SizedBox(height: 20.h),
           SizedBox(
             height: 30.h,
@@ -139,10 +136,7 @@ class _ProfessorHomeState extends State<ProfessorHome> {
             ),
           ),
           SizedBox(height: 20.h),
-          CustomRowTitle(
-            title: "Your Courses",
-            onViewAll: () {},
-          ),
+          CustomRowTitle(title: "Your Courses", onViewAll: () {}),
           SizedBox(height: 20.h),
           BlocBuilder<HomeBloc, HomeStates>(
             builder: (context, state) {

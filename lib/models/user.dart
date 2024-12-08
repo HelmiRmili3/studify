@@ -12,6 +12,7 @@ class UserModel {
   final DateTime updatedAt;
   final DateTime birthDay;
   final String phoneNumber;
+  final UserRole role;
   final UserGender sexe;
   final String imageUrl;
 
@@ -24,6 +25,7 @@ class UserModel {
     required this.updatedAt,
     required this.birthDay,
     required this.phoneNumber,
+    required this.role,
     required this.sexe,
     required this.imageUrl,
   });
@@ -39,6 +41,7 @@ class UserModel {
       'updatedAt': updatedAt.toIso8601String(),
       'birthDay': birthDay.toIso8601String(),
       'phoneNumber': phoneNumber,
+      'role': role,
       'sexe': sexe,
       'imageUrl': imageUrl,
     };
@@ -55,6 +58,7 @@ class UserModel {
       updatedAt: (map['updatedAt'] as Timestamp).toDate(),
       birthDay: (map['birthDay'] as Timestamp).toDate(),
       phoneNumber: map['phoneNumber'],
+      role: convertToEnumRole(map['role']),
       sexe: convertToEnumGender(map['sexe']),
       imageUrl: map['imageUrl'],
     );

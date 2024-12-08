@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'fading_circle_loading_indicator.dart';
+
 void showLoadingOverlay(BuildContext context) {
   final overlay = Overlay.of(context);
   final overlayEntry = OverlayEntry(
@@ -7,9 +9,7 @@ void showLoadingOverlay(BuildContext context) {
       child: Material(
         color: Colors.black.withOpacity(0.5),
         child: const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
+          child: FadingCircleLoadingIndicator(),
         ),
       ),
     ),

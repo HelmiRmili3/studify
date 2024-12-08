@@ -27,15 +27,16 @@ class _MatiereDetailsState extends State<MatiereDetails> {
 
   @override
   Widget build(BuildContext context) {
-    UserDataModel? selectedProfessor = widget.professorsEmails
-        .firstWhere((professor) => professor.id == widget.matiere.professor,
-            orElse: () => UserDataModel(
-                  id: "null",
-                  email: "",
-                  role: UserRole.professor,
-                  firstName: '',
-                  lastName: '',
-                ));
+    UserDataModel? selectedProfessor = widget.professorsEmails.firstWhere(
+      (professor) => professor.id == widget.matiere.professor,
+      orElse: () => UserDataModel(
+        id: "null",
+        email: "The professor is not found",
+        role: UserRole.professor,
+        firstName: 'Empty',
+        lastName: 'Empty',
+      ),
+    );
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,

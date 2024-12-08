@@ -47,7 +47,7 @@ class _ProfesseurState extends State<ProfessorScreen> {
                 notificationCount: 7,
                 onNotificationPress: (context) {
                   GoRouter.of(context)
-                      .pushNamed(RoutesNames.professorNotifications);
+                      .pushNamed(RoutesNames.professorNotificationsScreen);
                 },
               );
             }

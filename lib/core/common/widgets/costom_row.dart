@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomRow extends StatelessWidget {
   final IconData icon;
   final String title;
-  final VoidCallback onTap; // Added onTap
+  final VoidCallback onTap;
 
   const CustomRow({
     super.key,
@@ -17,13 +17,12 @@ class CustomRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      splashColor: Theme.of(context)
-          .primaryColor
-          .withOpacity(0.3), // Customize ripple color
-      borderRadius: BorderRadius.circular(8.r), // Optional: for rounded ripple
+      splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
+      borderRadius: BorderRadius.circular(8.r),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 8.w,
+          vertical: 8.h,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

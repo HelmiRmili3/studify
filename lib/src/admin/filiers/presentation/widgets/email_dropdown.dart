@@ -35,6 +35,31 @@ class _EmailDropdownState extends State<EmailDropdown> {
     selectedEmail = widget.initEmail;
   }
 
+  void updateMatiere(BuildContext context) {
+    if (selectedEmail == null) {
+      debugPrint('No email selected.');
+      Navigator.pop(context);
+      return;
+    }
+
+    final emailEntity = widget.emailEntities.firstWhere(
+      (e) => e.id == selectedEmail!.id,
+      orElse: () => throw Exception('Selected email not found.'),
+    );
+
+    if (widget.matiere.professor == emailEntity.id) {
+      debugPrint('Professor already selected: ${emailEntity.id}');
+      Navigator.pop(context);
+      return;
+    }
+
+    context.read<MatiersBloc>().add(UpdateMatiere(widget.matiere.copyWith(
+          professor: emailEntity.id,
+        )));
+    debugPrint('Professor updated to: ${emailEntity.id}');
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MatiersBloc, MatiersState>(
@@ -42,6 +67,7 @@ class _EmailDropdownState extends State<EmailDropdown> {
         if (state is MatieresLoading) {
           return const Center(child: CircularProgressIndicator());
         }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -58,25 +84,12 @@ class _EmailDropdownState extends State<EmailDropdown> {
             ),
             SizedBox(height: 10.h),
             CustomElevatedButton(
-              onPressed: () {
-                final emailEntity = widget.emailEntities
-                    .firstWhere((e) => e.id == selectedEmail!.id);
-                debugPrint(
-                  'emailEntity: ${emailEntity.email}',
-                );
-
-                context
-                    .read<MatiersBloc>()
-                    .add(UpdateMatiere(widget.matiere.copyWith(
-                      professor: emailEntity.id,
-                    )));
-                debugPrint('professorId: ${widget.matiere.professor}');
-              },
+              onPressed: () => updateMatiere(context),
               text: 'Update',
               icon: Icons.update,
               backgroundColor: const Color(0xFFFF6B00),
               foregroundColor: Colors.white,
-            )
+            ),
           ],
         );
       },
@@ -104,7 +117,7 @@ class CustomDropdownButtonFormField<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       value: value,
-      isExpanded: true, // Ensures the dropdown occupies full width
+      isExpanded: true,
       style: TextStyle(
         fontFamily: 'Mulish',
         fontSize: 14.sp,

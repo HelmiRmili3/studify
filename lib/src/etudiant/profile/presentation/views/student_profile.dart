@@ -68,43 +68,54 @@ class _StudentProfileState extends State<StudentProfile> {
                     children: [
                       Positioned(
                         top: -50.h,
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              width: 140.h,
-                              height: 140.h,
-                              padding: EdgeInsets.all(4.h),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.green,
-                                  width: 3.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            GoRouter.of(context).pushNamed(
+                              RoutesNames.fullDisplayImageScreen,
+                              extra: user.imageUrl,
+                            );
+                          },
+                          child: SizedBox(
+                            child: Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(
+                                  width: 140.h,
+                                  height: 140.h,
+                                  padding: EdgeInsets.all(4.h),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.green,
+                                      width: 3.w,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 60.h,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage:
+                                        NetworkImage(user.imageUrl),
+                                  ),
                                 ),
-                              ),
-                              child: CircleAvatar(
-                                radius: 60.h,
-                                backgroundColor: Colors.white,
-                                backgroundImage: NetworkImage(user.imageUrl),
-                              ),
+                                Positioned(
+                                  bottom: 5.h,
+                                  right: 5.w,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.green,
+                                    ),
+                                    padding: const EdgeInsets.all(6),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 20.w,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Positioned(
-                              bottom: 5.h,
-                              right: 5.w,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.green,
-                                ),
-                                padding: const EdgeInsets.all(6),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 20.w,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                       Positioned(
@@ -152,7 +163,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                 context.push(RoutesNames.etudiantEditProfile);
                               },
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.empty_wallet_outline,
                               title: 'Schedule',
@@ -160,7 +171,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                 debugPrint('schedule');
                               },
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.notification_outline,
                               title: 'Notifications',
@@ -168,19 +179,19 @@ class _StudentProfileState extends State<StudentProfile> {
                                 context.push(RoutesNames.notification);
                               },
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Security',
                               onTap: () {},
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.language_circle_outline,
                               title: 'Language',
                               onTap: () {},
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.eye_outline,
                               title: 'Dark Mode',
@@ -188,19 +199,19 @@ class _StudentProfileState extends State<StudentProfile> {
                                 context.push(RoutesNames.userThemeMode);
                               },
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Terms & Conditions',
                               onTap: () {},
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Help & Support',
                               onTap: () {},
                             ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 2.h),
                             LogoutButton(
                               title: 'Disconnect',
                               onTap: () {

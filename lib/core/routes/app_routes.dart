@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/utils/enums.dart';
+import 'package:studify/models/matiere.dart';
+import 'package:studify/src/admin/notifications/presentation/views/admin_notifications_screen.dart';
 import 'package:studify/src/admin/profile/presentation/views/add_new_users.dart';
 import 'package:studify/src/app.dart';
 import 'package:studify/src/professeur/courses/presentation/views/professor_matiere_details.dart';
+import 'package:studify/src/professeur/notifications/presentation/views/professor_notifications_screen.dart';
 
 import '../../src/common/auth/presentation/views/create_new_password_screen.dart';
 import '../../src/common/auth/presentation/views/fill_your_profile_screen.dart';
@@ -20,6 +23,7 @@ import '../../src/etudiant/notification/presentation/views/student_notifications
 import '../../src/etudiant/profile/presentation/views/student_edit_profile.dart';
 import '../../src/professeur/professeur_screen.dart';
 import '../common/screens/error_role_ot_found.dart';
+import '../common/screens/full_display_image_screen.dart';
 import 'route_names.dart';
 
 class AppRouter {
@@ -47,12 +51,11 @@ class AppRouter {
         GoRoute(
           path: RoutesNames.authenticationHandler,
           name: RoutesNames.authenticationHandler,
-          pageBuilder: (context, state) => _slideTransition(
+          pageBuilder: (context, state) => _fadeTransition(
             state,
             AuthenticationHandler(
               isFirstTime: state.extra as bool,
             ),
-            const Offset(1, 0),
           ),
         ),
         GoRoute(
@@ -105,7 +108,8 @@ class AppRouter {
           pageBuilder: (context, state) => slideTransition(
             state,
             FillYourProfileScreen(
-                arguments: state.extra as Map<String, dynamic>),
+              arguments: state.extra as Map<String, dynamic>,
+            ),
           ),
         ),
         GoRoute(
@@ -187,7 +191,7 @@ class AppRouter {
           pageBuilder: (context, state) => slideTransition(
             state,
             StudentCourseDetails(
-              arguments: state.extra as Map<String, dynamic>,
+              arguments: state.extra as Matiere,
             ),
           ),
         ),
@@ -197,6 +201,34 @@ class AppRouter {
           pageBuilder: (context, state) => _fadeTransition(
             state,
             const AddNewUsers(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.adminNotificationsScreen,
+          name: RoutesNames.adminNotificationsScreen,
+          pageBuilder: (context, state) => _slideTransition(
+            state,
+            const AdminNotificationsScreen(),
+            const Offset(1, 0),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.professorNotificationsScreen,
+          name: RoutesNames.professorNotificationsScreen,
+          pageBuilder: (context, state) => _slideTransition(
+            state,
+            const ProfessorNotificationsScreen(),
+            const Offset(1, 0),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.fullDisplayImageScreen,
+          name: RoutesNames.fullDisplayImageScreen,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            FullDisplayImageScreen(
+              image: state.extra as String,
+            ),
           ),
         ),
       ],

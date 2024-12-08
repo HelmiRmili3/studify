@@ -35,13 +35,11 @@ class _ProfessorNonScrollableDynamicListState
         ),
       );
     } else {
-      return Flexible(
-        child: ListView.builder(
-          itemCount: widget.items.length,
-          itemBuilder: (context, index) {
-            return widget.itemBuilder(widget.items[index]);
-          },
-        ),
+      return ListView.builder(
+        itemCount: widget.items.length,
+        itemBuilder: (context, index) {
+          return widget.itemBuilder(widget.items[index]);
+        },
       );
     }
   }

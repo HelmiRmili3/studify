@@ -31,7 +31,7 @@ class _PhotoBackgroundCardState extends State<ScheduleListCard> {
     super.initState();
     _pageController = PageController();
 
-    timer = Timer(const Duration(seconds: 2), () {
+    timer = Timer(const Duration(seconds: 5), () {
       if (mounted) {
         setState(() {
           isLoading = false;
@@ -164,12 +164,12 @@ class ShimmerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: SizedBox(
+          width: 300.w,
+          height: 180.h,
+          child: Padding(
             padding: EdgeInsets.all(16.0.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -183,7 +183,7 @@ class ShimmerLoading extends StatelessWidget {
                     color: Colors.white.withOpacity(.3),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 14.h),
                 Container(
                   width: 180.w,
                   height: 20.h,
@@ -192,7 +192,16 @@ class ShimmerLoading extends StatelessWidget {
                     color: Colors.white.withOpacity(.3),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 14.h),
+                Container(
+                  width: 180.w,
+                  height: 14.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Colors.white.withOpacity(.3),
+                  ),
+                ),
+                SizedBox(height: 14.h),
                 Container(
                   width: 100.w,
                   height: 14.h,
@@ -201,36 +210,10 @@ class ShimmerLoading extends StatelessWidget {
                     color: Colors.white.withOpacity(.3),
                   ),
                 ),
-                SizedBox(height: 8.h),
-                Container(
-                  width: 100.w,
-                  height: 14.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white.withOpacity(.3),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100.w,
-                      height: 14.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white.withOpacity(.3),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 14.h),
               ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }

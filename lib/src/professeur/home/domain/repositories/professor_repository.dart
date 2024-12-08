@@ -22,7 +22,7 @@ class HomeRepository {
           .collection(Firestore.matieres)
           .where('professor', isEqualTo: userId) // Apply the filter
           .snapshots()
-          .map((QuerySnapshot querySnapshot) {
+          .asyncMap((QuerySnapshot querySnapshot) {
         return querySnapshot.docs.map((doc) {
           return Matiere.fromJson(doc.data() as Map<String, dynamic>);
         }).toList();
@@ -38,40 +38,38 @@ class HomeRepository {
       // Get the current user's UID
       String userId = _firebaseAuth.currentUser?.uid ?? '';
 
-      // Stream the access document for the user
+      // Stream the matieres collection for the professor
       return _firebaseFirestore
           .collection(Firestore.years)
           .doc('2024')
-          .collection(Firestore.access)
-          .doc(userId)
+          .collection(Firestore.matieres)
+          .where('professor', isEqualTo: userId)
           .snapshots()
-          .asyncMap((DocumentSnapshot snapshot) async {
-        if (snapshot.exists) {
-          // Safely cast the snapshot data to a Map
-          final data = snapshot.data() as Map<String, dynamic>;
+          .asyncMap((QuerySnapshot querySnapshot) async {
+        List<Filiere> uniqueFilieres = [];
 
-          // Get the list of filiere codes
-          List<String> filiereCodes = List<String>.from(data['filieres'] ?? []);
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          final data = doc.data() as Map<String, dynamic>;
 
-          // Fetch filiere data for each code
-          List<Filiere> filieres = [];
-          for (String code in filiereCodes) {
-            DocumentSnapshot filiereDoc = await _firebaseFirestore
-                .collection(Firestore.years)
-                .doc('2024')
-                .collection(Firestore.niveaux)
-                .doc(code)
-                .get();
+          DocumentSnapshot filiereDoc = await _firebaseFirestore
+              .collection(Firestore.years)
+              .doc('2024')
+              .collection(Firestore.niveaux)
+              .doc(data['filiere'] as String)
+              .get();
 
-            if (filiereDoc.exists) {
-              filieres.add(
-                  Filiere.fromJson(filiereDoc.data() as Map<String, dynamic>));
+          if (filiereDoc.exists) {
+            Filiere filiere =
+                Filiere.fromJson(filiereDoc.data() as Map<String, dynamic>);
+
+            // Check for duplicate based on filiere.code
+            if (!uniqueFilieres.any((f) => f.code == filiere.code)) {
+              uniqueFilieres.add(filiere);
             }
           }
-          return filieres;
-        } else {
-          return []; // Return an empty list if the document doesn't exist
         }
+
+        return uniqueFilieres;
       });
     } catch (e) {
       debugPrint("Error streaming filieres: $e");

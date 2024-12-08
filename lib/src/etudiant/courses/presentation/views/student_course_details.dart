@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/models/matiere.dart';
 
 import '../widgets/course_title.dart';
 import '../widgets/tab_section.dart';
 import '../widgets/teacher_info_row.dart';
 
 class StudentCourseDetails extends StatefulWidget {
-  final Map<String, dynamic> arguments;
+  final Matiere arguments;
 
   const StudentCourseDetails({
     super.key,
@@ -66,20 +67,20 @@ class _StudentCourseDetailsState extends State<StudentCourseDetails>
               right: 16.w,
               bottom: 16.h,
             ),
-            child: Column(
+            child: const Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16.0),
                 TeacherInfoRow(
-                  teacher: widget.arguments['teacher'],
-                  rating: widget.arguments['rating'],
+                  teacher: 'teacher',
+                  rating: 4.5,
                 ),
                 const SizedBox(height: 10.0),
-                CourseTitle(course: widget.arguments['course']),
+                CourseTitle(course: 'course'),
                 const SizedBox(height: 10.0),
                 CourseStats(
-                  students: widget.arguments['students'].toString(),
+                  students: 'students',
                 ),
               ],
             ),

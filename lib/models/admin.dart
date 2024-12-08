@@ -13,6 +13,7 @@ class Admin extends UserModel {
     required super.birthDay,
     required super.phoneNumber,
     required super.sexe,
+    required super.role,
     required super.imageUrl,
     required this.isSuperAdmin,
   });
@@ -36,6 +37,7 @@ class Admin extends UserModel {
       updatedAt: DateTime.parse(map['updatedAt']),
       birthDay: DateTime.parse(map['birthDay']),
       phoneNumber: map['phoneNumber'],
+      role: map['role'],
       sexe: map['sexe'],
       imageUrl: map['imageUrl'],
       isSuperAdmin: map['isSuperAdmin'] ?? false,

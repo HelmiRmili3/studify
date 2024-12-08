@@ -6,6 +6,7 @@ import 'package:studify/core/utils/enums.dart';
 import 'package:studify/src/admin/profile/presentation/bloc/users/users_events.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../core/common/widgets/custom_app_bar.dart';
+import '../../../../../core/common/widgets/fading_circle_loading_indicator.dart';
 import '../../../../common/auth/data/models/user_email_model.dart';
 import '../bloc/users/users_bloc.dart';
 import '../bloc/users/users_states.dart';
@@ -45,7 +46,7 @@ class _AddNewUsersState extends State<AddNewUsers> {
               builder: (context, state) {
                 if (state is UserLoading) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: FadingCircleLoadingIndicator(),
                   );
                 } else if (state is UserLoaded) {
                   final users = state.users;

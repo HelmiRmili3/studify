@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../core/common/widgets/fading_circle_loading_indicator.dart';
 import '../../../../../core/routes/route_names.dart';
 
 import '../../../auth/presentation/blocs/auth/auth_bloc.dart';
@@ -60,7 +61,10 @@ class SplashScreenState extends State<SplashScreen> {
 
 class AuthenticationHandler extends StatefulWidget {
   final bool isFirstTime;
-  const AuthenticationHandler({super.key, required this.isFirstTime});
+  const AuthenticationHandler({
+    super.key,
+    required this.isFirstTime,
+  });
   @override
   State<AuthenticationHandler> createState() => _AuthenticationHandlerState();
 }
@@ -80,9 +84,10 @@ class _AuthenticationHandlerState extends State<AuthenticationHandler> {
           }
         }
       },
-      child: const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: const Center(
+          child: FadingCircleLoadingIndicator(),
         ),
       ),
     );

@@ -4,13 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studify/core/routes/route_names.dart';
 
 import '../../core/common/blocs/user/user_bloc.dart';
+import '../../core/common/blocs/user/user_event.dart';
 import '../../core/common/blocs/user/user_state.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
+import '../../core/routes/route_names.dart';
 import 'filiers/presentation/views/filieres_list.dart';
 import 'profile/presentation/views/admin_profile.dart';
 
@@ -22,6 +23,12 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserBloc>().add(FetchUser());
+  }
+
   int _selectedIndex = 0;
   PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
     if (index == 0) {
@@ -29,6 +36,12 @@ class _AdminState extends State<Admin> {
         preferredSize: Size.fromHeight(100.h),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
+            if (state is UserLoading) {
+              return const CustomAppBar(
+                title: 'Loading...',
+                showBackButton: false,
+              );
+            }
             if (state is UserLoaded) {
               final user = state.user;
               return CustomStudentAppBar(
@@ -38,8 +51,14 @@ class _AdminState extends State<Admin> {
                 notificationCount: 7,
                 onNotificationPress: (context) {
                   GoRouter.of(context)
-                      .pushNamed(RoutesNames.professorNotifications);
+                      .pushNamed(RoutesNames.adminNotificationsScreen);
                 },
+              );
+            }
+            if (state is UserError) {
+              return const CustomAppBar(
+                title: 'Error',
+                showBackButton: false,
               );
             }
             return const CustomAppBar(

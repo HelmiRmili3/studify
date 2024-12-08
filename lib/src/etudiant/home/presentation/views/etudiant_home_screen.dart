@@ -1,10 +1,18 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/src/etudiant/home/presentation/blocs/courses/courses_states.dart';
+import 'package:studify/src/etudiant/home/presentation/widgets/matiere_loading_effect.dart';
 
 import '../../../../../core/common/widgets/custom_search_filed.dart';
 import '../../../../../models/card_data.dart';
+import '../blocs/courses/courses_bloc.dart';
+import '../blocs/courses/courses_events.dart';
+import '../blocs/professors/professors_bloc.dart';
+import '../blocs/professors/professors_events.dart';
+import '../blocs/professors/professors_states.dart';
 import '../widgets/custom_row_title.dart';
 import '../widgets/schedule_list_card.dart';
 import '../widgets/courses_list.dart';
@@ -19,6 +27,12 @@ class StudentHomeScreen extends StatefulWidget {
 
 class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
   TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<CoursesBloc>().add(LoadMatieres());
+    context.read<ProfessorsBloc>().add(LoadProfessors());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,43 +48,6 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
       'Courses',
       'Traveaux dirigé',
       'Traveaux pratiques',
-    ];
-    List<Map<String, dynamic>> courses = [
-      {
-        "teacher": "John Doe",
-        "course": "Flutter Development",
-        "price": 100.0,
-        "rating": 4.5,
-        "students": 150,
-      },
-      {
-        "teacher": "Alice Smith",
-        "course": "React Native Bootcamp",
-        "price": 120.0,
-        "rating": 4.7,
-        "students": 200,
-      },
-      {
-        "teacher": "Robert Johnson",
-        "course": "Python for Data Science",
-        "price": 90.0,
-        "rating": 4.8,
-        "students": 300,
-      },
-      {
-        "teacher": "Emma Wilson",
-        "course": "Web Development with JavaScript",
-        "price": 80.0,
-        "rating": 4.3,
-        "students": 250,
-      },
-      {
-        "teacher": "Chris Brown",
-        "course": "Machine Learning Basics",
-        "price": 150.0,
-        "rating": 4.9,
-        "students": 180,
-      },
     ];
     final List<String> professors = [
       'Dr. Smith',
@@ -126,7 +103,9 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
           SizedBox(height: 20.h),
           CustomRowTitle(
             title: "Categories",
-            onViewAll: () {},
+            onViewAll: () {
+              debugPrint('View All clicked');
+            },
           ),
           SizedBox(height: 20.h),
           SizedBox(
@@ -167,24 +146,37 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
             ),
           ),
           SizedBox(height: 20.h),
-          CustomRowTitle(
-            title: "Popular Courses",
-            onViewAll: () {},
-          ),
+          CustomRowTitle(title: "Popular Courses", onViewAll: () {}),
           SizedBox(height: 20.h),
-          CoursesList(courses: courses),
-          SizedBox(height: 20.h),
-          CustomRowTitle(
-            title: "Top Mentors",
-            onViewAll: () {},
-          ),
-          SizedBox(height: 20.h),
-          ProfessorList(
-            professors: professors,
-            onItemTap: (index) {
-              debugPrint('Tapped on ${professors[index]}');
+          BlocBuilder<CoursesBloc, CoursesStates>(
+            builder: (context, state) {
+              if (state is MatieresLoading) {
+                return const Center(child: ShimmerCard());
+              } else if (state is MatieresLoaded) {
+                return CoursesList(matieres: state.matieres);
+              } else if (state is MatieresError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox.shrink();
             },
           ),
+          SizedBox(height: 20.h),
+          CustomRowTitle(title: "Top Professors", onViewAll: () {}),
+          SizedBox(height: 20.h),
+          BlocBuilder<ProfessorsBloc, ProfessorsStates>(
+              builder: (context, state) {
+            if (state is LoadingProfessors) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProfessorsLoaded) {
+              return ProfessorList(
+                professors: state.professors,
+                onItemTap: (index) {
+                  debugPrint('Tapped on ${professors[index]}');
+                },
+              );
+            }
+            return const SizedBox.shrink();
+          }),
           SizedBox(height: 90.h),
         ],
       ),

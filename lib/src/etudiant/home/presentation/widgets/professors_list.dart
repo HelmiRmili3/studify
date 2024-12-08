@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:studify/core/utils/helpers.dart';
+
+import '../../../../../models/user.dart';
 
 class ProfessorList extends StatefulWidget {
-  final List<String> professors;
+  final List<UserModel> professors;
   final Function(int) onItemTap;
 
   const ProfessorList({
@@ -43,6 +46,7 @@ class _ProfessorListState extends State<ProfessorList> {
         scrollDirection: Axis.horizontal,
         itemCount: widget.professors.length,
         itemBuilder: (context, index) {
+          final professor = widget.professors[index];
           return GestureDetector(
             onTap: () => widget.onItemTap(index),
             child: Container(
@@ -58,10 +62,12 @@ class _ProfessorListState extends State<ProfessorList> {
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(10.r),
                     ),
-                    child: Icon(
-                      Icons.image,
-                      size: 30.sp,
-                      color: Colors.grey,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Image.network(
+                        professor.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   SizedBox(height: 5.h),
@@ -80,7 +86,7 @@ class _ProfessorListState extends State<ProfessorList> {
                         )
                       : Flexible(
                           child: Text(
-                            widget.professors[index],
+                            'Dr.${professor.firstName.capitalizeFirst()} ${professor.lastName.capitalizeFirst()}',
                             style:
                                 Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 12.sp,

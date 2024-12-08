@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studify/core/common/widgets/custom_app_bar.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
+import '../../../../../core/routes/route_names.dart';
 import '../../../../common/auth/presentation/widgets/custom_avatar.dart';
 import '../../../../common/auth/presentation/widgets/custom_text_filed.dart';
 
@@ -16,7 +19,6 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController nickNameController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
@@ -32,11 +34,55 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20.0),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UserProfileAvatar(
-                    imagepath: 'assets/images/default_avatar.png',
+                  GestureDetector(
+                    onTap: () {
+                      debugPrint('Tapped on avatar');
+                    },
+                    child: SizedBox(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Container(
+                            width: 140.h,
+                            height: 140.h,
+                            padding: EdgeInsets.all(4.h),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 3.w,
+                              ),
+                            ),
+                            child: CircleAvatar(
+                              radius: 60.h,
+                              backgroundColor: Colors.white,
+                              backgroundImage: const AssetImage(
+                                'assets/images/default_avatar.png',
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 5.h,
+                            right: 5.w,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.blue,
+                              ),
+                              padding: const EdgeInsets.all(6),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 20.w,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

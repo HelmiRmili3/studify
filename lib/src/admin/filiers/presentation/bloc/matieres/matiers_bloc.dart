@@ -45,8 +45,9 @@ class MatiersBloc extends Bloc<MatiersEvent, MatiersState> {
 
         debugPrint("User id :  ${result['user'].uid}");
         MatiereUpdated(result['matiere'], result['user']);
+        // add(LoadMatieres(event.matiere.filiere));
       } catch (e) {
-        emit(MatieresError(e.toString()));
+        // emit(MatieresError(e.toString()));
         debugPrint("Error updating matiere: $e");
       }
     });

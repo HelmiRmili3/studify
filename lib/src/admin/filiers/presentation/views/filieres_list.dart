@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/common/widgets/fading_circle_loading_indicator.dart';
 import '../bloc/filieres/filiere_bloc.dart';
 import '../bloc/filieres/filiere_events.dart';
 import '../bloc/filieres/filiere_states.dart';
@@ -27,7 +28,9 @@ class _AdminFiliersState extends State<AdminFiliers> {
     return BlocBuilder<FiliereBloc, FiliereState>(
       builder: (context, state) {
         if (state is FiliereLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: FadingCircleLoadingIndicator(),
+          );
         } else if (state is FiliereLoaded) {
           final filieres = state.filieres;
           return GridView.builder(
