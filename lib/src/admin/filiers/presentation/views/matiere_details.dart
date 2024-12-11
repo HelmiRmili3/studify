@@ -40,16 +40,14 @@ class _MatiereDetailsState extends State<MatiereDetails> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: Container(
         height: 500.h,
         margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
           color: Theme.of(context).splashColor,
           borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: Colors.white),
+          // border: Border.all(color: Colors.white),
         ),
         child: Column(
           children: [
@@ -126,7 +124,7 @@ class _MatiereDetailsState extends State<MatiereDetails> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -157,7 +155,7 @@ class _MatiereDetailsState extends State<MatiereDetails> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5.h),
+                    SizedBox(height: 10.h),
                     EmailDropdown(
                       emailEntities: widget.professorsEmails,
                       matiere: widget.matiere,

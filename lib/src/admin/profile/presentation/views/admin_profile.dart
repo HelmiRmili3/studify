@@ -107,7 +107,7 @@ class _AdminProfileState extends State<AdminProfile> {
                                     ),
                                     padding: const EdgeInsets.all(6),
                                     child: Icon(
-                                      Icons.edit,
+                                      Icons.image,
                                       color: Colors.white,
                                       size: 20.w,
                                     ),
@@ -191,7 +191,10 @@ class _AdminProfileState extends State<AdminProfile> {
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Security',
-                              onTap: () {},
+                              onTap: () {
+                                GoRouter.of(context)
+                                    .push(RoutesNames.securityscreen);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(
@@ -211,7 +214,10 @@ class _AdminProfileState extends State<AdminProfile> {
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Terms & Conditions',
-                              onTap: () {},
+                              onTap: () {
+                                GoRouter.of(context)
+                                    .push(RoutesNames.termsandconditions);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(

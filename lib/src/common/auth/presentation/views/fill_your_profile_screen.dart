@@ -16,8 +16,8 @@ import '../../../../../core/common/widgets/top_snack_bar.dart';
 import '../../../../../core/routes/route_names.dart';
 import '../blocs/auth/auth_events.dart';
 import '../widgets/custom_avatar.dart';
-import '../widgets/date_time_picker.dart';
-import '../widgets/gender_selection.dart';
+import '../../../../../core/common/widgets/date_time_picker.dart';
+import '../../../../../core/common/widgets/gender_selection.dart';
 
 class FillYourProfileScreen extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -61,7 +61,10 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   void initState() {
     super.initState();
     parseEmail(
-        widget.arguments['email'], firstNameController, lastNameController);
+      widget.arguments['email'],
+      firstNameController,
+      lastNameController,
+    );
   }
 
   @override
@@ -82,12 +85,14 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            // Navigate to the app and show a success message
             GoRouter.of(context).go(RoutesNames.app, extra: state.user!.role);
             showTopSnackBar(context, state.succes, Colors.green);
           } else if (state is RegisterFailure) {
             showTopSnackBar(
-                context, "Registration failed: ${state.error}", Colors.red);
+              context,
+              "Registration failed: ${state.error}",
+              Colors.red,
+            );
           }
         },
         child: BlocBuilder<AuthBloc, AuthState>(
@@ -157,6 +162,8 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                       CustomElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
+                            FocusScope.of(context).unfocus();
+
                             context.read<AuthBloc>().add(
                                   RegisterRequested(
                                     UserRegisterModel(

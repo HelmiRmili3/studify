@@ -17,7 +17,7 @@ class BuildSectionTitle extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: 'Jost',
+                fontFamily: 'Molish',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),

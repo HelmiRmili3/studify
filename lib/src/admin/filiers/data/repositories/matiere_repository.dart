@@ -67,6 +67,24 @@ class MatiereRepository {
     }
   }
 
+  Future<FileEntity> _uploadAndSaveFile(File imageFile) async {
+    final fileData = await uploadImageToFirebaseStorage(imageFile);
+    if (fileData == null) {
+      throw Exception("File upload failed.");
+    }
+    debugPrint("File uploaded: $fileData");
+
+    final fileItem = FileItem(
+      fileId: const Uuid().v1(),
+      fileName: fileData.filename,
+      fileUrl: fileData.filepath,
+      uploadDate: DateTime.now(),
+    );
+
+    await addFileToFirestore(fileItem);
+    return fileData;
+  }
+
   /// Load the default avatar from assets
   Future<File> _loadDefaultAvatar() async {
     final byteData = await rootBundle.load('assets/images/default_avatar.jpg');
@@ -87,24 +105,22 @@ class MatiereRepository {
     return FileEntity(filename: name, filepath: imageUrl);
   }
 
-  /// Upload the image to Firebase Storage and save the file details
-  Future<FileEntity> _uploadAndSaveFile(File imageFile) async {
-    final fileData = await uploadImageToFirebaseStorage(imageFile);
-    if (fileData == null) {
-      throw Exception("File upload failed.");
-    }
-    debugPrint("File uploaded: $fileData");
-
-    final fileItem = FileItem(
-      fileId: const Uuid().v1(),
-      fileName: fileData.filename,
-      fileUrl: fileData.filepath,
-      uploadDate: DateTime.now(),
+  Future<FileItem> addFileToFirestore(FileItem file) async {
+    final filedata = FileItem(
+      fileId: file.fileId,
+      fileName: file.fileName,
+      fileUrl: file.fileUrl,
+      uploadDate: file.uploadDate,
     );
 
-    await addFileToFirestore(fileItem);
-    return fileData;
+    await _firestore
+        .collection('files')
+        .doc(file.fileId)
+        .set(filedata.toJson());
+    return filedata;
   }
+
+  /// Upload the image to Firebase Storage and save the file details
 
   /// Save the Matiere to Firestore
   Future<void> _saveMatiereToFirestore(Matiere matiere, FileEntity file) async {
@@ -184,20 +200,5 @@ class MatiereRepository {
     } catch (e) {
       throw Exception('Error updating matiere: $e');
     }
-  }
-
-  Future<FileItem> addFileToFirestore(FileItem file) async {
-    final filedata = FileItem(
-      fileId: file.fileId,
-      fileName: file.fileName,
-      fileUrl: file.fileUrl,
-      uploadDate: file.uploadDate,
-    );
-
-    await _firestore
-        .collection('files')
-        .doc(file.fileId)
-        .set(filedata.toJson());
-    return filedata;
   }
 }

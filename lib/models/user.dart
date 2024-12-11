@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/core/utils/enums.dart';
-
 import '../core/utils/helpers.dart';
 
 class UserModel {
@@ -37,12 +36,12 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-      'birthDay': birthDay.toIso8601String(),
+      'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': Timestamp.fromDate(updatedAt),
+      'birthDay': Timestamp.fromDate(birthDay),
       'phoneNumber': phoneNumber,
-      'role': role,
-      'sexe': sexe,
+      'role': role.index,
+      'sexe': sexe.index,
       'imageUrl': imageUrl,
     };
   }
@@ -61,6 +60,35 @@ class UserModel {
       role: convertToEnumRole(map['role']),
       sexe: convertToEnumGender(map['sexe']),
       imageUrl: map['imageUrl'],
+    );
+  }
+
+  // CopyWith method
+  UserModel copyWith({
+    String? uid,
+    String? firstName,
+    String? lastName,
+    String? email,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? birthDay,
+    String? phoneNumber,
+    UserRole? role,
+    UserGender? sexe,
+    String? imageUrl,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      birthDay: birthDay ?? this.birthDay,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
+      sexe: sexe ?? this.sexe,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

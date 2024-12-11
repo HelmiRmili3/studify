@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:studify/core/common/widgets/custom_app_bar.dart';
 
-import '../widgets/custom_switch_row.dart';
+import '../../../../etudiant/notification/presentation/widgets/custom_switch_row.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class SecurityScreen extends StatefulWidget {
+  const SecurityScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationState();
+  State<SecurityScreen> createState() => _SecurityScreenState();
 }
 
-class _NotificationState extends State<NotificationScreen> {
+class _SecurityScreenState extends State<SecurityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: "Notification"),
+      appBar: const CustomAppBar(title: 'Security'),
       body: Column(
         children: [
           CustomSwitchRow(
-            title: 'Notification',
+            title: 'Remember me',
             switchValue: true,
             onSwitchChanged: (value) {},
           ),
           CustomSwitchRow(
-            title: 'Sound',
+            title: 'Biometrics ID',
             switchValue: false,
             onSwitchChanged: (value) {},
           ),
           CustomSwitchRow(
-            title: 'Vibration',
+            title: 'Face ID',
             switchValue: true,
             onSwitchChanged: (value) {},
           ),

@@ -175,11 +175,15 @@ class _SignupScreenState extends State<SignupScreen>
                           const SizedBox(height: 20),
                           CustomElevatedButton(
                             onPressed: () {
-                              GoRouter.of(context)
-                                  .push(RoutesNames.fillYourProfile, extra: {
-                                "email": '${emailController.text}@isimg.tn',
-                                "password": passwordController.text,
-                              });
+                              if (_formKey.currentState!.validate()) {
+                                FocusScope.of(context).unfocus();
+
+                                GoRouter.of(context)
+                                    .push(RoutesNames.fillYourProfile, extra: {
+                                  "email": '${emailController.text}@isimg.tn',
+                                  "password": passwordController.text,
+                                });
+                              }
                             },
                             text: "Sign Up",
                             backgroundColor: currentTheme.primaryColor,

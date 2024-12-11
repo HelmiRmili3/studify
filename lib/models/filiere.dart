@@ -2,11 +2,13 @@ class Filiere {
   final String filiere;
   final String code;
   final int nbYears;
+  final String imageUrl;
 
   Filiere({
     required this.filiere,
     required this.code,
     required this.nbYears,
+    required this.imageUrl,
   });
 
   // Convert Filiere to JSON
@@ -15,6 +17,7 @@ class Filiere {
       'filiere': filiere,
       'code': code,
       'nbYears': nbYears,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -24,6 +27,7 @@ class Filiere {
       filiere: json['filiere'],
       code: json['code'],
       nbYears: json['nbYears'],
+      imageUrl: json['imageUrl'] ?? '',
     );
   }
 }
@@ -36,6 +40,7 @@ class Niveau extends Filiere {
     required super.filiere,
     required super.code,
     required super.nbYears,
+    required super.imageUrl,
     required this.niveau,
     required this.studentIds,
   });
@@ -47,7 +52,7 @@ class Niveau extends Filiere {
     return {
       ...filiereJson,
       'studentIds': studentIds,
-      'niveaux': niveau,
+      'niveau': niveau,
     };
   }
 
@@ -58,6 +63,7 @@ class Niveau extends Filiere {
       code: json['code'],
       niveau: json['niveau'],
       nbYears: json['nbYears'],
+      imageUrl: json['imageUrl'],
       studentIds: List<String>.from(json['studentIds'] ?? []),
     );
   }
@@ -72,6 +78,7 @@ class Part extends Niveau {
     required String code,
     required int niveau,
     required int nbYears,
+    required String imageUrl,
     required List<String> studentIds,
     required this.professorsIds,
     required this.matieresIds,
@@ -80,6 +87,7 @@ class Part extends Niveau {
           code: code,
           niveau: niveau,
           nbYears: nbYears,
+          imageUrl: imageUrl,
           studentIds: studentIds,
         );
 
@@ -101,6 +109,7 @@ class Part extends Niveau {
       code: json['code'],
       niveau: json['niveau'],
       nbYears: json['nbYears'],
+      imageUrl: json['imageUrl'],
       studentIds: List<String>.from(json['studentIds'] ?? []),
       professorsIds: List<String>.from(json['professorsIds'] ?? []),
       matieresIds: List<String>.from(json['matieresIds'] ?? []),

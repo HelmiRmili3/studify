@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:studify/src/etudiant/courses/presentation/widgets/curriculum_item.dart';
+import 'package:studify/core/common/widgets/curriculum_item.dart';
 
-import '../../../src/etudiant/courses/presentation/widgets/professor_Non_Scrollable_dynamic_list.dart';
+import '../../../src/professeur/courses/presentation/widgets/professor_non_scrollable_dynamic_list.dart';
 
 class CurriculumTabContent extends StatelessWidget {
   final List<Map<String, dynamic>> curriculum;

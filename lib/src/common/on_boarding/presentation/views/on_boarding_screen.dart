@@ -23,7 +23,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final Map<int, dynamic> pages = {
     0: {
       "image": "assets/images/onboarding1.png",
-      "title": "Welcome to the app!",
+      "title": "Welcome to the Studify!",
     },
     1: {
       "image": "assets/images/onboarding2.png",

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final String? text; // Nullable text
+  final String? text;
   final IconData icon;
   final Color backgroundColor;
   final Color foregroundColor;
@@ -25,12 +26,12 @@ class CustomElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(16.0.r),
         ),
         padding: padding ??
-            const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
+            EdgeInsets.symmetric(
+              horizontal: 16.0.w,
+              vertical: 6.0.h,
             ),
       ),
       child: Row(
@@ -43,17 +44,17 @@ class CustomElevatedButton extends StatelessWidget {
               style: TextStyle(
                 color: foregroundColor,
                 fontFamily: 'Jost',
-                fontSize: 18.0,
+                fontSize: 18.0.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          if (text != null) const SizedBox(width: 8.0),
+          if (text != null) SizedBox(width: 8.0.w),
           Container(
             decoration: BoxDecoration(
               color: foregroundColor,
               shape: BoxShape.circle,
             ),
-            padding: const EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(6.0.w),
             child: Icon(
               icon,
               color: backgroundColor,
@@ -64,72 +65,3 @@ class CustomElevatedButton extends StatelessWidget {
     );
   }
 }
-// import 'package:flutter/material.dart';
-
-// class CustomButton extends StatelessWidget {
-//   final VoidCallback onPressed;
-//   final String? text; // Nullable text
-//   final IconData icon;
-//   final Color backgroundColor;
-//   final Color foregroundColor;
-//   final EdgeInsetsGeometry? padding;
-
-//   const CustomButton({
-//     super.key,
-//     required this.onPressed,
-//     this.text, // Optional text
-//     this.icon = Icons.arrow_forward_sharp, // Default icon
-//     required this.backgroundColor,
-//     required this.foregroundColor,
-//     this.padding,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: onPressed, // Handle button press
-//       child: Container(
-//         height: 54,
-//         width: 300,
-//         decoration: BoxDecoration(
-//           color: backgroundColor,
-//           borderRadius: BorderRadius.circular(30.0),
-//         ),
-//         padding: padding ??
-//             const EdgeInsets.symmetric(
-//               horizontal: 16.0,
-//             ),
-//         child: Stack(
-//           alignment: Alignment.center,
-//           children: [
-//             if (text != null)
-//               Text(
-//                 text!,
-//                 style: TextStyle(
-//                   color: foregroundColor,
-//                   fontFamily: 'Jost',
-//                   fontSize: 18.0,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//                 textAlign: TextAlign.center,
-//               ),
-//             Positioned(
-//               right: 8.0,
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   color: foregroundColor,
-//                   shape: BoxShape.circle,
-//                 ),
-//                 padding: const EdgeInsets.all(6.0),
-//                 child: Icon(
-//                   icon,
-//                   color: backgroundColor,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

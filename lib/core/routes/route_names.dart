@@ -14,6 +14,9 @@ class RoutesNames {
   static const String notification = '/notification';
   static const String userThemeMode = '/user-theme-mode';
   static const String fullDisplayImageScreen = '/full-display-image-screen';
+  static const String subjectDetailsScreen = '/subject-details-screen';
+  static const String securityscreen = '/security-screen';
+  static const String termsandconditions = '/terms-and-conditions';
 
   // etudiant routes
   static const String etudiant = '/etudiant';
@@ -33,6 +36,7 @@ class RoutesNames {
   static const String professorMatiereDetailes = '/professor-matiere_details';
   static const String professorNotificationsScreen =
       '/professor-notifications-screen';
+  static const String professorAddNewDoc = '/professor-add-new-doc';
 
   // admin routes
   static const String admin = '/admin';

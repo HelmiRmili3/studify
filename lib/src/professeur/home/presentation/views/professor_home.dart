@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studify/core/routes/route_names.dart';
 import 'package:studify/src/professeur/home/presentation/blocs/filieres/professor_filieres_bloc.dart';
 
 import '../../../../../core/common/widgets/custom_search_filed.dart';
@@ -10,11 +12,9 @@ import '../../../../../models/card_data.dart';
 import '../../../../etudiant/home/presentation/widgets/custom_row_title.dart';
 
 import '../blocs/filieres/professor_filieres_events.dart';
-import '../blocs/filieres/professor_filieres_states.dart';
 import '../blocs/home/home_bloc.dart';
 import '../blocs/home/home_events.dart';
 import '../blocs/home/home_states.dart';
-import '../widgets/filieres_loading_effect.dart';
 import '../widgets/matieres_loading_effect.dart';
 import '../widgets/professor_matieres_list.dart';
 import '../widgets/schedule_list_card_professor.dart';
@@ -96,7 +96,11 @@ class _ProfessorHomeState extends State<ProfessorHome> {
             ],
           ),
           SizedBox(height: 20.h),
-          CustomRowTitle(title: "Categories", onViewAll: () {}),
+          CustomRowTitle(
+              title: "Categories",
+              onViewAll: () {
+                GoRouter.of(context).push(RoutesNames.professorCourses);
+              }),
           SizedBox(height: 20.h),
           SizedBox(
             height: 30.h,
@@ -159,24 +163,7 @@ class _ProfessorHomeState extends State<ProfessorHome> {
             onViewAll: () {},
           ),
           SizedBox(height: 20.h),
-          BlocBuilder<ProfessorFilieresBloc, ProfessorFilieresStates>(
-              builder: (context, state) {
-            if (state is FilieresLoading) {
-              return const FilieresLoadingEffect();
-            }
-            if (state is FilieresError) {
-              return Center(child: Text(state.message));
-            }
-            if (state is FilieresLoaded) {
-              return FilieresList(
-                filieres: state.filieres,
-                onItemTap: (index) {
-                  debugPrint('Tapped on ${state.filieres[index].filiere}');
-                },
-              );
-            }
-            return const SizedBox.shrink();
-          }),
+          const FilieresList(),
           SizedBox(height: 90.h),
         ],
       ),

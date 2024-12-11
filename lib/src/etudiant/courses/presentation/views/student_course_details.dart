@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studify/models/matiere.dart';
 
-import '../widgets/course_title.dart';
-import '../widgets/tab_section.dart';
+import '../../../../../core/common/widgets/course_title.dart';
+import '../../../../../core/common/widgets/tab_section.dart';
+
 import '../widgets/teacher_info_row.dart';
 
 class StudentCourseDetails extends StatefulWidget {
@@ -71,14 +72,14 @@ class _StudentCourseDetailsState extends State<StudentCourseDetails>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 TeacherInfoRow(
                   teacher: 'teacher',
                   rating: 4.5,
                 ),
-                const SizedBox(height: 10.0),
+                SizedBox(height: 10.0),
                 CourseTitle(course: 'course'),
-                const SizedBox(height: 10.0),
+                SizedBox(height: 10.0),
                 CourseStats(
                   students: 'students',
                 ),

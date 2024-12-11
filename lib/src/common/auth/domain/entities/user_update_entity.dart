@@ -1,17 +1,21 @@
+import 'package:studify/core/utils/enums.dart';
+
 class UserUpdateEntity {
   final String firstName;
   final String lastName;
-  final String password;
   final DateTime updatedAt;
+  final DateTime birthDay;
   final String phoneNumber;
+  final UserGender sexe;
   final String imageUrl;
 
   UserUpdateEntity({
     required this.firstName,
     required this.lastName,
-    required this.password,
     required this.updatedAt,
     required this.phoneNumber,
+    required this.birthDay,
+    required this.sexe,
     required this.imageUrl,
   });
 }

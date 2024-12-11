@@ -5,6 +5,9 @@ import 'package:studify/models/matiere.dart';
 import 'package:studify/src/admin/notifications/presentation/views/admin_notifications_screen.dart';
 import 'package:studify/src/admin/profile/presentation/views/add_new_users.dart';
 import 'package:studify/src/app.dart';
+import 'package:studify/src/common/security/presentation/views/security_screen.dart';
+import 'package:studify/src/common/terms&conditions/presentation/views/terms_and_conditions_screen.dart';
+import 'package:studify/src/professeur/courses/presentation/views/professor_add_new_doc.dart';
 import 'package:studify/src/professeur/courses/presentation/views/professor_matiere_details.dart';
 import 'package:studify/src/professeur/notifications/presentation/views/professor_notifications_screen.dart';
 
@@ -17,13 +20,16 @@ import '../../src/common/mode/presentation/views/user_theme_mode.dart';
 import '../../src/common/on_boarding/presentation/views/on_boarding_screen.dart';
 import '../../src/common/splash/presentation/views/splash_screen.dart';
 import '../../src/etudiant/courses/presentation/views/student_course_details.dart';
+import '../../src/etudiant/courses/presentation/views/student_courses.dart';
 import '../../src/etudiant/etudiant_screen.dart';
-import '../../src/etudiant/notification/presentation/views/notification_screen.dart';
+import '../../src/common/notifications/presentation/views/notification_screen.dart';
 import '../../src/etudiant/notification/presentation/views/student_notifications.dart';
-import '../../src/etudiant/profile/presentation/views/student_edit_profile.dart';
+import '../../src/professeur/courses/presentation/views/professor_courses.dart';
+import '../common/screens/edit_profile.dart';
 import '../../src/professeur/professeur_screen.dart';
 import '../common/screens/error_role_ot_found.dart';
 import '../common/screens/full_display_image_screen.dart';
+import '../common/screens/subject_details_screen.dart';
 import 'route_names.dart';
 
 class AppRouter {
@@ -228,6 +234,56 @@ class AppRouter {
             state,
             FullDisplayImageScreen(
               image: state.extra as String,
+            ),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.professorAddNewDoc,
+          name: RoutesNames.professorAddNewDoc,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const ProfessorAddNewDoc(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.subjectDetailsScreen,
+          name: RoutesNames.subjectDetailsScreen,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const SubjectDetailsScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.securityscreen,
+          name: RoutesNames.securityscreen,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const SecurityScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.termsandconditions,
+          name: RoutesNames.termsandconditions,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const TermsAndConditionsScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.professorCourses,
+          name: RoutesNames.professorCourses,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            const ProfessorCourses(),
+          ),
+        ),
+        GoRoute(
+          path: RoutesNames.etudiantCourses,
+          name: RoutesNames.etudiantCourses,
+          pageBuilder: (context, state) => _fadeTransition(
+            state,
+            StudentCourses(
+              category: state.extra as String,
             ),
           ),
         ),

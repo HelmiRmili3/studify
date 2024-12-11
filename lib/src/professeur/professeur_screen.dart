@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studify/src/professeur/courses/presentation/views/professor_courses.dart';
+import 'package:studify/core/common/widgets/fading_circle_loading_indicator.dart';
 import 'package:studify/src/professeur/home/presentation/views/professor_home.dart';
 import 'package:studify/src/professeur/profile/presentation/views/professor_profile.dart';
 
@@ -38,6 +38,14 @@ class _ProfesseurState extends State<ProfessorScreen> {
         preferredSize: Size.fromHeight(100.h),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
+            if (state is UserLoading) {
+              return const FadingCircleLoadingIndicator();
+            }
+            if (state is UserError) {
+              return Center(
+                child: Text(state.message),
+              );
+            }
             if (state is UserLoaded) {
               final user = state.user;
               return CustomStudentAppBar(
@@ -51,10 +59,7 @@ class _ProfesseurState extends State<ProfessorScreen> {
                 },
               );
             }
-            return const CustomAppBar(
-              title: 'Loading...',
-              showBackButton: false,
-            );
+            return const SizedBox.shrink();
           },
         ),
       );
@@ -64,20 +69,23 @@ class _ProfesseurState extends State<ProfessorScreen> {
 
   final List<PreferredSizeWidget?> _appBar = [
     null,
-    const CustomAppBar(title: 'Courses', showBackButton: false),
+    const CustomAppBar(title: 'Indox', showBackButton: false),
     const CustomAppBar(title: 'Profile', showBackButton: false),
   ];
 
   final List<Widget> _pages = [
     const ProfessorHome(),
-    const ProfessorCourses(),
+    // const ProfessorCourses(),
+    const Center(
+      child: Text('This indox page'),
+    ),
     const ProfessorProfile(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavigationBar = const [
     BottomNavigationBarItem(icon: Icon(EneftyIcons.home_bold), label: 'Home'),
     BottomNavigationBarItem(
-        icon: Icon(EneftyIcons.book_bold), label: 'Courses'),
+        icon: Icon(EneftyIcons.message_bold), label: 'Indox'),
     BottomNavigationBarItem(
         icon: Icon(EneftyIcons.profile_bold), label: 'Profile'),
   ];

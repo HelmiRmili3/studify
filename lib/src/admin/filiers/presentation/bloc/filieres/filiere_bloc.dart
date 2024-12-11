@@ -24,7 +24,10 @@ class FiliereBloc extends Bloc<FiliereEvent, FiliereState> {
     on<AddFiliere>((event, emit) {
       emit(FiliereAdding());
       try {
-        repository.addFiliere(event.filiere);
+        repository.addFiliere(
+          event.filiere,
+          event.image,
+        );
         emit(FiliereAdded());
       } catch (e) {
         emit(FiliereError(e.toString()));

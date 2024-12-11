@@ -184,6 +184,10 @@ class _SigninScreenState extends State<SigninScreen>
                           CustomElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
+                                // Close the keyboard
+                                FocusScope.of(context).unfocus();
+
+                                // Trigger the login event
                                 context.read<AuthBloc>().add(AuthLoggedIn(
                                       UserLoginEntity(
                                         email:

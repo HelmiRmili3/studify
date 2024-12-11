@@ -44,15 +44,22 @@ class _AdminState extends State<Admin> {
             }
             if (state is UserLoaded) {
               final user = state.user;
-              return CustomStudentAppBar(
-                greeting: 'Hi',
-                user: user,
-                message: "What do you want to do today?",
-                notificationCount: 7,
-                onNotificationPress: (context) {
-                  GoRouter.of(context)
-                      .pushNamed(RoutesNames.adminNotificationsScreen);
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
                 },
+                child: CustomStudentAppBar(
+                  greeting: 'Hi',
+                  user: user,
+                  message: "What do you want to do today?",
+                  notificationCount: 7,
+                  onNotificationPress: (context) {
+                    GoRouter.of(context)
+                        .pushNamed(RoutesNames.adminNotificationsScreen);
+                  },
+                ),
               );
             }
             if (state is UserError) {

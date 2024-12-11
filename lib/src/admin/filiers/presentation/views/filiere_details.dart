@@ -43,6 +43,12 @@ class _FiliereDetailsState extends State<FiliereDetails> {
   }
 
   @override
+  void dispose() {
+    filiereName.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(

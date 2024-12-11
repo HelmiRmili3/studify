@@ -3,7 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<String> categories;
-  const CategoriesList({super.key, required this.categories});
+  final String selectedCategory;
+  final ValueChanged<String> onCategorySelected;
+
+  const CategoriesList({
+    super.key,
+    required this.categories,
+    required this.selectedCategory,
+    required this.onCategorySelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +21,16 @@ class CategoriesList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (context, index) {
+          final category = categories[index];
+          final isSelected = category == selectedCategory;
           return GestureDetector(
-            onTap: () {
-              debugPrint('${categories[index]} Cliked');
-            },
+            onTap: () => onCategorySelected(category),
             child: Container(
               height: 30.h,
               margin: EdgeInsets.only(right: 10.w),
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               decoration: BoxDecoration(
-                color: Theme.of(context).splashColor,
+                color: isSelected ? Colors.blue : Theme.of(context).splashColor,
                 border: Border.all(
                   color: Colors.white,
                 ),
@@ -30,11 +38,13 @@ class CategoriesList extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  categories[index],
+                  category,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontFamily: 'Mulish',
                         fontSize: 13.sp,
-                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        color: isSelected
+                            ? Colors.white
+                            : Theme.of(context).textTheme.bodyLarge!.color,
                       ),
                 ),
               ),

@@ -1,16 +1,22 @@
-import '../../../../../../models/filiere.dart';
+import 'dart:io';
+
+import 'package:studify/models/new_filiere.dart';
 
 abstract class FiliereEvent {}
 
 class LoadFilieres extends FiliereEvent {}
 
 class AddFiliere extends FiliereEvent {
-  final Filiere filiere;
-  AddFiliere(this.filiere);
+  final NewFiliere filiere;
+  final File? image;
+  AddFiliere(
+    this.filiere,
+    this.image,
+  );
 }
 
 class UpdateFiliere extends FiliereEvent {
-  final Filiere filiere;
+  final NewFiliere filiere;
   UpdateFiliere(this.filiere);
 }
 

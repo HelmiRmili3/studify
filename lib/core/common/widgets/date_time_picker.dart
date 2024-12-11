@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/colors.dart';
+
 class DateTimeSelection extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
@@ -27,8 +29,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
 
     if (picked != null && picked != DateTime.now()) {
       setState(() {
-        widget.controller.text =
-            "${picked.toLocal()}".split(' ')[0]; // Format: YYYY-MM-DD
+        widget.controller.text = "${picked.toLocal()}".split(' ')[0];
       });
     }
   }
@@ -45,10 +46,9 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
     return GestureDetector(
       onTap: () => _selectDate(context),
       child: AbsorbPointer(
-        // Prevents keyboard interaction
         child: TextFormField(
           controller: widget.controller,
-          readOnly: true, // Ensures the field is not editable directly
+          readOnly: true,
           decoration: InputDecoration(
             filled: true,
             fillColor: Theme.of(context).splashColor,
@@ -62,7 +62,7 @@ class _DateTimeSelectionState extends State<DateTimeSelection> {
             prefixIcon: widget.prefixIcon != null
                 ? Icon(
                     widget.prefixIcon,
-                    color: Colors.grey,
+                    color: AppColors.lightBlack,
                   )
                 : null,
             border: border,

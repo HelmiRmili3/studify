@@ -36,6 +36,13 @@ class MatiereBottomSheetState extends State<MatiereBottomSheet> {
   MatiereType selectedType = MatiereType.co;
   MatierePart selectedPart = MatierePart.p1;
   FileEntity? _selectedImage;
+  @override
+  void dispose() {
+    nameController.dispose();
+    descriptionController.dispose();
+    coefficientController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,27 @@ class MatiereBottomSheetState extends State<MatiereBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const BuildSectionTitle(title: "Add New Matiere", number: null),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 5.h,
+                  width: 60.w,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(30.r),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10.w,
+            ),
+            const BuildSectionTitle(
+              title: "Add New Matiere",
+              number: null,
+            ),
             const SizedBox(height: 10),
             Center(
               child: GestureDetector(

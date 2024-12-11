@@ -107,7 +107,7 @@ class _ProfessorProfileState extends State<ProfessorProfile> {
                                     ),
                                     padding: const EdgeInsets.all(6),
                                     child: Icon(
-                                      Icons.edit,
+                                      Icons.image,
                                       color: Colors.white,
                                       size: 20.w,
                                     ),
@@ -183,7 +183,9 @@ class _ProfessorProfileState extends State<ProfessorProfile> {
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Security',
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutesNames.securityscreen);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(
@@ -201,13 +203,15 @@ class _ProfessorProfileState extends State<ProfessorProfile> {
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(
-                              icon: EneftyIcons.security_outline,
+                              icon: EneftyIcons.receipt_outline,
                               title: 'Terms & Conditions',
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutesNames.termsandconditions);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(
-                              icon: EneftyIcons.security_outline,
+                              icon: EneftyIcons.headphone_outline,
                               title: 'Help & Support',
                               onTap: () {},
                             ),

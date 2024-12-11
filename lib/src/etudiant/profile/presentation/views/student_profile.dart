@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studify/core/common/widgets/fading_circle_loading_indicator.dart';
 import 'package:studify/core/utils/helpers.dart';
 
 import '../../../../../core/common/blocs/user/user_bloc.dart';
@@ -43,7 +44,7 @@ class _StudentProfileState extends State<StudentProfile> {
           builder: (context, state) {
             if (state is UserLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: FadingCircleLoadingIndicator(),
               );
             }
 
@@ -107,7 +108,7 @@ class _StudentProfileState extends State<StudentProfile> {
                                     ),
                                     padding: const EdgeInsets.all(6),
                                     child: Icon(
-                                      Icons.edit,
+                                      Icons.image,
                                       color: Colors.white,
                                       size: 20.w,
                                     ),
@@ -183,7 +184,9 @@ class _StudentProfileState extends State<StudentProfile> {
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Security',
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutesNames.securityscreen);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(
@@ -203,7 +206,9 @@ class _StudentProfileState extends State<StudentProfile> {
                             CustomRow(
                               icon: EneftyIcons.security_outline,
                               title: 'Terms & Conditions',
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutesNames.termsandconditions);
+                              },
                             ),
                             SizedBox(height: 2.h),
                             CustomRow(

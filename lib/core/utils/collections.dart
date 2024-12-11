@@ -1,6 +1,14 @@
 import 'package:studify/core/utils/storage.dart';
 
 class Collections {
+  static List<String> get all => [
+        ...image,
+        ...video,
+        ...audio,
+        ...document,
+        ...code,
+        ...app,
+      ];
   static List<String> get image => [
         Storage.jpg,
         Storage.png,

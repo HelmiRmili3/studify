@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"studify-424cb","appId":"1:167733036320:android:0ddc1a984b2953fa04c345","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"studify-424cb","configurations":{"android":"1:167733036320:android:0ddc1a984b2953fa04c345","ios":"1:167733036320:ios:a6f0a84f9b6c4a0f04c345"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "studify-424cb",
+          "appId": "1:167733036320:android:0ddc1a984b2953fa04c345",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "studify-424cb",
+          "configurations": {
+            "android": "1:167733036320:android:0ddc1a984b2953fa04c345",
+            "ios": "1:167733036320:ios:a6f0a84f9b6c4a0f04c345"
+          }
+        }
+      }
+    }
+  }
+}

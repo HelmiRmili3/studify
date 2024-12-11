@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/common/widgets/course_title.dart';
 import '../../../../../core/common/widgets/tab_section.dart';
 import '../../../../../core/common/widgets/teacher_info_row.dart';
+import '../../../../../core/routes/route_names.dart';
 import '../../../../../models/matiere.dart';
 
 class ProfessorMatiereDetails extends StatefulWidget {
@@ -130,6 +132,25 @@ class _ProfessorMatiereDetailsState extends State<ProfessorMatiereDetails>
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          GoRouter.of(context).pushNamed(
+            RoutesNames.professorAddNewDoc,
+          );
+        },
+        backgroundColor: Colors.blueAccent.shade200,
+        icon: const Icon(
+          Icons.edit,
+          color: Colors.white,
+        ),
+        label: const Text(
+          'Compose',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+          ),
+        ),
       ),
     );
   }

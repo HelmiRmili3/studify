@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
   final FocusNode? focusNode;
+  final int? maxLines;
   final bool isPassword;
 
   const CustomTextField({
@@ -24,6 +25,7 @@ class CustomTextField extends StatefulWidget {
     this.focusNode,
     this.keyboardType,
     this.validator,
+    this.maxLines,
     this.isPassword = false,
   });
 
@@ -48,6 +50,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       obscureText: widget.isPassword ? _obscureText : false,
       validator: widget.validator,
+      maxLines: widget.maxLines ?? 1,
       decoration: InputDecoration(
         filled: true,
         fillColor: Theme.of(context).splashColor,

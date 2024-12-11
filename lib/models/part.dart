@@ -1,37 +1,35 @@
-// import 'course.dart';
+import 'dart:io';
 
-// class Part {
-//   final String partId; // Unique ID for the part (e.g., "CS101_Part1")
-//   final String majorId; // ID of the associated major
-//   final String yearOfStudy; // Year of study (e.g., "Freshman", "Sophomore")
-//   final List<Course> courses; // List of courses in this part
+class Filiere {
+  final String filiere;
+  final String code;
+  final int nbYears;
+  final File image;
 
-//   Part({
-//     required this.partId,
-//     required this.majorId,
-//     required this.yearOfStudy,
-//     required this.courses,
-//   });
+  Filiere({
+    required this.filiere,
+    required this.code,
+    required this.nbYears,
+    required this.image,
+  });
 
-//   // Convert to Map for Firebase
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'partId': partId,
-//       'majorId': majorId,
-//       'yearOfStudy': yearOfStudy,
-//       'courses': courses.map((course) => course.toMap()).toList(),
-//     };
-//   }
+  // Convert Filiere to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'filiere': filiere,
+      'code': code,
+      'nbYears': nbYears,
+      'imageUrl': image,
+    };
+  }
 
-//   // Factory method to create Part from Firebase data
-//   factory Part.fromMap(Map<String, dynamic> map) {
-//     return Part(
-//       partId: map['partId'],
-//       majorId: map['majorId'],
-//       yearOfStudy: map['yearOfStudy'],
-//       courses: List<Course>.from(
-//         map['courses'].map((courseData) => Course.fromMap(courseData)),
-//       ),
-//     );
-//   }
-// }
+  // Convert JSON to Filiere
+  factory Filiere.fromJson(Map<String, dynamic> json) {
+    return Filiere(
+      filiere: json['filiere'],
+      code: json['code'],
+      nbYears: json['nbYears'],
+      image: json['image'],
+    );
+  }
+}

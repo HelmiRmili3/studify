@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../../models/card_data.dart';
+import '../../../../../core/common/widgets/shimmer_loading_effect.dart';
 
 class ScheduleListCardProfessor extends StatefulWidget {
   final List<CardData>? cards;
@@ -153,84 +153,6 @@ class _PhotoBackgroundCardState extends State<ScheduleListCardProfessor> {
           ),
         );
       },
-    );
-  }
-}
-
-// Shimmer Loading Widget
-class ShimmerLoading extends StatelessWidget {
-  const ShimmerLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.all(16.0.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 150.w,
-                  height: 20.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white.withOpacity(.3),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  width: 180.w,
-                  height: 20.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white.withOpacity(.3),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  width: 100.w,
-                  height: 14.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white.withOpacity(.3),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  width: 100.w,
-                  height: 14.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white.withOpacity(.3),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100.w,
-                      height: 14.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white.withOpacity(.3),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8.h),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 }
