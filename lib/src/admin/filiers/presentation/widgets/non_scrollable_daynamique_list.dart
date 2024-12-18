@@ -24,7 +24,6 @@ class _NonScrollableDynamicListState extends State<NonScrollableDynamicList> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // Display "No items found" message when the item list is empty
         if (widget.items.isEmpty)
           Padding(
             padding: EdgeInsets.all(16.0.w),
@@ -39,7 +38,6 @@ class _NonScrollableDynamicListState extends State<NonScrollableDynamicList> {
               ),
             ),
           ),
-        // Display the items when the list is not empty
         ...widget.items.map((item) {
           return widget.itemBuilder(item);
         }),

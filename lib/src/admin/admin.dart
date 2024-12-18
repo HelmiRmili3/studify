@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/common/blocs/user/user_bloc.dart';
 import '../../core/common/blocs/user/user_event.dart';
 import '../../core/common/blocs/user/user_state.dart';
+import '../../core/common/screens/connectivity_rapper.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
@@ -110,13 +111,15 @@ class _AdminState extends State<Admin> {
     return Scaffold(
       extendBody: true,
       appBar: _buildAppBar(context, _selectedIndex),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: 20.h,
-          left: 20.w,
-          right: 20.w,
+      body: ConnectivityWrapper(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 20.h,
+            left: 20.w,
+            right: 20.w,
+          ),
+          child: _pages[_selectedIndex],
         ),
-        child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: FloatingBottomBar(
         currentIndex: _selectedIndex,

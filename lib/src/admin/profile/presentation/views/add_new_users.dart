@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studify/core/common/widgets/custom_elevated_button.dart';
 import 'package:studify/core/utils/enums.dart';
 import 'package:studify/src/admin/profile/presentation/bloc/users/users_events.dart';
+import 'package:studify/src/common/auth/presentation/widgets/custom_text_filed.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../core/common/widgets/custom_app_bar.dart';
 import '../../../../../core/common/widgets/fading_circle_loading_indicator.dart';
+import '../../../../../core/theme/colors.dart';
 import '../../../../common/auth/data/models/user_email_model.dart';
 import '../bloc/users/users_bloc.dart';
 import '../bloc/users/users_states.dart';
@@ -23,8 +24,30 @@ class _AddNewUsersState extends State<AddNewUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'Add New User',
+        action: [
+          Padding(
+            padding: EdgeInsets.all(10.0.w),
+            child: IconButton(
+              onPressed: () {
+                showAddEmailDialog(context, 'Add New Email', (email, role) {
+                  String id = const Uuid().v1();
+                  context.read<UsersBloc>().add(
+                        AddUser(
+                          UserEmailModel(
+                            id: id,
+                            email: '$email@isimg.tn',
+                            role: role,
+                          ),
+                        ),
+                      );
+                });
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ),
+        ],
         showBackButton: true,
       ),
       body: SingleChildScrollView(
@@ -75,28 +98,6 @@ class _AddNewUsersState extends State<AddNewUsers> {
                       SizedBox(height: 10.h),
                       ...userCards,
                       SizedBox(height: 10.h),
-                      CustomElevatedButton(
-                        onPressed: () {
-                          showConfirmationDialog(context, 'add', () {
-                            String id = const Uuid().v1();
-                            String email =
-                                'example.${id[0]}${id[3]}am${id[5]}le@isimg.tn';
-                            context.read<UsersBloc>().add(
-                                  AddUser(
-                                    UserEmailModel(
-                                      id: id,
-                                      email: email,
-                                      role: UserRole.student,
-                                    ),
-                                  ),
-                                );
-                          });
-                        },
-                        text: "Add New User",
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                      SizedBox(height: 16.h),
                     ],
                   );
                 }
@@ -130,9 +131,114 @@ void showConfirmationDialog(
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              onConfirm(); // Proceed with deletion
+              onConfirm(); // Proceed with the action
             },
             child: Text(text),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showAddEmailDialog(BuildContext context, String text,
+    void Function(String email, UserRole role) onConfirm) {
+  final emailController = TextEditingController();
+  UserRole selectedRole = UserRole.student;
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(text),
+        content: SizedBox(
+          width: double.infinity,
+          child: Material(
+            color: Colors.transparent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextField(hintText: 'Email', controller: emailController),
+                SizedBox(height: 16.h),
+                DropdownButtonFormField<UserRole>(
+                  value: selectedRole,
+                  onChanged: (UserRole? value) {
+                    if (value != null) {
+                      selectedRole = value;
+                    }
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Theme.of(context).splashColor,
+                    hintText: 'Select Role',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Mulish',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.lightBlack,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.person,
+                      color: AppColors.lightBlack,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 15.h,
+                      horizontal: 10.w,
+                    ),
+                  ),
+                  items: UserRole.values.map((UserRole role) {
+                    return DropdownMenuItem<UserRole>(
+                      value: role,
+                      child: Text(
+                        role.toString().split('.').last,
+                        style: TextStyle(
+                          fontFamily: 'Mulish',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.lightBlack,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onConfirm(emailController.text, selectedRole);
+            },
+            child: const Text('Add'),
           ),
         ],
       );

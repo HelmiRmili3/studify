@@ -40,6 +40,22 @@ class _ProfessorListState extends State<ProfessorList> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.professors.isEmpty) {
+      return SizedBox(
+        height: 80.h,
+        child: Center(
+          child: Text(
+            'No professors found',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[700],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
     return SizedBox(
       height: 120.h,
       child: ListView.builder(

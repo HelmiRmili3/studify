@@ -38,7 +38,6 @@ class _EmailListState extends State<EmailList> {
           ),
         ...widget.emails.map((email) {
           return Container(
-            // padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2),
             margin: EdgeInsets.only(bottom: 5.h),
             decoration: BoxDecoration(
               color: Colors.transparent,
@@ -47,10 +46,12 @@ class _EmailListState extends State<EmailList> {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(email.imageUrl!),
+                  radius: 25.r,
+                  backgroundImage: NetworkImage(
+                    email.imageUrl!,
+                  ),
                 ),
-                const SizedBox(width: 5),
+                SizedBox(width: 5.w),
                 Text(
                   email.email,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

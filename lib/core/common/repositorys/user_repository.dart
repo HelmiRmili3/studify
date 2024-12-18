@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
+import 'package:studify/core/utils/firestore.dart';
 import 'package:studify/models/matiere.dart';
+import 'package:uuid/uuid.dart';
 import '../../../models/user.dart';
 import '../../../src/common/auth/data/models/user_update_model.dart';
+import '../../utils/enums.dart';
 
 class UserRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -30,6 +33,32 @@ class UserRepository {
     } catch (e) {
       debugPrint("Error getting user: $e");
       return null;
+    }
+  }
+
+  Future<void> addAdmin(String email) async {
+    final collectionRef = _firestore.collection(Firestore.emails);
+
+    try {
+      // Check if the email already exists in the collection
+      final querySnapshot =
+          await collectionRef.where('email', isEqualTo: email).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        debugPrint('======================> Admin Email already exists!');
+        return;
+      }
+      // Generate a unique ID for the new admin
+      final uuid = const Uuid().v4();
+      await collectionRef.doc(uuid).set({
+        'email': email,
+        'id': uuid,
+        'role': UserRole.admin.index,
+      });
+      debugPrint('======================> Admin Email added successfully!');
+    } catch (e) {
+      // Log more details about the error
+      debugPrint('An error occurred while adding the admin email: $e');
     }
   }
 

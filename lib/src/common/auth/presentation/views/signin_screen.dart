@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studify/core/utils/app_snack_bar.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/common/widgets/email_text_filed.dart';
@@ -14,7 +15,6 @@ import '../blocs/auth/auth_states.dart';
 import '../widgets/custom_app_logo.dart';
 import '../widgets/custom_text_filed.dart';
 import '../../../../../core/common/widgets/loading_overlay.dart';
-import '../../../../../core/common/widgets/top_snack_bar.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -30,6 +30,7 @@ class _SigninScreenState extends State<SigninScreen>
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final LoadingOverlay loadingOverlay = LoadingOverlay();
   bool rememberMe = false;
 
   @override
@@ -72,21 +73,27 @@ class _SigninScreenState extends State<SigninScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
+      extendBody: true,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {
-            showLoadingOverlay(context);
+            loadingOverlay.show(context, true); // Show the overlay
+          } else {
+            loadingOverlay.show(context, false); // Hide the overlay
           }
+
           if (state is Authenticated) {
             GoRouter.of(context).go(RoutesNames.app, extra: state.user!.role);
-            showTopSnackBar(context, state.succes, Colors.green);
+            AppSnackBar.showTopSnackBar(context, state.succes, Colors.green);
           }
+
           if (state is AuthenticationFailure) {
-            showTopSnackBar(context, state.error, Colors.red);
+            AppSnackBar.showTopSnackBar(context, state.error, Colors.red);
+          }
+
+          if (state is Unauthenticated) {
+            AppSnackBar.showTopSnackBar(
+                context, "User Unauthenticated ", Colors.red);
           }
         },
         child: SafeArea(

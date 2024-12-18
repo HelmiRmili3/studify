@@ -38,6 +38,9 @@ dependencies:
   rxdart: ^0.28.0
   firebase_app_check: ^0.3.1+6
   intl: ^0.20.1
+  connectivity_plus: ^6.1.0
+  another_flushbar: ^1.12.30
+  lottie: ^3.2.0
   # firebase_admin: ^0.3.0
 
 dev_dependencies:

@@ -1,3 +1,4 @@
+import '../../../../../../models/matiere.dart';
 import '../../../../../../models/professor.dart';
 import '../../../../../common/auth/data/models/user_email_model.dart';
 
@@ -18,6 +19,17 @@ class AddProfessor extends NiveauEvent {
   final Professor professor;
   AddProfessor(this.professor);
 }
+
+class AddMatiere extends NiveauEvent {
+  final Matiere matiere;
+  AddMatiere(this.matiere);
+}
+
+class UpdateMatiere extends NiveauEvent {
+  final Matiere matiere;
+  UpdateMatiere(this.matiere);
+}
+
 // class AddSubject extends NiveauEvent {
 //     final Subject subject;
 //     AddSubject(this.subject);

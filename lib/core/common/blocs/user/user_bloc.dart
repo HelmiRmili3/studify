@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studify/models/user.dart';
 import '../../repositorys/user_repository.dart';
@@ -10,6 +11,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
     on<FetchUser>(_onFetchUser);
     on<UpdateUser>(_onUpdateUser);
+    on<AddAdmin>(_onAddAdminUser);
   }
 
   Future<void> _onFetchUser(FetchUser event, Emitter<UserState> emit) async {
@@ -38,6 +40,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoaded(updateduser!));
     } catch (e) {
       emit(UserError("Error updating user: $e"));
+    }
+  }
+
+  Future<void> _onAddAdminUser(AddAdmin event, Emitter<UserState> emit) async {
+    try {
+      await _userRepository.addAdmin('admin.studify@isimg.tn');
+    } catch (e) {
+      debugPrint('Error Adding admin: $e');
     }
   }
 }

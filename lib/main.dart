@@ -4,10 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:studify/core/common/blocs/connectivity/connectivity_events.dart';
 import 'package:studify/core/routes/app_routes.dart';
 import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
 import 'package:studify/core/common/blocs/theme/theme_state.dart';
 import 'package:studify/firebase_options.dart';
+import 'core/common/blocs/connectivity/connetivity_bloc.dart';
+import 'core/common/blocs/user/user_bloc.dart';
+import 'core/common/blocs/user/user_event.dart';
 import 'providers.dart';
 
 void main() async {
@@ -37,11 +41,19 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    context.read<UserBloc>().add(AddAdmin());
+    context.read<ConnectivityBloc>().add(CheckConnectivity());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

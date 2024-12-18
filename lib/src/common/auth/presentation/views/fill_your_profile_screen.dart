@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/common/widgets/custom_app_bar.dart';
+import 'package:studify/core/common/widgets/fading_circle_loading_indicator.dart';
 import 'package:studify/core/utils/enums.dart';
 import 'package:studify/core/utils/file_picker_helper.dart';
 import 'package:studify/models/matiere.dart';
@@ -12,8 +13,8 @@ import 'package:studify/src/common/auth/presentation/widgets/custom_text_filed.d
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
-import '../../../../../core/common/widgets/top_snack_bar.dart';
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../core/utils/app_snack_bar.dart';
 import '../blocs/auth/auth_events.dart';
 import '../widgets/custom_avatar.dart';
 import '../../../../../core/common/widgets/date_time_picker.dart';
@@ -86,20 +87,17 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         listener: (context, state) {
           if (state is Authenticated) {
             GoRouter.of(context).go(RoutesNames.app, extra: state.user!.role);
-            showTopSnackBar(context, state.succes, Colors.green);
+            AppSnackBar.showTopSnackBar(context, state.succes, Colors.green);
           } else if (state is RegisterFailure) {
-            showTopSnackBar(
-              context,
-              "Registration failed: ${state.error}",
-              Colors.red,
-            );
+            AppSnackBar.showTopSnackBar(
+                context, "Registration failed: ${state.error}", Colors.red);
           }
         },
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: FadingCircleLoadingIndicator(),
               );
             }
 

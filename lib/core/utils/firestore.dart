@@ -10,4 +10,5 @@ class Firestore {
   static const String years = 'years';
   static const String access = 'access';
   static const String authenticated = 'authenticated';
+  static const String docs = 'docs';
 }

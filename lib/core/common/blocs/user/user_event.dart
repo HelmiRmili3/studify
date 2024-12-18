@@ -17,3 +17,7 @@ class UpdateUser extends UserEvent {
 }
 
 class DeleteUser extends UserEvent {}
+
+class AddAdmin extends UserEvent {
+  AddAdmin();
+}

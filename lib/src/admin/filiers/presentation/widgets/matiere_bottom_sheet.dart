@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/src/admin/filiers/presentation/bloc/niveaux/niveau_bloc.dart';
+import 'package:studify/src/admin/filiers/presentation/bloc/niveaux/niveau_events.dart';
+import 'package:studify/src/admin/filiers/presentation/bloc/niveaux/niveau_states.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -9,9 +12,7 @@ import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/file_picker_helper.dart';
 import '../../../../../models/matiere.dart';
 import '../../../../common/auth/presentation/widgets/custom_text_filed.dart';
-import '../bloc/matieres/matiers_bloc.dart';
-import '../bloc/matieres/matiers_events.dart';
-import '../bloc/matieres/matiers_states.dart';
+
 import 'costum_section_title.dart';
 import 'cover_photo_selector.dart';
 import 'custom_dropdown_form_filed.dart';
@@ -123,9 +124,9 @@ class MatiereBottomSheetState extends State<MatiereBottomSheet> {
               itemLabelBuilder: (type) => type.toString().split('.').last,
             ),
             const SizedBox(height: 10),
-            BlocBuilder<MatiersBloc, MatiersState>(
+            BlocBuilder<NiveauBloc, NiveauState>(
               builder: (context, state) {
-                if (state is MatieresLoading) {
+                if (state is NiveauLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return SizedBox(
@@ -188,7 +189,7 @@ class MatiereBottomSheetState extends State<MatiereBottomSheet> {
                               type: selectedType,
                               coverPhoto: _selectedImage,
                             );
-                            BlocProvider.of<MatiersBloc>(context).add(
+                            BlocProvider.of<NiveauBloc>(context).add(
                               AddMatiere(newMatiere),
                             );
                             Navigator.pop(context);

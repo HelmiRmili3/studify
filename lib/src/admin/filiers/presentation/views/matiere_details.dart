@@ -8,11 +8,11 @@ import '../widgets/email_dropdown.dart';
 
 class MatiereDetails extends StatefulWidget {
   final Matiere matiere;
-  final List<UserDataModel> professorsEmails;
+  final List<UserDataModel>? professorsEmails; // Made nullable
   const MatiereDetails({
     super.key,
     required this.matiere,
-    required this.professorsEmails,
+    this.professorsEmails, // Nullable field
   });
 
   @override
@@ -21,59 +21,58 @@ class MatiereDetails extends StatefulWidget {
 
 class _MatiereDetailsState extends State<MatiereDetails> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    UserDataModel? selectedProfessor = widget.professorsEmails.firstWhere(
-      (professor) => professor.id == widget.matiere.professor,
-      orElse: () => UserDataModel(
-        id: "null",
-        email: "The professor is not found",
-        role: UserRole.professor,
-        firstName: 'Empty',
-        lastName: 'Empty',
-      ),
-    );
+    final professorsEmails = widget.professorsEmails?.toSet().toList() ?? [];
+    final selectedProfessor = professorsEmails.isNotEmpty
+        ? professorsEmails.firstWhere(
+            (e) => e.id == widget.matiere.professor,
+            orElse: () => UserDataModel(
+              id: 'null',
+              firstName: 'Unknown',
+              lastName: 'Professor',
+              email: '',
+              role: UserRole.professor,
+            ),
+          )
+        : null;
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Container(
-        height: 500.h,
+        height: 600.h,
         margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
           color: Theme.of(context).splashColor,
           borderRadius: BorderRadius.circular(10.r),
-          // border: Border.all(color: Colors.white),
         ),
         child: Column(
           children: [
             ClipRRect(
               child: Container(
-                  width: double.infinity,
-                  height: 200.h,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    widget.matiere.coverPhoto!.filepath,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  (loadingProgress.expectedTotalBytes ?? 1)
-                              : null,
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.error);
-                    },
-                  )),
+                width: double.infinity,
+                height: 200.h,
+                color: Colors.grey[300],
+                child: Image.network(
+                  widget.matiere.coverPhoto?.filepath ?? '',
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.error);
+                  },
+                ),
+              ),
             ),
             Expanded(
               child: Padding(
@@ -129,7 +128,9 @@ class _MatiereDetailsState extends State<MatiereDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${selectedProfessor.firstName.capitalizeFirst()} ${selectedProfessor.lastName.capitalizeFirst()}",
+                          selectedProfessor != null
+                              ? "${selectedProfessor.firstName.capitalizeFirst()} ${selectedProfessor.lastName.capitalizeFirst()}"
+                              : "No Professor Assigned",
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontFamily: 'Mulish',
@@ -157,7 +158,7 @@ class _MatiereDetailsState extends State<MatiereDetails> {
                     ),
                     SizedBox(height: 10.h),
                     EmailDropdown(
-                      emailEntities: widget.professorsEmails,
+                      emailEntities: professorsEmails,
                       matiere: widget.matiere,
                       initEmail: selectedProfessor,
                     ),

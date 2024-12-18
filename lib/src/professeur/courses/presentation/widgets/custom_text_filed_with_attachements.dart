@@ -44,15 +44,16 @@ class _CustomTextFieldWithAttachementsState
   Widget build(BuildContext context) {
     var border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: AppColors.white,
-        width: 2.w,
-      ),
+      borderSide: const BorderSide(color: Colors.transparent),
     );
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: AppColors.white,
+        color: Theme.of(context).splashColor,
+        border: Border.all(
+          color: Theme.of(context).splashColor,
+          width: 1,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +66,7 @@ class _CustomTextFieldWithAttachementsState
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Theme.of(context).splashColor,
+              fillColor: Colors.transparent,
               hintText: widget.hintText,
               hintStyle: TextStyle(
                 fontFamily: 'Mulish',

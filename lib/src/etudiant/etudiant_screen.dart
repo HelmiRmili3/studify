@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studify/core/common/screens/connectivity_rapper.dart';
 
 import '../../core/common/blocs/user/user_event.dart';
 import '../../core/common/blocs/user/user_state.dart';
@@ -119,13 +120,15 @@ class _EtudiantState extends State<EtudiantScreen> {
     return Scaffold(
       extendBody: true,
       appBar: _buildAppBar(context, _selectedIndex),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: 20.h,
-          left: 20.w,
-          right: 20.w,
+      body: ConnectivityWrapper(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 20.h,
+            left: 20.w,
+            right: 20.w,
+          ),
+          child: _pages[_selectedIndex],
         ),
-        child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: FloatingBottomBar(
         currentIndex: _selectedIndex,

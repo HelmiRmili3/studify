@@ -7,6 +7,7 @@ import 'package:studify/core/utils/helpers.dart';
 import 'package:studify/models/matiere.dart';
 
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../home/presentation/blocs/home/home_bloc.dart';
 import '../../../home/presentation/blocs/home/home_events.dart';
 import '../../../home/presentation/blocs/home/home_states.dart';
@@ -14,16 +15,24 @@ import '../widgets/course_loading_effect.dart';
 import '../widgets/professor_categories_list.dart';
 
 class ProfessorCourses extends StatefulWidget {
-  const ProfessorCourses({super.key});
+  final String? category;
+  const ProfessorCourses({
+    super.key,
+    this.category,
+  });
 
   @override
   State<ProfessorCourses> createState() => _ProfessorCoursesState();
 }
 
 class _ProfessorCoursesState extends State<ProfessorCourses> {
+  String selectedCategory = 'All';
+
   @override
   void initState() {
     super.initState();
+    selectedCategory = widget.category ?? 'All';
+
     context.read<HomeBloc>().add(LoadMatieres());
   }
 
@@ -43,7 +52,15 @@ class _ProfessorCoursesState extends State<ProfessorCourses> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ProfessorCategoriesList(categories: categories),
+              ProfessorCategoriesList(
+                categories: categories,
+                selectedCategory: selectedCategory,
+                onCategorySelected: (category) {
+                  setState(() {
+                    selectedCategory = category;
+                  });
+                },
+              ),
               const SizedBox(height: 20),
               BlocBuilder<HomeBloc, HomeStates>(
                 builder: (context, state) {
@@ -54,13 +71,26 @@ class _ProfessorCoursesState extends State<ProfessorCourses> {
                     return Center(child: Text(state.message));
                   }
                   if (state is MatieresLoaded) {
-                    List<Matiere> matieres = state.matieres;
-
+                    var filteredMatieres = state.matieres;
+                    if (selectedCategory != 'All') {
+                      filteredMatieres = filteredMatieres.where((matiere) {
+                        switch (selectedCategory) {
+                          case 'Courses':
+                            return matiere.type == MatiereType.co;
+                          case 'Travaux dirigé':
+                            return matiere.type == MatiereType.td;
+                          case 'Travaux pratiques':
+                            return matiere.type == MatiereType.tp;
+                          default:
+                            return true;
+                        }
+                      }).toList();
+                    }
                     return Expanded(
                       child: ListView.builder(
-                        itemCount: matieres.length,
+                        itemCount: filteredMatieres.length,
                         itemBuilder: (context, index) {
-                          Matiere matiere = matieres[index];
+                          Matiere matiere = filteredMatieres[index];
                           return GestureDetector(
                             onTap: () {
                               context.push(
@@ -203,7 +233,6 @@ class _ProfessorCoursesState extends State<ProfessorCourses> {
                       ),
                     );
                   }
-
                   return const SizedBox.shrink();
                 },
               ),

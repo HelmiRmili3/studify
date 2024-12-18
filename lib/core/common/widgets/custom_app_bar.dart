@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studify/core/common/screens/connectivity_rapper.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -13,17 +14,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      forceMaterialTransparency: true,
-      automaticallyImplyLeading: showBackButton,
-      actions: action,
-      centerTitle: true,
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Jost',
-          fontSize: 21,
+    return ConnectivityWrapper(
+      child: AppBar(
+        forceMaterialTransparency: true,
+        automaticallyImplyLeading: showBackButton,
+        actions: action,
+        centerTitle: true,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Jost',
+            fontSize: 21,
+          ),
         ),
       ),
     );

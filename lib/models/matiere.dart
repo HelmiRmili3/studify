@@ -1,6 +1,7 @@
 // File.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/core/utils/enums.dart';
+import 'package:studify/models/file_item.dart';
 
 import '../core/utils/helpers.dart';
 
@@ -33,14 +34,20 @@ class FileEntity {
 
 class Doc {
   String id;
+  String creator;
+  String matiereId;
   String title;
   String message;
-  List<FileEntity> files;
+  List<FileItem> files;
+  DateTime date;
 
   Doc({
     required this.id,
     required this.title,
     required this.message,
+    required this.creator,
+    required this.matiereId,
+    required this.date,
     this.files = const [],
   });
 
@@ -48,9 +55,12 @@ class Doc {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'creator': creator,
+      'matiereId': matiereId,
       'title': title,
       'message': message,
       'files': files.map((file) => file.toJson()).toList(),
+      'date': date.toIso8601String(),
     };
   }
 
@@ -58,11 +68,35 @@ class Doc {
   factory Doc.fromJson(Map<String, dynamic> json) {
     return Doc(
       id: json['id'],
+      creator: json['creator'],
+      matiereId: json['matiereId'],
       title: json['title'],
       message: json['message'],
+      date: DateTime.parse(json['date']),
       files: (json['files'] as List<dynamic>)
-          .map((file) => FileEntity.fromJson(file))
+          .map((file) => FileItem.fromJson(file))
           .toList(),
+    );
+  }
+
+  // Create a new Doc object by copying the current one with optional changes
+  Doc copyWith({
+    String? id,
+    String? creator,
+    String? matiereId,
+    String? title,
+    String? message,
+    List<FileItem>? files,
+    DateTime? date,
+  }) {
+    return Doc(
+      id: id ?? this.id,
+      creator: creator ?? this.creator,
+      matiereId: matiereId ?? this.matiereId,
+      title: title ?? this.title,
+      message: message ?? this.message,
+      files: files ?? this.files,
+      date: date ?? this.date,
     );
   }
 }

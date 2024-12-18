@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studify/src/professeur/courses/presentation/blocs/matiere/matiere_states.dart';
-
 import '../../../domain/repositories/matiere_repository.dart';
 import 'matiere_events.dart';
 
@@ -10,25 +9,28 @@ class MatiereBloc extends Bloc<MatiereEvents, MatiereStates> {
   MatiereBloc() : super(MatiereInitial()) {
     on<LoadDocs>((event, emit) async {
       emit(MatiereInitial());
-      // try {
-      //   await emit.forEach(
-      //     repository.streamFilieres(),
-      //     onData: (filieres) => FiliereLoaded(filieres),
-      //     onError: (error, stackTrace) => FiliereError(error.toString()),
-      //   );
-      // } catch (e) {
-      //   emit(FiliereError(e.toString()));
-      // }
+      try {
+        await emit.forEach(
+          repository.fetchDocsByFilters(event.filters),
+          onData: (filieres) => MatiereLoaded(filieres),
+          onError: (error, stackTrace) => MatiereError(error.toString()),
+        );
+      } catch (e) {
+        emit(MatiereError(e.toString()));
+      }
     });
 
     on<AddDoc>((event, emit) {
-      emit(MatiereInitial());
-      //   try {
-      //     repository.addFiliere(event.filiere);
-      //     emit(FiliereAdded());
-      //   } catch (e) {
-      //     emit(FiliereError(e.toString()));
-      //   }
+      emit(DocAdding());
+      try {
+        repository.addDoc(
+          event.doc,
+          event.files,
+        );
+        emit(DocAdded());
+      } catch (e) {
+        emit(DocError(e.toString()));
+      }
     });
 
     on<UpdateMatiere>((event, emit) {

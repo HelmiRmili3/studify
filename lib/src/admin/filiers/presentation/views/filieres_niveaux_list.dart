@@ -8,11 +8,13 @@ class FilieresNiveauxList extends StatelessWidget {
   final String code;
   final String name;
   final int nbYears;
+  final String image;
   const FilieresNiveauxList({
     super.key,
     required this.code,
     required this.name,
     required this.nbYears,
+    required this.image,
   });
 
   @override
@@ -72,26 +74,46 @@ class FilieresNiveauxList extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Container(
-                        height: 100.h,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).splashColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '$code${index + 1}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  fontFamily: 'Jost',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: 100.h,
+                              width: 106.w,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).splashColor,
+                              ),
+                              child: Image.network(
+                                image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 10, // Adjust to position the banner correctly
+                            right:
+                                -35, // Adjust to position the banner correctly
+                            child: Transform.rotate(
+                              angle:
+                                  0.785398, // Rotates the banner (45 degrees in radians)
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                color: Colors
+                                    .red, // Background color for the banner
+                                child: Text(
+                                  '$code${index + 1}',
+                                  style: const TextStyle(
+                                    color: Colors.white, // Text color
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },

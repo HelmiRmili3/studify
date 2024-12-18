@@ -14,8 +14,9 @@ class CustomTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final int? maxLines;
   final bool isPassword;
+  final OutlineInputBorder? border;
 
-  const CustomTextField({
+  CustomTextField({
     super.key,
     required this.hintText,
     this.prefixIcon,
@@ -27,6 +28,7 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.maxLines,
     this.isPassword = false,
+    this.border,
   });
 
   @override
@@ -38,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var border = OutlineInputBorder(
+    OutlineInputBorder border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(
         color: AppColors.white,
@@ -85,9 +87,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     },
               )
             : null,
-        border: border,
-        enabledBorder: border,
-        focusedBorder: border,
+        border: widget.border ?? border,
+        enabledBorder: widget.border ?? border,
+        focusedBorder: widget.border ?? border,
         contentPadding: EdgeInsets.symmetric(
           vertical: 15.h,
           horizontal: 10.w,

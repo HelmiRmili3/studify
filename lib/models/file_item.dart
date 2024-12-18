@@ -10,10 +10,22 @@ class FileItem {
     required this.fileUrl,
     required this.uploadDate,
   });
+
+  // Convert FileItem to JSON
   Map<String, dynamic> toJson() => {
         'fileId': fileId,
         'fileName': fileName,
         'fileUrl': fileUrl,
         'uploadDate': uploadDate.toIso8601String(),
       };
+
+  // Convert JSON to FileItem
+  factory FileItem.fromJson(Map<String, dynamic> json) {
+    return FileItem(
+      fileId: json['fileId'],
+      fileName: json['fileName'],
+      fileUrl: json['fileUrl'],
+      uploadDate: DateTime.parse(json['uploadDate']),
+    );
+  }
 }

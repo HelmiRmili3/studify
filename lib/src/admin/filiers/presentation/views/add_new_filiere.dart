@@ -65,7 +65,7 @@ class _AddNewFiliereState extends State<AddNewFiliere> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).splashColor,
+                  color: Colors.transparent,
                 ),
                 child: Stack(
                   clipBehavior: Clip.none,

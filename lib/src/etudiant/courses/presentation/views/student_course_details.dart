@@ -93,6 +93,7 @@ class _StudentCourseDetailsState extends State<StudentCourseDetails>
           padding: EdgeInsets.all(16.w),
           child: TabSection(
             controller: _tabController,
+            matiere: widget.arguments,
           ),
         ),
       ),

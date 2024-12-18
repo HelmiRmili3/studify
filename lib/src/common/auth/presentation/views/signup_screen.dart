@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/common/screens/connectivity_rapper.dart';
 import '../../../../../core/common/widgets/custom_elevated_button.dart';
 import '../../../../../core/common/widgets/email_text_filed.dart';
 import '../../../../../core/routes/route_names.dart';

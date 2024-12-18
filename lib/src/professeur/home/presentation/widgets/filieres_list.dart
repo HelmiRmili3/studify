@@ -52,7 +52,7 @@ class _ProfessorListState extends State<FilieresList> {
                         width: 70.w,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.r),
-                          child: Image.asset("assets/images/lisi.png",
+                          child: Image.network(state.filieres[index].imageUrl,
                               fit: BoxFit.fill),
                         ),
                       ),

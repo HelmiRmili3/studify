@@ -1,4 +1,4 @@
-import '../../../../../../models/filiere.dart';
+import 'package:studify/models/matiere.dart';
 
 /// Filiere States
 abstract class MatiereStates {}
@@ -8,8 +8,8 @@ class MatiereInitial extends MatiereStates {}
 class MatiereLoading extends MatiereStates {}
 
 class MatiereLoaded extends MatiereStates {
-  final List<Filiere> filieres;
-  MatiereLoaded(this.filieres);
+  final List<Doc> docs;
+  MatiereLoaded(this.docs);
 }
 
 class MatiereError extends MatiereStates {
@@ -17,9 +17,14 @@ class MatiereError extends MatiereStates {
   MatiereError(this.message);
 }
 
-class MatiereAdding extends MatiereStates {}
+class DocAdding extends MatiereStates {}
 
-class MatiereAdded extends MatiereStates {}
+class DocAdded extends MatiereStates {}
+
+class DocError extends MatiereStates {
+  final String message;
+  DocError(this.message);
+}
 
 /// Niveau States
 

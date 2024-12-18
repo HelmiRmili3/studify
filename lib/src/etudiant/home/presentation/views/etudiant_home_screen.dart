@@ -53,14 +53,6 @@ class _EtudiantHomeScreenState extends State<StudentHomeScreen> {
       'Travaux dirigé',
       'Travaux pratiques',
     ];
-    // final List<String> professors = [
-    //   'Dr. Smith',
-    //   'Prof. Johnson',
-    //   'Dr. Williams',
-    //   'Prof. Brown',
-    //   'Dr. Jones',
-    // ];
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

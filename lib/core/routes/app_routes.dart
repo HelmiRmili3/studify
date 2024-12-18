@@ -29,7 +29,6 @@ import '../common/screens/edit_profile.dart';
 import '../../src/professeur/professeur_screen.dart';
 import '../common/screens/error_role_ot_found.dart';
 import '../common/screens/full_display_image_screen.dart';
-import '../common/screens/subject_details_screen.dart';
 import 'route_names.dart';
 
 class AppRouter {
@@ -242,17 +241,19 @@ class AppRouter {
           name: RoutesNames.professorAddNewDoc,
           pageBuilder: (context, state) => _fadeTransition(
             state,
-            const ProfessorAddNewDoc(),
+            ProfessorAddNewDoc(
+              arguments: state.extra as Map<String, dynamic>,
+            ),
           ),
         ),
-        GoRoute(
-          path: RoutesNames.subjectDetailsScreen,
-          name: RoutesNames.subjectDetailsScreen,
-          pageBuilder: (context, state) => _fadeTransition(
-            state,
-            const SubjectDetailsScreen(),
-          ),
-        ),
+        // GoRoute(
+        //   path: RoutesNames.subjectDetailsScreen,
+        //   name: RoutesNames.subjectDetailsScreen,
+        //   pageBuilder: (context, state) => _fadeTransition(
+        //     state,
+        //     DocDetailsScreen(doc: null,),
+        //   ),
+        // ),
         GoRoute(
           path: RoutesNames.securityscreen,
           name: RoutesNames.securityscreen,
@@ -274,7 +275,7 @@ class AppRouter {
           name: RoutesNames.professorCourses,
           pageBuilder: (context, state) => _fadeTransition(
             state,
-            const ProfessorCourses(),
+            ProfessorCourses(category: state.extra as String),
           ),
         ),
         GoRoute(

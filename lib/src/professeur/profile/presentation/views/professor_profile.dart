@@ -12,6 +12,7 @@ import '../../../../../core/common/blocs/user/user_state.dart';
 import '../../../../../core/common/widgets/costom_row.dart';
 import '../../../../../core/common/widgets/logout_button.dart';
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../core/utils/app_snack_bar.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_bloc.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_events.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_states.dart';
@@ -37,6 +38,8 @@ class _ProfessorProfileState extends State<ProfessorProfile> {
         listener: (context, state) {
           if (state is Unauthenticated) {
             GoRouter.of(context).go(RoutesNames.signin);
+            AppSnackBar.showTopSnackBar(
+                context, "Your are logged out.", Colors.yellow);
           }
         },
         child: BlocBuilder<UserBloc, UserState>(

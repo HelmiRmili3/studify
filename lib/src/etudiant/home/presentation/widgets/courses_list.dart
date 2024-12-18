@@ -8,6 +8,7 @@ import 'package:studify/models/matiere.dart';
 
 import '../blocs/professors/professors_bloc.dart';
 import '../blocs/professors/professors_states.dart';
+import 'no_courses_found.dart';
 
 class CoursesList extends StatefulWidget {
   final List<Matiere> matieres;
@@ -24,6 +25,9 @@ class CoursesList extends StatefulWidget {
 class _CoursesListState extends State<CoursesList> {
   @override
   Widget build(BuildContext context) {
+    if (widget.matieres.isEmpty) {
+      return const EmptyWidget();
+    }
     return BlocBuilder<ProfessorsBloc, ProfessorsStates>(
       builder: (context, state) {
         if (state is ProfessorsLoaded) {
@@ -34,9 +38,7 @@ class _CoursesListState extends State<CoursesList> {
               itemCount: widget.matieres.length,
               itemBuilder: (context, index) {
                 final matiere = widget.matieres[index];
-                final professor = state.professors.firstWhere(
-                  (e) => e.uid == matiere.professor,
-                );
+
                 return GestureDetector(
                   onTap: () {
                     context.push(
@@ -81,7 +83,8 @@ class _CoursesListState extends State<CoursesList> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${professor.firstName.capitalizeFirst()} ${professor.lastName.capitalizeFirst()}',
+                                    '',
+                                    // '${professor.firstName.capitalizeFirst()} ${professor.lastName.capitalizeFirst()}',
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: Theme.of(context)

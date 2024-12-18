@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:studify/models/matiere.dart';
 import 'package:studify/src/common/auth/data/models/user_data_model.dart';
 
 import '../../../../../core/utils/enums.dart';
@@ -8,7 +9,7 @@ import '../../../../../core/utils/helpers.dart';
 import '../../../../common/auth/data/models/user_email_model.dart';
 
 class NiveauRepository {
-  Stream<List<UserDataModel>> streamNiveau(String code) async* {
+  Stream<Map<String, dynamic>> streamNiveau(String code) async* {
     try {
       // Fetch the niveaux document to get the list of student IDs
       DocumentSnapshot<Map<String, dynamic>> docSnapshot =
@@ -22,11 +23,10 @@ class NiveauRepository {
       // Check if the document exists and has data
       if (docSnapshot.exists && docSnapshot.data() != null) {
         // Extract the list of student IDs
-        List<dynamic> studentIds =
-            docSnapshot.data()!['emails'] as List<dynamic>;
+        List<dynamic> userIds = docSnapshot.data()!['emails'] as List<dynamic>;
 
-        // List to hold futures of email models
-        List<Future<UserDataModel?>> emailFutures = studentIds.map((id) async {
+        // Fetch users asynchronously
+        List<Future<UserDataModel?>> usersFutures = userIds.map((id) async {
           DocumentSnapshot<Map<String, dynamic>> userSnapshot =
               await FirebaseFirestore.instance
                   .collection(Firestore.years)
@@ -34,26 +34,61 @@ class NiveauRepository {
                   .collection(Firestore.authenticated)
                   .doc(id)
                   .get();
-          UserDataModel userData = UserDataModel.fromJson(userSnapshot.data()!);
+
           if (userSnapshot.exists && userSnapshot.data() != null) {
-            return userData;
+            return UserDataModel.fromJson(userSnapshot.data()!);
           } else {
             return null;
           }
         }).toList();
 
         // Resolve futures and filter out null values
-        List<UserDataModel?> emailModels = await Future.wait(emailFutures);
-        List<UserDataModel> validEmailModels =
-            emailModels.whereType<UserDataModel>().toList();
+        List<UserDataModel?> usersModels = await Future.wait(usersFutures);
+        List<UserDataModel> validUsersModels =
+            usersModels.whereType<UserDataModel>().toList();
 
-        yield validEmailModels;
+        // Separate users into students and professors
+        List<UserDataModel> students = validUsersModels
+            .where((user) => user.role == UserRole.student)
+            .toList();
+
+        List<UserDataModel> professeurs = validUsersModels
+            .where((user) => user.role == UserRole.professor)
+            .toList();
+
+        // Fetch matieres related to the niveau
+        List<Matiere> matieres = await FirebaseFirestore.instance
+            .collection(Firestore.years)
+            .doc('2024')
+            .collection(Firestore.matieres)
+            .where('filiere', isEqualTo: code)
+            .get()
+            .then((snapshot) =>
+                snapshot.docs.map((doc) => Matiere.fromDocument(doc)).toList());
+
+        // Yield the result
+        yield {
+          "students": students,
+          "professors": professeurs,
+          "matieres": matieres,
+        };
+        debugPrint(
+            "Niveau fetched successfully students :${students.length} ,professeurs : ${professeurs.length} ,matieres : ${matieres.length}");
       } else {
-        yield [];
+        // If no document found, yield empty data
+        yield {
+          "students": [],
+          "professeurs": [],
+          "matieres": [],
+        };
       }
     } catch (e) {
-      debugPrint("Error fetching emails as stream: $e");
-      yield [];
+      debugPrint("Error fetching data as stream: $e");
+      yield {
+        "students": [],
+        "professeurs": [],
+        "matieres": [],
+      };
     }
   }
 
@@ -74,7 +109,7 @@ class NiveauRepository {
           email: emailQuerySnapshot.docs.first.data()['email'],
           role: convertToEnumRole(emailQuerySnapshot.docs.first.data()['role']),
         );
-        debugPrint("Email already exists with ID: $userEmailModel.id");
+        debugPrint("Email already exists with ID: ${userEmailModel.id}");
         UserRole role = convertToEnumRole(userEmailModel.role.index);
         if (email.role == role) {
           List<String> filieres = await getFilieresByUserId(userEmailModel.id);

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/models/matiere.dart';
 
 class ProfessorNonScrollableDynamicList extends StatefulWidget {
-  final List<Map<String, dynamic>> items;
-  final Widget Function(Map<String, dynamic> item) itemBuilder;
+  final List<Doc> items;
+  final Widget Function(Doc item) itemBuilder;
 
   const ProfessorNonScrollableDynamicList({
     super.key,

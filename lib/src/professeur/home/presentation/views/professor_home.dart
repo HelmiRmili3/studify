@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/routes/route_names.dart';
+import 'package:studify/src/etudiant/home/presentation/widgets/horizontal_category_list.dart';
 import 'package:studify/src/professeur/home/presentation/blocs/filieres/professor_filieres_bloc.dart';
 
 import '../../../../../core/common/widgets/custom_search_filed.dart';
@@ -48,8 +49,8 @@ class _ProfessorHomeState extends State<ProfessorHome> {
     List<String> categories = [
       'All',
       'Courses',
-      'Traveaux dirigé',
-      'Traveaux pratiques',
+      'Travaux dirigé',
+      'Travaux pratiques',
     ];
 
     return SingleChildScrollView(
@@ -99,48 +100,69 @@ class _ProfessorHomeState extends State<ProfessorHome> {
           CustomRowTitle(
               title: "Categories",
               onViewAll: () {
-                GoRouter.of(context).push(RoutesNames.professorCourses);
+                GoRouter.of(context).push(
+                  RoutesNames.professorCourses,
+                  extra: 'All',
+                );
               }),
           SizedBox(height: 20.h),
-          SizedBox(
-            height: 30.h,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    debugPrint('${categories[index]} Cliked');
-                  },
-                  child: Container(
-                    height: 30.h,
-                    margin: EdgeInsets.only(right: 10.w),
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).splashColor,
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(50.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        categories[index],
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontFamily: 'Mulish',
-                              fontSize: 13.sp,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge!.color,
-                            ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+          // SizedBox(
+          //   height: 30.h,
+          //   child: ListView.builder(
+          //     scrollDirection: Axis.horizontal,
+          //     itemCount: categories.length,
+          //     itemBuilder: (context, index) {
+          //       return GestureDetector(
+          //         onTap: () {
+          //           debugPrint('${categories[index]} Cliked');
+          //         },
+          //         child: Container(
+          //           height: 30.h,
+          //           margin: EdgeInsets.only(right: 10.w),
+          //           padding: EdgeInsets.symmetric(horizontal: 10.w),
+          //           decoration: BoxDecoration(
+          //             color: Theme.of(context).splashColor,
+          //             border: Border.all(
+          //               color: Colors.white,
+          //             ),
+          //             borderRadius: BorderRadius.circular(50.r),
+          //           ),
+          //           child: Center(
+          //             child: Text(
+          //               categories[index],
+          //               style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          //                     fontFamily: 'Mulish',
+          //                     fontSize: 13.sp,
+          //                     color:
+          //                         Theme.of(context).textTheme.bodyLarge!.color,
+          //                   ),
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+          HorizontalCategoryList(
+            categories: categories,
+            onCategoryTap: (category) {
+              debugPrint('$category Clicked');
+              GoRouter.of(context).push(
+                RoutesNames.professorCourses,
+                extra: category,
+              );
+            },
           ),
           SizedBox(height: 20.h),
-          CustomRowTitle(title: "Your Courses", onViewAll: () {}),
+          CustomRowTitle(
+              title: "Your Courses",
+              onViewAll: () {
+                GoRouter.of(context).push(
+                  RoutesNames.professorCourses,
+                  extra: 'All',
+                );
+              }),
           SizedBox(height: 20.h),
           BlocBuilder<HomeBloc, HomeStates>(
             builder: (context, state) {

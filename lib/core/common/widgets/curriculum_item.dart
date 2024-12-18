@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studify/core/utils/helpers.dart';
+import 'package:studify/models/matiere.dart';
+
+import '../screens/doc_deatils_screen.dart';
 
 class CurriculumItem extends StatelessWidget {
-  final String title;
-  final String time;
+  final Doc doc;
   final String index;
 
-  const CurriculumItem({
-    super.key,
-    required this.title,
-    required this.time,
-    required this.index,
-  });
+  const CurriculumItem({super.key, required this.doc, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DocDetailsScreen(
+              doc: doc,
+            ),
+          ),
+        );
+      },
       child: Container(
         height: 100.h,
         margin: const EdgeInsets.only(bottom: 10),
@@ -47,7 +54,7 @@ class CurriculumItem extends StatelessWidget {
                 children: [
                   Text(
                     maxLines: 2,
-                    title,
+                    doc.title.capitalizeFirst(),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontFamily: 'Jost',
                           fontSize: 15.sp,
@@ -56,7 +63,7 @@ class CurriculumItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    time,
+                    " Date : ${"${doc.date.toLocal()}".split(' ')[0]} Time : ${"${doc.date.toLocal()}".split(' ')[1].split('.')[0]}",
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontFamily: 'Mulish',
                           fontSize: 11.sp,

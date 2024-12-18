@@ -12,6 +12,7 @@ import '../../../../../core/common/blocs/user/user_state.dart';
 import '../../../../../core/common/widgets/costom_row.dart';
 import '../../../../../core/common/widgets/logout_button.dart';
 import '../../../../../core/routes/route_names.dart';
+import '../../../../../core/utils/app_snack_bar.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_bloc.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_events.dart';
 import '../../../../common/auth/presentation/blocs/auth/auth_states.dart';
@@ -37,6 +38,11 @@ class _AdminProfileState extends State<AdminProfile> {
         listener: (context, state) {
           if (state is Unauthenticated) {
             GoRouter.of(context).go(RoutesNames.signin);
+            AppSnackBar.showTopSnackBar(
+              context,
+              "Your are logged out.",
+              Colors.yellow,
+            );
           }
         },
         child: BlocBuilder<UserBloc, UserState>(
@@ -50,7 +56,6 @@ class _AdminProfileState extends State<AdminProfile> {
             if (state is UserError) {
               return Center(child: Text(state.message));
             }
-
             if (state is UserLoaded) {
               final user = state.user;
               return SingleChildScrollView(

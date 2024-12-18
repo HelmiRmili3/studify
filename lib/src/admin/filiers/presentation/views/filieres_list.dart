@@ -53,9 +53,10 @@ class _AdminFiliersState extends State<AdminFiliers> {
                       },
                       child: Container(
                         height: 100.h,
+                        width: 106.w,
                         decoration: BoxDecoration(
                           color: Theme.of(context).splashColor,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.white),
                         ),
                         child: const Center(
@@ -72,30 +73,88 @@ class _AdminFiliersState extends State<AdminFiliers> {
                               code: filieres[index].code,
                               name: filieres[index].filiere,
                               nbYears: filieres[index].nbYears,
+                              image: filieres[index].imageUrl,
                             ),
                           ),
                         );
                       },
-                      child: Container(
-                        height: 100.h,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).splashColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: Center(
-                          child: Text(
-                            filieres[index].code,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  fontFamily: 'Jost',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      // child: Stack(
+                      //   children: [
+                      //     Container(
+                      //       height: 100.h,
+                      //       decoration: BoxDecoration(
+                      //         color: Theme.of(context).splashColor,
+                      //       ),
+                      //       child: ClipRRect(
+                      //         borderRadius: BorderRadius.circular(20),
+                      //         child: Image.network(
+                      //           filieres[index].imageUrl,
+                      //           fit: BoxFit.cover,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Positioned(
+                      //       top: 8, // Adjust the position of the badge
+                      //       right: 8, // Adjust the position of the badge
+                      //       child: Container(
+                      //         padding: const EdgeInsets.symmetric(
+                      //             horizontal: 8, vertical: 4),
+                      //         decoration: BoxDecoration(
+                      //           color: Colors
+                      //               .red, // Background color for the badge
+                      //           borderRadius: BorderRadius.circular(12),
+                      //         ),
+                      //         child: Text(
+                      //           filieres[index].code,
+                      //           style: const TextStyle(
+                      //             color: Colors.white, // Text color
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: 100.h,
+                              width: 104.w,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).splashColor,
+                              ),
+                              child: Image.network(
+                                filieres[index].imageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 10, // Adjust to position the banner correctly
+                            right:
+                                -35, // Adjust to position the banner correctly
+                            child: Transform.rotate(
+                              angle:
+                                  0.785398, // Rotates the banner (45 degrees in radians)
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                color: Colors
+                                    .red, // Background color for the banner
+                                child: Text(
+                                  filieres[index].code,
+                                  style: const TextStyle(
+                                    color: Colors.white, // Text color
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
             },

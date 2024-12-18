@@ -52,7 +52,8 @@ class _ProfessorMatiereDetailsState extends State<ProfessorMatiereDetails>
   @override
   Widget build(BuildContext context) {
     Matiere matiere = Matiere.fromJson(widget.arguments);
-
+    // var professor = FirebaseApp.instance.options.projectId == 'studify-27720'
+    // var professor = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -104,7 +105,7 @@ class _ProfessorMatiereDetailsState extends State<ProfessorMatiereDetails>
                             rating: 4.5,
                           ),
                           SizedBox(height: 10.0.h),
-                          const CourseTitle(course: 'COURSE TITIL'),
+                          CourseTitle(course: matiere.name),
                           SizedBox(height: 10.0.h),
                           const CourseStats(
                             students: '120',
@@ -128,6 +129,7 @@ class _ProfessorMatiereDetailsState extends State<ProfessorMatiereDetails>
               padding: EdgeInsets.all(16.w),
               child: TabSection(
                 controller: _tabController,
+                matiere: matiere,
               ),
             ),
           ),
@@ -137,6 +139,7 @@ class _ProfessorMatiereDetailsState extends State<ProfessorMatiereDetails>
         onPressed: () {
           GoRouter.of(context).pushNamed(
             RoutesNames.professorAddNewDoc,
+            extra: matiere.toJson(),
           );
         },
         backgroundColor: Colors.blueAccent.shade200,

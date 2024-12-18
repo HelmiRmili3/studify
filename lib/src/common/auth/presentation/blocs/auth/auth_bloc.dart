@@ -21,13 +21,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthStarted(
       AuthStarted event, Emitter<AuthState> emit) async {
-    final user = _firebaseAuth.currentUser;
-    if (user != null) {
-      UserProfileModel? userProfile = await authRepository.getUser(user.uid);
-      debugPrint("User Profile: ${userProfile!.toJson()}");
-      emit(Authenticated("User logged in", userProfile));
-    } else {
-      emit(Unauthenticated());
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user != null) {
+        UserProfileModel? userProfile = await authRepository.getUser(user.uid);
+        debugPrint("User Profile: ${userProfile!.toJson()}");
+        emit(Authenticated("User logged in", userProfile));
+      } else {
+        emit(Unauthenticated());
+      }
+    } catch (e) {
+      debugPrint("Error in _onAuthStarted: $e");
+      emit(AuthenticationFailure("Error checking authentication status : $e"));
     }
   }
 
@@ -62,11 +67,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         UserProfileModel? userProfile =
             await authRepository.getUser(userCredential.user!.uid);
         debugPrint("AuthLoggedIn: UserProfile = $userProfile");
-
         if (userProfile != null) {
           emit(Authenticated("User logged in", userProfile));
           return;
         }
+        return;
+      } else {
+        emit(Unauthenticated());
       }
     } catch (e) {
       debugPrint("AuthLoggedIn: Error = $e");
@@ -81,6 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Unauthenticated());
     } catch (e) {
       debugPrint("Error logging out user in AuthLoggedOut event: $e");
+      emit(AuthenticationFailure(e.toString()));
     }
   }
 }

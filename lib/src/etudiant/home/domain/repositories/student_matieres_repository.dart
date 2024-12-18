@@ -28,7 +28,7 @@ class StudentMatieresRepository {
       // Ensure the document exists and has a 'filiere' field
       if (filiereDoc.exists && filiereDoc.data() != null) {
         Map<String, dynamic> filier = filiereDoc.data() as Map<String, dynamic>;
-        String userFiliere = filier['filiere'];
+        String userFiliere = filier['filieres'][0];
 
         // Stream the matieres collection filtered by 'filiere'
         yield* _firebaseFirestore
@@ -54,13 +54,26 @@ class StudentMatieresRepository {
 
   Stream<List<UserModel>> streamProfessors() async* {
     try {
+      String userId = _firebaseAuth.currentUser?.uid ?? '';
+      String userFiliere = '';
+      // Fetch the user's 'filiere' data
+      DocumentSnapshot filiereDoc = await _firebaseFirestore
+          .collection('years')
+          .doc('2024')
+          .collection(Firestore.access)
+          .doc(userId)
+          .get();
+      if (filiereDoc.exists && filiereDoc.data() != null) {
+        Map<String, dynamic> filier = filiereDoc.data() as Map<String, dynamic>;
+        userFiliere = filier['filieres'][0];
+      }
       // Fetch the niveaux document to get the list of student IDs
       DocumentSnapshot<Map<String, dynamic>> docSnapshot =
           await FirebaseFirestore.instance
               .collection(Firestore.years)
               .doc('2024')
               .collection(Firestore.niveaux)
-              .doc('LISI1')
+              .doc(userFiliere)
               .get();
 
       if (docSnapshot.exists && docSnapshot.data() != null) {

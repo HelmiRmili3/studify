@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studify/core/common/widgets/fading_circle_loading_indicator.dart';
+import 'package:studify/core/utils/app_snack_bar.dart';
 import 'package:studify/core/utils/helpers.dart';
 
 import '../../../../../core/common/blocs/user/user_bloc.dart';
@@ -38,6 +39,8 @@ class _StudentProfileState extends State<StudentProfile> {
         listener: (context, state) {
           if (state is Unauthenticated) {
             GoRouter.of(context).go(RoutesNames.signin);
+            AppSnackBar.showTopSnackBar(
+                context, "Your are logged out.", Colors.yellow);
           }
         },
         child: BlocBuilder<UserBloc, UserState>(
