@@ -15,7 +15,7 @@ dependencies:
 
   firebase_auth: ^5.3.3
   firebase_core: ^3.8.0
-  firebase_database: ^11.1.6
+  firebase_database: ^11.2.0
   cloud_firestore: ^5.5.0
   firebase_storage: ^12.3.6
 
@@ -41,6 +41,10 @@ dependencies:
   connectivity_plus: ^6.1.0
   another_flushbar: ^1.12.30
   lottie: ^3.2.0
+  async: ^2.11.0
+  logger: ^2.5.0
+  get_it: ^8.0.3
+  flutter_secure_storage: ^9.2.2
   # firebase_admin: ^0.3.0
 
 dev_dependencies:

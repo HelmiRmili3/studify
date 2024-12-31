@@ -12,7 +12,7 @@ class UsersBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoading());
       try {
         await emit.forEach(
-          repository.fetchUsers(), // Stream of users
+          repository.fetchUsers(),
           onData: (users) => UserLoaded(users),
           onError: (error, stackTrace) => UserError(error.toString()),
         );
@@ -27,7 +27,6 @@ class UsersBloc extends Bloc<UserEvent, UserState> {
       try {
         // Add the user
         await repository.addUser(event.user);
-
         await emit.forEach(
           repository.fetchUsers(), // Stream of users
           onData: (users) => UserLoaded(users),

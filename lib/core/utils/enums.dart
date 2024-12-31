@@ -6,6 +6,8 @@ enum UserRole { admin, professor, student, unknown }
 
 enum UserGender { male, female, unknown }
 
+enum ChatType { individual, group }
+
 enum AppDbMode { local, remote }
 
 enum MatiereType { co, td, tp }

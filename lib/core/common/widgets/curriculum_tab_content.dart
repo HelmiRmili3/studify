@@ -6,10 +6,12 @@ import '../../../src/professeur/courses/presentation/widgets/professor_non_scrol
 
 class CurriculumTabContent extends StatelessWidget {
   final List<Doc> docs;
+  final Matiere matiere;
 
   const CurriculumTabContent({
     super.key,
     required this.docs,
+    required this.matiere,
   });
 
   @override
@@ -24,6 +26,7 @@ class CurriculumTabContent extends StatelessWidget {
             itemBuilder: (doc) => CurriculumItem(
               doc: doc,
               index: "${docs.indexOf(doc) + 1}",
+              matiere: matiere,
             ),
           ),
         ),

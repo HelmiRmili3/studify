@@ -1,12 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studify/models/user.dart';
+import '../../../service/secure_storage_service.dart';
 import '../../repositorys/user_repository.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository _userRepository = UserRepository();
+  final UserProfileStorage userProfileStorage = UserProfileStorage();
+
+  late UserModel? user;
 
   UserBloc() : super(UserInitial()) {
     on<FetchUser>(_onFetchUser);
@@ -16,12 +20,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<void> _onFetchUser(FetchUser event, Emitter<UserState> emit) async {
     emit(UserLoading());
-
     try {
-      final user = await _userRepository.getUser();
+      user = await _userRepository.getUser();
 
       if (user != null) {
-        emit(UserLoaded(user));
+        emit(UserLoaded(user!));
       } else {
         emit(UserError("Failed to load user."));
       }

@@ -11,6 +11,7 @@ import '../../core/common/blocs/user/user_state.dart';
 import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/routes/route_names.dart';
+import '../common/chats/presentation/views/all_chats_screen.dart';
 import 'home/presentation/views/etudiant_home_screen.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
 import 'profile/presentation/views/student_profile.dart';
@@ -64,18 +65,10 @@ class _EtudiantState extends State<EtudiantScreen> {
 
   final List<PreferredSizeWidget?> _appBar = [
     null,
-    // const CustomAppBar(
-    //   title: 'Courses',
-    //   showBackButton: false,
-    // ),
     const CustomAppBar(
       title: 'Inbox',
       showBackButton: false,
     ),
-    // const CustomAppBar(
-    //   title: 'HomeWork',
-    //   showBackButton: false,
-    // ),
     const CustomAppBar(
       title: 'Profile',
       showBackButton: false,
@@ -84,24 +77,14 @@ class _EtudiantState extends State<EtudiantScreen> {
 
   final List<Widget> _pages = [
     const StudentHomeScreen(),
-    // const StudentCourses(),
-    const Center(
-      child: Text("This is inbox"),
-    ),
-    // const Center(
-    //   child: Text("This is HomeWork"),
-    // ),
+    const AllChatsScreen(),
     const StudentProfile(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavigationBar = const [
     BottomNavigationBarItem(icon: Icon(EneftyIcons.home_bold), label: 'Home'),
-    // BottomNavigationBarItem(
-    //     icon: Icon(EneftyIcons.book_bold), label: 'Courses'),
     BottomNavigationBarItem(
         icon: Icon(EneftyIcons.message_bold), label: 'Inbox'),
-    // BottomNavigationBarItem(
-    //     icon: Icon(EneftyIcons.book_2_bold), label: 'HomeWork'),
     BottomNavigationBarItem(
         icon: Icon(EneftyIcons.profile_bold), label: 'Profile'),
   ];

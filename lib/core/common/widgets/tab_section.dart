@@ -60,7 +60,7 @@ class TabSectionState extends State<TabSection> {
                       fontSize: 15.sp.clamp(12, 18),
                     ),
                 tabs: const [
-                  Tab(text: 'Curriculum'),
+                  Tab(text: 'Cours'),
                   Tab(text: 'About'),
                 ],
               ),
@@ -71,8 +71,11 @@ class TabSectionState extends State<TabSection> {
                   children: [
                     CurriculumTabContent(
                       docs: state.docs,
+                      matiere: widget.matiere,
                     ),
-                    const AboutTabContent(),
+                    AboutTabContent(
+                      description: widget.matiere.description,
+                    ),
                   ],
                 ),
               ),

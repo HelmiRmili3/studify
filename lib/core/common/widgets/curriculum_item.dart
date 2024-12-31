@@ -7,9 +7,15 @@ import '../screens/doc_deatils_screen.dart';
 
 class CurriculumItem extends StatelessWidget {
   final Doc doc;
+  final Matiere matiere;
   final String index;
 
-  const CurriculumItem({super.key, required this.doc, required this.index});
+  const CurriculumItem({
+    super.key,
+    required this.doc,
+    required this.matiere,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,7 @@ class CurriculumItem extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => DocDetailsScreen(
               doc: doc,
+              matiere: matiere,
             ),
           ),
         );
@@ -61,13 +68,21 @@ class CurriculumItem extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
+                  Text(
+                    'Files : ${doc.files.length}',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'Mulish',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                   const SizedBox(height: 5),
                   Text(
                     " Date : ${"${doc.date.toLocal()}".split(' ')[0]} Time : ${"${doc.date.toLocal()}".split(' ')[1].split('.')[0]}",
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontFamily: 'Mulish',
                           fontSize: 11.sp,
-                          fontWeight: FontWeight.w100,
+                          fontWeight: FontWeight.bold,
                         ),
                   ),
                 ],

@@ -16,6 +16,7 @@ import '../../core/common/widgets/custom_app_bar.dart';
 import '../../core/common/widgets/floating_bottom_bar.dart';
 import '../../core/common/widgets/custom_student_app_bar.dart';
 import '../../core/routes/route_names.dart';
+import '../common/chats/presentation/views/all_chats_screen.dart';
 
 class ProfessorScreen extends StatefulWidget {
   const ProfessorScreen({super.key});
@@ -32,7 +33,6 @@ class _ProfesseurState extends State<ProfessorScreen> {
   }
 
   int _selectedIndex = 0;
-
   PreferredSizeWidget? _buildAppBar(BuildContext context, int index) {
     if (index == 0) {
       return PreferredSize(
@@ -80,10 +80,7 @@ class _ProfesseurState extends State<ProfessorScreen> {
 
   final List<Widget> _pages = [
     const ProfessorHome(),
-    // const ProfessorCourses(),
-    const Center(
-      child: Text('This indox page'),
-    ),
+    const AllChatsScreen(),
     const ProfessorProfile(),
   ];
 

@@ -57,7 +57,7 @@ class MatiereRepository {
     });
   }
 
-  Future<void> addDoc(
+  Future<String> addDoc(
     Doc doc,
     List<PlatformFile> files,
   ) async {
@@ -93,7 +93,9 @@ class MatiereRepository {
           .collection(Firestore.docs)
           .doc(doc.id)
           .set(doc.copyWith(files: fileItems).toJson());
+      return 'Doc added successfully';
     } catch (e) {
+      debugPrint('Error adding doc: $e');
       throw Exception('Failed to add doc: $e');
     }
   }

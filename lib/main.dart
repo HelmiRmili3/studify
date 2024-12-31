@@ -4,14 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:studify/core/common/blocs/connectivity/connectivity_events.dart';
-import 'package:studify/core/routes/app_routes.dart';
-import 'package:studify/core/common/blocs/theme/theme_bloc.dart';
-import 'package:studify/core/common/blocs/theme/theme_state.dart';
-import 'package:studify/firebase_options.dart';
+
+import 'core/common/blocs/connectivity/connectivity_events.dart';
 import 'core/common/blocs/connectivity/connetivity_bloc.dart';
+import 'core/common/blocs/theme/theme_bloc.dart';
+import 'core/common/blocs/theme/theme_state.dart';
 import 'core/common/blocs/user/user_bloc.dart';
 import 'core/common/blocs/user/user_event.dart';
+import 'core/injection/dependency_injection.dart';
+import 'core/routes/app_routes.dart';
+import 'firebase_options.dart';
 import 'providers.dart';
 
 void main() async {
@@ -19,6 +21,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await DependencyInjection.init();
 
   // await FirebaseAppCheck.instance.activate(
   //   androidProvider: AndroidProvider.debug,

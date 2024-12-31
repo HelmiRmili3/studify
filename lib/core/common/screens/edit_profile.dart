@@ -109,8 +109,7 @@ class _StudentEditProfileState extends State<StudentEditProfile> {
                                     backgroundImage: _selectedImage != null
                                         ? FileImage(
                                             File(_selectedImage!.filepath))
-                                        : NetworkImage(user.imageUrl)
-                                            as ImageProvider,
+                                        : NetworkImage(user.imageUrl),
                                   ),
                                 ),
                                 Positioned(

@@ -20,10 +20,10 @@ class MatiereBloc extends Bloc<MatiereEvents, MatiereStates> {
       }
     });
 
-    on<AddDoc>((event, emit) {
+    on<AddDoc>((event, emit) async {
       emit(DocAdding());
       try {
-        repository.addDoc(
+        await repository.addDoc(
           event.doc,
           event.files,
         );
